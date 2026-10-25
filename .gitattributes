@@ -1,0 +1,6 @@
+* text=auto
+# Pinned Git blobs and expected artifacts must retain their exact bytes.
+compat/voicegis/upstream/** -text
+compat/voicegis/expected/** -text
+compat/voicegis/source-lock.json -text
+packages/mobility-contract/schema/*.json -text

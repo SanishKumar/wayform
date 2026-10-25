@@ -1,0 +1,31 @@
+{
+  "formatVersion": 1,
+  "sourceCommit": "305c70bd418d7fd2b6f0ebf7a2ecd0ddcb9b9b7f",
+  "totalCases": 7238,
+  "venues": [
+    {
+      "venue": "reference-medical-centre",
+      "cases": 242,
+      "packageHash": "386a43f4b6094d9608b8a5ab822bd2a918c01098d7d78d672744d5767b0c41a4",
+      "resultsHash": "fe8feef58720fec9e9f3399effbba214550b763b36cb53f4956f37905be2e6d2"
+    },
+    {
+      "venue": "asterion-medical-center",
+      "cases": 2496,
+      "packageHash": "9a9c9d37907c78ec1b72bed95658ec248c43d96a891ae4109ac8eebfad144a13",
+      "resultsHash": "d7d61121c245afc4380c05a114849b177d6c4bb8c4d3f3723a38daed56190036"
+    },
+    {
+      "venue": "harbor-exchange",
+      "cases": 200,
+      "packageHash": "639ca9c4a7ae2cdfe7384f78586a3e179f6ca2ba467022fd7b184a4b7d164222",
+      "resultsHash": "806251a6133efb558fa7671f113b0d1ca5a69727f65cbf3b85b69c690683222b"
+    },
+    {
+      "venue": "meridian-park-campus",
+      "cases": 4300,
+      "packageHash": "abbedcc0418e2f68ed709648693feee4c4c4a11c9c1ccbe7794919303ac5b177",
+      "resultsHash": "cc8f0e6d5ae610bfca9b77099ef608fd361d301d70b070ed1616644a8df71496"
+    }
+  ]
+}

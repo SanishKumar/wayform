@@ -1,0 +1,1362 @@
+{
+  "cases": {
+    "standard": {
+      "found": true,
+      "algorithm": "a-star",
+      "pathIds": [
+        "poi:poi-main-entrance",
+        "space:g-arrival",
+        "portal:p-g-arrival",
+        "waypoint:g-concourse:01",
+        "waypoint:g-concourse:02",
+        "waypoint:g-concourse:03",
+        "waypoint:g-concourse:04",
+        "portal:p-g-lifts",
+        "space:g-lift-hall",
+        "connector:lift-south:g",
+        "connector:lift-south:l1",
+        "space:l1-lift-hall",
+        "portal:p-l1-lifts",
+        "waypoint:l1-concourse:04",
+        "waypoint:l1-concourse:03",
+        "portal:p-l1-cardiology",
+        "space:l1-cardiology",
+        "poi:poi-cardiology"
+      ],
+      "path": [
+        {
+          "id": "poi:poi-main-entrance",
+          "x": 3,
+          "y": 24,
+          "floor": "g",
+          "floorName": "Ground · Diagnostics & Outpatients",
+          "type": "poi",
+          "sourceId": "poi-main-entrance",
+          "poi": {
+            "sourceId": "poi-main-entrance",
+            "name": "Civic Plaza Entrance",
+            "category": "entrance",
+            "icon": "E",
+            "description": "Civic Plaza Entrance · Ground · Diagnostics & Outpatients",
+            "floorId": "g",
+            "floorName": "Ground · Diagnostics & Outpatients",
+            "spaceId": "g-arrival",
+            "spaceName": "Civic Plaza Entrance",
+            "where": "Ground · Diagnostics & Outpatients",
+            "public": true,
+            "accessible": true,
+            "aliases": [
+              "front door",
+              "main entrance"
+            ]
+          }
+        },
+        {
+          "id": "space:g-arrival",
+          "x": 4,
+          "y": 24,
+          "floor": "g",
+          "floorName": "Ground · Diagnostics & Outpatients",
+          "type": "space",
+          "sourceId": "g-arrival"
+        },
+        {
+          "id": "portal:p-g-arrival",
+          "x": 8,
+          "y": 24,
+          "floor": "g",
+          "floorName": "Ground · Diagnostics & Outpatients",
+          "type": "portal",
+          "sourceId": "p-g-arrival"
+        },
+        {
+          "id": "waypoint:g-concourse:01",
+          "x": 8,
+          "y": 24,
+          "floor": "g",
+          "floorName": "Ground · Diagnostics & Outpatients",
+          "type": "waypoint",
+          "sourceId": "g-concourse"
+        },
+        {
+          "id": "waypoint:g-concourse:02",
+          "x": 13,
+          "y": 24,
+          "floor": "g",
+          "floorName": "Ground · Diagnostics & Outpatients",
+          "type": "waypoint",
+          "sourceId": "g-concourse"
+        },
+        {
+          "id": "waypoint:g-concourse:03",
+          "x": 23,
+          "y": 24,
+          "floor": "g",
+          "floorName": "Ground · Diagnostics & Outpatients",
+          "type": "waypoint",
+          "sourceId": "g-concourse"
+        },
+        {
+          "id": "waypoint:g-concourse:04",
+          "x": 31,
+          "y": 24,
+          "floor": "g",
+          "floorName": "Ground · Diagnostics & Outpatients",
+          "type": "waypoint",
+          "sourceId": "g-concourse"
+        },
+        {
+          "id": "portal:p-g-lifts",
+          "x": 31,
+          "y": 28,
+          "floor": "g",
+          "floorName": "Ground · Diagnostics & Outpatients",
+          "type": "portal",
+          "sourceId": "p-g-lifts"
+        },
+        {
+          "id": "space:g-lift-hall",
+          "x": 31,
+          "y": 34,
+          "floor": "g",
+          "floorName": "Ground · Diagnostics & Outpatients",
+          "type": "space",
+          "sourceId": "g-lift-hall"
+        },
+        {
+          "id": "connector:lift-south:g",
+          "x": 31,
+          "y": 34,
+          "floor": "g",
+          "floorName": "Ground · Diagnostics & Outpatients",
+          "type": "connector-stop",
+          "sourceId": "lift-south"
+        },
+        {
+          "id": "connector:lift-south:l1",
+          "x": 31,
+          "y": 34,
+          "floor": "l1",
+          "floorName": "Level 1 · Specialty Care",
+          "type": "connector-stop",
+          "sourceId": "lift-south"
+        },
+        {
+          "id": "space:l1-lift-hall",
+          "x": 31,
+          "y": 34,
+          "floor": "l1",
+          "floorName": "Level 1 · Specialty Care",
+          "type": "space",
+          "sourceId": "l1-lift-hall"
+        },
+        {
+          "id": "portal:p-l1-lifts",
+          "x": 31,
+          "y": 28,
+          "floor": "l1",
+          "floorName": "Level 1 · Specialty Care",
+          "type": "portal",
+          "sourceId": "p-l1-lifts"
+        },
+        {
+          "id": "waypoint:l1-concourse:04",
+          "x": 31,
+          "y": 24,
+          "floor": "l1",
+          "floorName": "Level 1 · Specialty Care",
+          "type": "waypoint",
+          "sourceId": "l1-concourse"
+        },
+        {
+          "id": "waypoint:l1-concourse:03",
+          "x": 23,
+          "y": 24,
+          "floor": "l1",
+          "floorName": "Level 1 · Specialty Care",
+          "type": "waypoint",
+          "sourceId": "l1-concourse"
+        },
+        {
+          "id": "portal:p-l1-cardiology",
+          "x": 23,
+          "y": 20,
+          "floor": "l1",
+          "floorName": "Level 1 · Specialty Care",
+          "type": "portal",
+          "sourceId": "p-l1-cardiology"
+        },
+        {
+          "id": "space:l1-cardiology",
+          "x": 23,
+          "y": 14,
+          "floor": "l1",
+          "floorName": "Level 1 · Specialty Care",
+          "type": "space",
+          "sourceId": "l1-cardiology"
+        },
+        {
+          "id": "poi:poi-cardiology",
+          "x": 23,
+          "y": 14,
+          "floor": "l1",
+          "floorName": "Level 1 · Specialty Care",
+          "type": "poi",
+          "sourceId": "poi-cardiology",
+          "poi": {
+            "sourceId": "poi-cardiology",
+            "name": "Heart & Vascular Clinic",
+            "category": "medical",
+            "icon": "M",
+            "description": "Heart & Vascular Clinic · Level 1 · Specialty Care",
+            "floorId": "l1",
+            "floorName": "Level 1 · Specialty Care",
+            "spaceId": "l1-cardiology",
+            "spaceName": "Heart & Vascular Clinic",
+            "where": "Level 1 · Specialty Care",
+            "public": true,
+            "accessible": true,
+            "aliases": [
+              "cardiology",
+              "heart clinic"
+            ]
+          }
+        }
+      ],
+      "steps": [
+        {
+          "type": "start",
+          "instruction": "Start at Civic Plaza Entrance",
+          "distance": 5,
+          "nodeId": "poi:poi-main-entrance",
+          "bearing": 90,
+          "floorId": "g"
+        },
+        {
+          "type": "straight",
+          "instruction": "Continue on Central Concourse, past Advanced Imaging",
+          "distance": 23.009999999999998,
+          "nodeId": "waypoint:g-concourse:01",
+          "bearing": 90,
+          "floorId": "g"
+        },
+        {
+          "type": "turn_right",
+          "instruction": "Turn right at Central Atrium into South Lift Hall",
+          "distance": 10,
+          "nodeId": "waypoint:g-concourse:04",
+          "bearing": 180,
+          "floorId": "g"
+        },
+        {
+          "type": "elevator",
+          "instruction": "Take South Lift Bank to Level 1 · Specialty Care",
+          "distance": 4.81,
+          "nodeId": "connector:lift-south:g",
+          "bearing": 0,
+          "floorId": "l1"
+        },
+        {
+          "type": "straight",
+          "instruction": "Continue through South Lift Hall · Level 1",
+          "distance": 6.01,
+          "nodeId": "space:l1-lift-hall",
+          "bearing": 0,
+          "floorId": "l1"
+        },
+        {
+          "type": "straight",
+          "instruction": "Continue on Specialty Care Concourse",
+          "distance": 4,
+          "nodeId": "portal:p-l1-lifts",
+          "bearing": 0,
+          "floorId": "l1"
+        },
+        {
+          "type": "turn_left",
+          "instruction": "Turn left at Pre-Operative Assessment",
+          "distance": 8,
+          "nodeId": "waypoint:l1-concourse:04",
+          "bearing": 270,
+          "floorId": "l1"
+        },
+        {
+          "type": "turn_right",
+          "instruction": "Turn right into Heart & Vascular Clinic",
+          "distance": 10.01,
+          "nodeId": "waypoint:l1-concourse:03",
+          "bearing": 0,
+          "floorId": "l1"
+        },
+        {
+          "type": "arrive",
+          "instruction": "Arrive at Heart & Vascular Clinic, on your right",
+          "distance": 0,
+          "nodeId": "poi:poi-cardiology",
+          "bearing": 0,
+          "floorId": "l1"
+        }
+      ],
+      "totalDistance": 70.83999999999999,
+      "displayClearance": {
+        "basis": "authored-geometry",
+        "packageHash": "9a9c9d37907c78ec1b72bed95658ec248c43d96a891ae4109ac8eebfad144a13",
+        "profile": "standard",
+        "allowRestricted": false,
+        "widthMeters": 0.7,
+        "status": "checked",
+        "centerlineValid": true,
+        "issues": []
+      },
+      "receipt": {
+        "receiptVersion": "0.1.0",
+        "buildingId": "asterion-medical-center",
+        "packageHash": "9a9c9d37907c78ec1b72bed95658ec248c43d96a891ae4109ac8eebfad144a13",
+        "profile": "standard",
+        "startId": "poi:poi-main-entrance",
+        "destinationId": "poi:poi-cardiology",
+        "operationalOverlayId": null,
+        "evaluatedAt": null,
+        "appliedClosureIds": [],
+        "excludedEdges": {
+          "restricted": 14,
+          "inaccessible": 0,
+          "closed": 0
+        },
+        "overlayIssues": [],
+        "status": "routed",
+        "totalDistanceMeters": 70.83999999999999,
+        "selectedConnectors": [
+          {
+            "sourceId": "lift-south",
+            "kind": "elevator",
+            "fromFloorId": "g",
+            "toFloorId": "l1"
+          }
+        ]
+      }
+    },
+    "stepFree": {
+      "found": true,
+      "algorithm": "a-star",
+      "pathIds": [
+        "poi:poi-main-entrance",
+        "space:g-arrival",
+        "portal:p-g-arrival",
+        "waypoint:g-concourse:01",
+        "waypoint:g-concourse:02",
+        "waypoint:g-concourse:03",
+        "waypoint:g-concourse:04",
+        "portal:p-g-lifts",
+        "space:g-lift-hall",
+        "connector:lift-south:g",
+        "connector:lift-south:l1",
+        "space:l1-lift-hall",
+        "portal:p-l1-lifts",
+        "waypoint:l1-concourse:04",
+        "waypoint:l1-concourse:03",
+        "portal:p-l1-cardiology",
+        "space:l1-cardiology",
+        "poi:poi-cardiology"
+      ],
+      "path": [
+        {
+          "id": "poi:poi-main-entrance",
+          "x": 3,
+          "y": 24,
+          "floor": "g",
+          "floorName": "Ground · Diagnostics & Outpatients",
+          "type": "poi",
+          "sourceId": "poi-main-entrance",
+          "poi": {
+            "sourceId": "poi-main-entrance",
+            "name": "Civic Plaza Entrance",
+            "category": "entrance",
+            "icon": "E",
+            "description": "Civic Plaza Entrance · Ground · Diagnostics & Outpatients",
+            "floorId": "g",
+            "floorName": "Ground · Diagnostics & Outpatients",
+            "spaceId": "g-arrival",
+            "spaceName": "Civic Plaza Entrance",
+            "where": "Ground · Diagnostics & Outpatients",
+            "public": true,
+            "accessible": true,
+            "aliases": [
+              "front door",
+              "main entrance"
+            ]
+          }
+        },
+        {
+          "id": "space:g-arrival",
+          "x": 4,
+          "y": 24,
+          "floor": "g",
+          "floorName": "Ground · Diagnostics & Outpatients",
+          "type": "space",
+          "sourceId": "g-arrival"
+        },
+        {
+          "id": "portal:p-g-arrival",
+          "x": 8,
+          "y": 24,
+          "floor": "g",
+          "floorName": "Ground · Diagnostics & Outpatients",
+          "type": "portal",
+          "sourceId": "p-g-arrival"
+        },
+        {
+          "id": "waypoint:g-concourse:01",
+          "x": 8,
+          "y": 24,
+          "floor": "g",
+          "floorName": "Ground · Diagnostics & Outpatients",
+          "type": "waypoint",
+          "sourceId": "g-concourse"
+        },
+        {
+          "id": "waypoint:g-concourse:02",
+          "x": 13,
+          "y": 24,
+          "floor": "g",
+          "floorName": "Ground · Diagnostics & Outpatients",
+          "type": "waypoint",
+          "sourceId": "g-concourse"
+        },
+        {
+          "id": "waypoint:g-concourse:03",
+          "x": 23,
+          "y": 24,
+          "floor": "g",
+          "floorName": "Ground · Diagnostics & Outpatients",
+          "type": "waypoint",
+          "sourceId": "g-concourse"
+        },
+        {
+          "id": "waypoint:g-concourse:04",
+          "x": 31,
+          "y": 24,
+          "floor": "g",
+          "floorName": "Ground · Diagnostics & Outpatients",
+          "type": "waypoint",
+          "sourceId": "g-concourse"
+        },
+        {
+          "id": "portal:p-g-lifts",
+          "x": 31,
+          "y": 28,
+          "floor": "g",
+          "floorName": "Ground · Diagnostics & Outpatients",
+          "type": "portal",
+          "sourceId": "p-g-lifts"
+        },
+        {
+          "id": "space:g-lift-hall",
+          "x": 31,
+          "y": 34,
+          "floor": "g",
+          "floorName": "Ground · Diagnostics & Outpatients",
+          "type": "space",
+          "sourceId": "g-lift-hall"
+        },
+        {
+          "id": "connector:lift-south:g",
+          "x": 31,
+          "y": 34,
+          "floor": "g",
+          "floorName": "Ground · Diagnostics & Outpatients",
+          "type": "connector-stop",
+          "sourceId": "lift-south"
+        },
+        {
+          "id": "connector:lift-south:l1",
+          "x": 31,
+          "y": 34,
+          "floor": "l1",
+          "floorName": "Level 1 · Specialty Care",
+          "type": "connector-stop",
+          "sourceId": "lift-south"
+        },
+        {
+          "id": "space:l1-lift-hall",
+          "x": 31,
+          "y": 34,
+          "floor": "l1",
+          "floorName": "Level 1 · Specialty Care",
+          "type": "space",
+          "sourceId": "l1-lift-hall"
+        },
+        {
+          "id": "portal:p-l1-lifts",
+          "x": 31,
+          "y": 28,
+          "floor": "l1",
+          "floorName": "Level 1 · Specialty Care",
+          "type": "portal",
+          "sourceId": "p-l1-lifts"
+        },
+        {
+          "id": "waypoint:l1-concourse:04",
+          "x": 31,
+          "y": 24,
+          "floor": "l1",
+          "floorName": "Level 1 · Specialty Care",
+          "type": "waypoint",
+          "sourceId": "l1-concourse"
+        },
+        {
+          "id": "waypoint:l1-concourse:03",
+          "x": 23,
+          "y": 24,
+          "floor": "l1",
+          "floorName": "Level 1 · Specialty Care",
+          "type": "waypoint",
+          "sourceId": "l1-concourse"
+        },
+        {
+          "id": "portal:p-l1-cardiology",
+          "x": 23,
+          "y": 20,
+          "floor": "l1",
+          "floorName": "Level 1 · Specialty Care",
+          "type": "portal",
+          "sourceId": "p-l1-cardiology"
+        },
+        {
+          "id": "space:l1-cardiology",
+          "x": 23,
+          "y": 14,
+          "floor": "l1",
+          "floorName": "Level 1 · Specialty Care",
+          "type": "space",
+          "sourceId": "l1-cardiology"
+        },
+        {
+          "id": "poi:poi-cardiology",
+          "x": 23,
+          "y": 14,
+          "floor": "l1",
+          "floorName": "Level 1 · Specialty Care",
+          "type": "poi",
+          "sourceId": "poi-cardiology",
+          "poi": {
+            "sourceId": "poi-cardiology",
+            "name": "Heart & Vascular Clinic",
+            "category": "medical",
+            "icon": "M",
+            "description": "Heart & Vascular Clinic · Level 1 · Specialty Care",
+            "floorId": "l1",
+            "floorName": "Level 1 · Specialty Care",
+            "spaceId": "l1-cardiology",
+            "spaceName": "Heart & Vascular Clinic",
+            "where": "Level 1 · Specialty Care",
+            "public": true,
+            "accessible": true,
+            "aliases": [
+              "cardiology",
+              "heart clinic"
+            ]
+          }
+        }
+      ],
+      "steps": [
+        {
+          "type": "start",
+          "instruction": "Start at Civic Plaza Entrance",
+          "distance": 5,
+          "nodeId": "poi:poi-main-entrance",
+          "bearing": 90,
+          "floorId": "g"
+        },
+        {
+          "type": "straight",
+          "instruction": "Continue on Central Concourse, past Advanced Imaging",
+          "distance": 23.009999999999998,
+          "nodeId": "waypoint:g-concourse:01",
+          "bearing": 90,
+          "floorId": "g"
+        },
+        {
+          "type": "turn_right",
+          "instruction": "Turn right at Central Atrium into South Lift Hall",
+          "distance": 10,
+          "nodeId": "waypoint:g-concourse:04",
+          "bearing": 180,
+          "floorId": "g"
+        },
+        {
+          "type": "elevator",
+          "instruction": "Take South Lift Bank to Level 1 · Specialty Care",
+          "distance": 4.81,
+          "nodeId": "connector:lift-south:g",
+          "bearing": 0,
+          "floorId": "l1"
+        },
+        {
+          "type": "straight",
+          "instruction": "Continue through South Lift Hall · Level 1",
+          "distance": 6.01,
+          "nodeId": "space:l1-lift-hall",
+          "bearing": 0,
+          "floorId": "l1"
+        },
+        {
+          "type": "straight",
+          "instruction": "Continue on Specialty Care Concourse",
+          "distance": 4,
+          "nodeId": "portal:p-l1-lifts",
+          "bearing": 0,
+          "floorId": "l1"
+        },
+        {
+          "type": "turn_left",
+          "instruction": "Turn left at Pre-Operative Assessment",
+          "distance": 8,
+          "nodeId": "waypoint:l1-concourse:04",
+          "bearing": 270,
+          "floorId": "l1"
+        },
+        {
+          "type": "turn_right",
+          "instruction": "Turn right into Heart & Vascular Clinic",
+          "distance": 10.01,
+          "nodeId": "waypoint:l1-concourse:03",
+          "bearing": 0,
+          "floorId": "l1"
+        },
+        {
+          "type": "arrive",
+          "instruction": "Arrive at Heart & Vascular Clinic, on your right",
+          "distance": 0,
+          "nodeId": "poi:poi-cardiology",
+          "bearing": 0,
+          "floorId": "l1"
+        }
+      ],
+      "totalDistance": 70.83999999999999,
+      "displayClearance": {
+        "basis": "authored-geometry",
+        "packageHash": "9a9c9d37907c78ec1b72bed95658ec248c43d96a891ae4109ac8eebfad144a13",
+        "profile": "wheelchair",
+        "allowRestricted": false,
+        "widthMeters": 0.7,
+        "status": "checked",
+        "centerlineValid": true,
+        "issues": []
+      },
+      "receipt": {
+        "receiptVersion": "0.1.0",
+        "buildingId": "asterion-medical-center",
+        "packageHash": "9a9c9d37907c78ec1b72bed95658ec248c43d96a891ae4109ac8eebfad144a13",
+        "profile": "wheelchair",
+        "startId": "poi:poi-main-entrance",
+        "destinationId": "poi:poi-cardiology",
+        "operationalOverlayId": null,
+        "evaluatedAt": null,
+        "appliedClosureIds": [],
+        "excludedEdges": {
+          "restricted": 14,
+          "inaccessible": 22,
+          "closed": 0
+        },
+        "overlayIssues": [],
+        "status": "routed",
+        "totalDistanceMeters": 70.83999999999999,
+        "selectedConnectors": [
+          {
+            "sourceId": "lift-south",
+            "kind": "elevator",
+            "fromFloorId": "g",
+            "toFloorId": "l1"
+          }
+        ]
+      }
+    },
+    "liftOutageStandard": {
+      "found": true,
+      "algorithm": "a-star",
+      "pathIds": [
+        "poi:poi-main-entrance",
+        "space:g-arrival",
+        "portal:p-g-arrival",
+        "waypoint:g-concourse:01",
+        "waypoint:g-concourse:02",
+        "waypoint:g-concourse:03",
+        "waypoint:g-concourse:04",
+        "waypoint:g-concourse:05",
+        "portal:p-g-atrium",
+        "space:g-atrium",
+        "connector:stairs-atrium:g",
+        "connector:stairs-atrium:l1",
+        "space:l1-atrium",
+        "portal:p-l1-atrium",
+        "waypoint:l1-concourse:05",
+        "waypoint:l1-concourse:04",
+        "waypoint:l1-concourse:03",
+        "portal:p-l1-cardiology",
+        "space:l1-cardiology",
+        "poi:poi-cardiology"
+      ],
+      "path": [
+        {
+          "id": "poi:poi-main-entrance",
+          "x": 3,
+          "y": 24,
+          "floor": "g",
+          "floorName": "Ground · Diagnostics & Outpatients",
+          "type": "poi",
+          "sourceId": "poi-main-entrance",
+          "poi": {
+            "sourceId": "poi-main-entrance",
+            "name": "Civic Plaza Entrance",
+            "category": "entrance",
+            "icon": "E",
+            "description": "Civic Plaza Entrance · Ground · Diagnostics & Outpatients",
+            "floorId": "g",
+            "floorName": "Ground · Diagnostics & Outpatients",
+            "spaceId": "g-arrival",
+            "spaceName": "Civic Plaza Entrance",
+            "where": "Ground · Diagnostics & Outpatients",
+            "public": true,
+            "accessible": true,
+            "aliases": [
+              "front door",
+              "main entrance"
+            ]
+          }
+        },
+        {
+          "id": "space:g-arrival",
+          "x": 4,
+          "y": 24,
+          "floor": "g",
+          "floorName": "Ground · Diagnostics & Outpatients",
+          "type": "space",
+          "sourceId": "g-arrival"
+        },
+        {
+          "id": "portal:p-g-arrival",
+          "x": 8,
+          "y": 24,
+          "floor": "g",
+          "floorName": "Ground · Diagnostics & Outpatients",
+          "type": "portal",
+          "sourceId": "p-g-arrival"
+        },
+        {
+          "id": "waypoint:g-concourse:01",
+          "x": 8,
+          "y": 24,
+          "floor": "g",
+          "floorName": "Ground · Diagnostics & Outpatients",
+          "type": "waypoint",
+          "sourceId": "g-concourse"
+        },
+        {
+          "id": "waypoint:g-concourse:02",
+          "x": 13,
+          "y": 24,
+          "floor": "g",
+          "floorName": "Ground · Diagnostics & Outpatients",
+          "type": "waypoint",
+          "sourceId": "g-concourse"
+        },
+        {
+          "id": "waypoint:g-concourse:03",
+          "x": 23,
+          "y": 24,
+          "floor": "g",
+          "floorName": "Ground · Diagnostics & Outpatients",
+          "type": "waypoint",
+          "sourceId": "g-concourse"
+        },
+        {
+          "id": "waypoint:g-concourse:04",
+          "x": 31,
+          "y": 24,
+          "floor": "g",
+          "floorName": "Ground · Diagnostics & Outpatients",
+          "type": "waypoint",
+          "sourceId": "g-concourse"
+        },
+        {
+          "id": "waypoint:g-concourse:05",
+          "x": 33,
+          "y": 24,
+          "floor": "g",
+          "floorName": "Ground · Diagnostics & Outpatients",
+          "type": "waypoint",
+          "sourceId": "g-concourse"
+        },
+        {
+          "id": "portal:p-g-atrium",
+          "x": 33,
+          "y": 20,
+          "floor": "g",
+          "floorName": "Ground · Diagnostics & Outpatients",
+          "type": "portal",
+          "sourceId": "p-g-atrium"
+        },
+        {
+          "id": "space:g-atrium",
+          "x": 33,
+          "y": 14,
+          "floor": "g",
+          "floorName": "Ground · Diagnostics & Outpatients",
+          "type": "space",
+          "sourceId": "g-atrium"
+        },
+        {
+          "id": "connector:stairs-atrium:g",
+          "x": 36,
+          "y": 14,
+          "floor": "g",
+          "floorName": "Ground · Diagnostics & Outpatients",
+          "type": "connector-stop",
+          "sourceId": "stairs-atrium"
+        },
+        {
+          "id": "connector:stairs-atrium:l1",
+          "x": 36,
+          "y": 14,
+          "floor": "l1",
+          "floorName": "Level 1 · Specialty Care",
+          "type": "connector-stop",
+          "sourceId": "stairs-atrium"
+        },
+        {
+          "id": "space:l1-atrium",
+          "x": 33,
+          "y": 14,
+          "floor": "l1",
+          "floorName": "Level 1 · Specialty Care",
+          "type": "space",
+          "sourceId": "l1-atrium"
+        },
+        {
+          "id": "portal:p-l1-atrium",
+          "x": 33,
+          "y": 20,
+          "floor": "l1",
+          "floorName": "Level 1 · Specialty Care",
+          "type": "portal",
+          "sourceId": "p-l1-atrium"
+        },
+        {
+          "id": "waypoint:l1-concourse:05",
+          "x": 33,
+          "y": 24,
+          "floor": "l1",
+          "floorName": "Level 1 · Specialty Care",
+          "type": "waypoint",
+          "sourceId": "l1-concourse"
+        },
+        {
+          "id": "waypoint:l1-concourse:04",
+          "x": 31,
+          "y": 24,
+          "floor": "l1",
+          "floorName": "Level 1 · Specialty Care",
+          "type": "waypoint",
+          "sourceId": "l1-concourse"
+        },
+        {
+          "id": "waypoint:l1-concourse:03",
+          "x": 23,
+          "y": 24,
+          "floor": "l1",
+          "floorName": "Level 1 · Specialty Care",
+          "type": "waypoint",
+          "sourceId": "l1-concourse"
+        },
+        {
+          "id": "portal:p-l1-cardiology",
+          "x": 23,
+          "y": 20,
+          "floor": "l1",
+          "floorName": "Level 1 · Specialty Care",
+          "type": "portal",
+          "sourceId": "p-l1-cardiology"
+        },
+        {
+          "id": "space:l1-cardiology",
+          "x": 23,
+          "y": 14,
+          "floor": "l1",
+          "floorName": "Level 1 · Specialty Care",
+          "type": "space",
+          "sourceId": "l1-cardiology"
+        },
+        {
+          "id": "poi:poi-cardiology",
+          "x": 23,
+          "y": 14,
+          "floor": "l1",
+          "floorName": "Level 1 · Specialty Care",
+          "type": "poi",
+          "sourceId": "poi-cardiology",
+          "poi": {
+            "sourceId": "poi-cardiology",
+            "name": "Heart & Vascular Clinic",
+            "category": "medical",
+            "icon": "M",
+            "description": "Heart & Vascular Clinic · Level 1 · Specialty Care",
+            "floorId": "l1",
+            "floorName": "Level 1 · Specialty Care",
+            "spaceId": "l1-cardiology",
+            "spaceName": "Heart & Vascular Clinic",
+            "where": "Level 1 · Specialty Care",
+            "public": true,
+            "accessible": true,
+            "aliases": [
+              "cardiology",
+              "heart clinic"
+            ]
+          }
+        }
+      ],
+      "steps": [
+        {
+          "type": "start",
+          "instruction": "Start at Civic Plaza Entrance",
+          "distance": 5,
+          "nodeId": "poi:poi-main-entrance",
+          "bearing": 90,
+          "floorId": "g"
+        },
+        {
+          "type": "straight",
+          "instruction": "Continue on Central Concourse, past Advanced Imaging",
+          "distance": 25.009999999999998,
+          "nodeId": "waypoint:g-concourse:01",
+          "bearing": 90,
+          "floorId": "g"
+        },
+        {
+          "type": "turn_left",
+          "instruction": "Turn left into Four-Storey Atrium",
+          "distance": 10,
+          "nodeId": "waypoint:g-concourse:05",
+          "bearing": 0,
+          "floorId": "g"
+        },
+        {
+          "type": "turn_right",
+          "instruction": "Turn right at Advanced Imaging",
+          "distance": 3,
+          "nodeId": "space:g-atrium",
+          "bearing": 90,
+          "floorId": "g"
+        },
+        {
+          "type": "stairs",
+          "instruction": "Take Atrium Feature Stair to Level 1 · Specialty Care",
+          "distance": 4.8,
+          "nodeId": "connector:stairs-atrium:g",
+          "bearing": 0,
+          "floorId": "l1"
+        },
+        {
+          "type": "straight",
+          "instruction": "Continue through Atrium Overlook · Level 1",
+          "distance": 3,
+          "nodeId": "connector:stairs-atrium:l1",
+          "bearing": 270,
+          "floorId": "l1"
+        },
+        {
+          "type": "turn_left",
+          "instruction": "Turn left at Neuroscience Clinic onto Specialty Care Concourse",
+          "distance": 10,
+          "nodeId": "space:l1-atrium",
+          "bearing": 180,
+          "floorId": "l1"
+        },
+        {
+          "type": "turn_right",
+          "instruction": "Turn right along Specialty Care Concourse",
+          "distance": 10,
+          "nodeId": "waypoint:l1-concourse:05",
+          "bearing": 270,
+          "floorId": "l1"
+        },
+        {
+          "type": "turn_right",
+          "instruction": "Turn right at Pre-Operative Assessment into Heart & Vascular Clinic",
+          "distance": 10.01,
+          "nodeId": "waypoint:l1-concourse:03",
+          "bearing": 0,
+          "floorId": "l1"
+        },
+        {
+          "type": "arrive",
+          "instruction": "Arrive at Heart & Vascular Clinic, on your right",
+          "distance": 0,
+          "nodeId": "poi:poi-cardiology",
+          "bearing": 0,
+          "floorId": "l1"
+        }
+      ],
+      "totalDistance": 80.82000000000001,
+      "displayClearance": {
+        "basis": "authored-geometry",
+        "packageHash": "9a9c9d37907c78ec1b72bed95658ec248c43d96a891ae4109ac8eebfad144a13",
+        "profile": "standard",
+        "allowRestricted": false,
+        "widthMeters": 0.7,
+        "status": "checked",
+        "centerlineValid": true,
+        "issues": []
+      },
+      "receipt": {
+        "receiptVersion": "0.1.0",
+        "buildingId": "asterion-medical-center",
+        "packageHash": "9a9c9d37907c78ec1b72bed95658ec248c43d96a891ae4109ac8eebfad144a13",
+        "profile": "standard",
+        "startId": "poi:poi-main-entrance",
+        "destinationId": "poi:poi-cardiology",
+        "operationalOverlayId": "asterion-all-public-lifts-closed-2026-07-22",
+        "evaluatedAt": "2026-07-22T12:00:00.000Z",
+        "appliedClosureIds": [
+          "close-atrium-lift",
+          "close-south-lift"
+        ],
+        "excludedEdges": {
+          "restricted": 14,
+          "inaccessible": 0,
+          "closed": 14
+        },
+        "overlayIssues": [],
+        "status": "routed",
+        "totalDistanceMeters": 80.82000000000001,
+        "selectedConnectors": [
+          {
+            "sourceId": "stairs-atrium",
+            "kind": "stairs",
+            "fromFloorId": "g",
+            "toFloorId": "l1"
+          }
+        ]
+      }
+    },
+    "liftOutageStepFree": {
+      "found": false,
+      "error": "No route satisfies the selected constraints.",
+      "receipt": {
+        "receiptVersion": "0.1.0",
+        "buildingId": "asterion-medical-center",
+        "packageHash": "9a9c9d37907c78ec1b72bed95658ec248c43d96a891ae4109ac8eebfad144a13",
+        "profile": "wheelchair",
+        "startId": "poi:poi-main-entrance",
+        "destinationId": "poi:poi-cardiology",
+        "operationalOverlayId": "asterion-all-public-lifts-closed-2026-07-22",
+        "evaluatedAt": "2026-07-22T12:00:00.000Z",
+        "appliedClosureIds": [
+          "close-atrium-lift",
+          "close-south-lift"
+        ],
+        "excludedEdges": {
+          "restricted": 14,
+          "inaccessible": 22,
+          "closed": 14
+        },
+        "overlayIssues": [],
+        "status": "unroutable",
+        "totalDistanceMeters": null,
+        "selectedConnectors": []
+      }
+    },
+    "expired": {
+      "found": false,
+      "error": "Operational overlay rejected: overlay-expired.",
+      "receipt": {
+        "receiptVersion": "0.1.0",
+        "buildingId": "asterion-medical-center",
+        "packageHash": "9a9c9d37907c78ec1b72bed95658ec248c43d96a891ae4109ac8eebfad144a13",
+        "profile": "standard",
+        "startId": "poi:poi-main-entrance",
+        "destinationId": "poi:poi-cardiology",
+        "operationalOverlayId": "asterion-all-public-lifts-closed-2026-07-22",
+        "evaluatedAt": "2026-07-23T00:00:00.000Z",
+        "appliedClosureIds": [],
+        "excludedEdges": {
+          "restricted": 14,
+          "inaccessible": 0,
+          "closed": 0
+        },
+        "overlayIssues": [
+          {
+            "code": "overlay-expired",
+            "message": "Operational overlay has expired and cannot be applied."
+          }
+        ],
+        "status": "rejected",
+        "totalDistanceMeters": null,
+        "selectedConnectors": []
+      }
+    },
+    "notYetActive": {
+      "found": false,
+      "error": "Operational overlay rejected: overlay-not-active.",
+      "receipt": {
+        "receiptVersion": "0.1.0",
+        "buildingId": "asterion-medical-center",
+        "packageHash": "9a9c9d37907c78ec1b72bed95658ec248c43d96a891ae4109ac8eebfad144a13",
+        "profile": "standard",
+        "startId": "poi:poi-main-entrance",
+        "destinationId": "poi:poi-cardiology",
+        "operationalOverlayId": "asterion-all-public-lifts-closed-2026-07-22",
+        "evaluatedAt": "2026-07-22T07:59:59.999Z",
+        "appliedClosureIds": [],
+        "excludedEdges": {
+          "restricted": 14,
+          "inaccessible": 0,
+          "closed": 0
+        },
+        "overlayIssues": [
+          {
+            "code": "overlay-not-active",
+            "message": "Operational overlay is not active at the requested evaluation time."
+          }
+        ],
+        "status": "rejected",
+        "totalDistanceMeters": null,
+        "selectedConnectors": []
+      }
+    },
+    "missingClock": {
+      "found": false,
+      "error": "Operational overlay rejected: invalid-time.",
+      "receipt": {
+        "receiptVersion": "0.1.0",
+        "buildingId": "asterion-medical-center",
+        "packageHash": "9a9c9d37907c78ec1b72bed95658ec248c43d96a891ae4109ac8eebfad144a13",
+        "profile": "standard",
+        "startId": "poi:poi-main-entrance",
+        "destinationId": "poi:poi-cardiology",
+        "operationalOverlayId": "asterion-all-public-lifts-closed-2026-07-22",
+        "evaluatedAt": null,
+        "appliedClosureIds": [],
+        "excludedEdges": {
+          "restricted": 14,
+          "inaccessible": 0,
+          "closed": 0
+        },
+        "overlayIssues": [
+          {
+            "code": "invalid-time",
+            "message": "Overlay timestamps must be valid and validUntil must be after validFrom."
+          }
+        ],
+        "status": "rejected",
+        "totalDistanceMeters": null,
+        "selectedConnectors": []
+      }
+    },
+    "wrongPackage": {
+      "found": false,
+      "error": "Operational overlay rejected: package-mismatch.",
+      "receipt": {
+        "receiptVersion": "0.1.0",
+        "buildingId": "asterion-medical-center",
+        "packageHash": "9a9c9d37907c78ec1b72bed95658ec248c43d96a891ae4109ac8eebfad144a13",
+        "profile": "standard",
+        "startId": "poi:poi-main-entrance",
+        "destinationId": "poi:poi-cardiology",
+        "operationalOverlayId": "asterion-all-public-lifts-closed-2026-07-22",
+        "evaluatedAt": "2026-07-22T08:00:00.000Z",
+        "appliedClosureIds": [],
+        "excludedEdges": {
+          "restricted": 14,
+          "inaccessible": 0,
+          "closed": 0
+        },
+        "overlayIssues": [
+          {
+            "code": "package-mismatch",
+            "message": "Overlay package hash does not match the active building package."
+          }
+        ],
+        "status": "rejected",
+        "totalDistanceMeters": null,
+        "selectedConnectors": []
+      }
+    },
+    "unknownClosureTarget": {
+      "found": false,
+      "error": "Operational overlay rejected: unknown-target.",
+      "receipt": {
+        "receiptVersion": "0.1.0",
+        "buildingId": "asterion-medical-center",
+        "packageHash": "9a9c9d37907c78ec1b72bed95658ec248c43d96a891ae4109ac8eebfad144a13",
+        "profile": "standard",
+        "startId": "poi:poi-main-entrance",
+        "destinationId": "poi:poi-cardiology",
+        "operationalOverlayId": "asterion-all-public-lifts-closed-2026-07-22",
+        "evaluatedAt": "2026-07-22T08:00:00.000Z",
+        "appliedClosureIds": [],
+        "excludedEdges": {
+          "restricted": 14,
+          "inaccessible": 0,
+          "closed": 0
+        },
+        "overlayIssues": [
+          {
+            "code": "unknown-target",
+            "closureId": "unknown",
+            "message": "Closure target does not exist in the active package: missing."
+          }
+        ],
+        "status": "rejected",
+        "totalDistanceMeters": null,
+        "selectedConnectors": []
+      }
+    },
+    "unknownStart": {
+      "found": false,
+      "error": "Start or destination does not exist in the building graph.",
+      "receipt": {
+        "receiptVersion": "0.1.0",
+        "buildingId": "asterion-medical-center",
+        "packageHash": "9a9c9d37907c78ec1b72bed95658ec248c43d96a891ae4109ac8eebfad144a13",
+        "profile": "standard",
+        "startId": "missing",
+        "destinationId": "poi:poi-cardiology",
+        "operationalOverlayId": null,
+        "evaluatedAt": null,
+        "appliedClosureIds": [],
+        "excludedEdges": {
+          "restricted": 14,
+          "inaccessible": 0,
+          "closed": 0
+        },
+        "overlayIssues": [],
+        "status": "unroutable",
+        "totalDistanceMeters": null,
+        "selectedConnectors": []
+      }
+    },
+    "unknownDestination": {
+      "found": false,
+      "error": "Start or destination does not exist in the building graph.",
+      "receipt": {
+        "receiptVersion": "0.1.0",
+        "buildingId": "asterion-medical-center",
+        "packageHash": "9a9c9d37907c78ec1b72bed95658ec248c43d96a891ae4109ac8eebfad144a13",
+        "profile": "standard",
+        "startId": "poi:poi-main-entrance",
+        "destinationId": "missing",
+        "operationalOverlayId": null,
+        "evaluatedAt": null,
+        "appliedClosureIds": [],
+        "excludedEdges": {
+          "restricted": 14,
+          "inaccessible": 0,
+          "closed": 0
+        },
+        "overlayIssues": [],
+        "status": "unroutable",
+        "totalDistanceMeters": null,
+        "selectedConnectors": []
+      }
+    },
+    "sameStartAndDestination": {
+      "found": true,
+      "algorithm": "a-star",
+      "pathIds": [
+        "poi:poi-main-entrance"
+      ],
+      "path": [
+        {
+          "id": "poi:poi-main-entrance",
+          "x": 3,
+          "y": 24,
+          "floor": "g",
+          "floorName": "Ground · Diagnostics & Outpatients",
+          "type": "poi",
+          "sourceId": "poi-main-entrance",
+          "poi": {
+            "sourceId": "poi-main-entrance",
+            "name": "Civic Plaza Entrance",
+            "category": "entrance",
+            "icon": "E",
+            "description": "Civic Plaza Entrance · Ground · Diagnostics & Outpatients",
+            "floorId": "g",
+            "floorName": "Ground · Diagnostics & Outpatients",
+            "spaceId": "g-arrival",
+            "spaceName": "Civic Plaza Entrance",
+            "where": "Ground · Diagnostics & Outpatients",
+            "public": true,
+            "accessible": true,
+            "aliases": [
+              "front door",
+              "main entrance"
+            ]
+          }
+        }
+      ],
+      "steps": [
+        {
+          "type": "arrive",
+          "instruction": "You are already at Civic Plaza Entrance",
+          "distance": 0,
+          "nodeId": "poi:poi-main-entrance",
+          "bearing": 0,
+          "floorId": "g"
+        }
+      ],
+      "totalDistance": 0,
+      "displayClearance": {
+        "basis": "authored-geometry",
+        "packageHash": "9a9c9d37907c78ec1b72bed95658ec248c43d96a891ae4109ac8eebfad144a13",
+        "profile": "standard",
+        "allowRestricted": false,
+        "widthMeters": 0.7,
+        "status": "checked",
+        "centerlineValid": true,
+        "issues": []
+      },
+      "receipt": {
+        "receiptVersion": "0.1.0",
+        "buildingId": "asterion-medical-center",
+        "packageHash": "9a9c9d37907c78ec1b72bed95658ec248c43d96a891ae4109ac8eebfad144a13",
+        "profile": "standard",
+        "startId": "poi:poi-main-entrance",
+        "destinationId": "poi:poi-main-entrance",
+        "operationalOverlayId": null,
+        "evaluatedAt": null,
+        "appliedClosureIds": [],
+        "excludedEdges": {
+          "restricted": 14,
+          "inaccessible": 0,
+          "closed": 0
+        },
+        "overlayIssues": [],
+        "status": "routed",
+        "totalDistanceMeters": 0,
+        "selectedConnectors": []
+      }
+    }
+  },
+  "leaseStates": [
+    {
+      "status": "current",
+      "overlayId": "asterion-all-public-lifts-closed-2026-07-22",
+      "reason": null
+    },
+    {
+      "status": "unavailable",
+      "overlayId": "asterion-all-public-lifts-closed-2026-07-22",
+      "reason": "overlay-expired"
+    },
+    {
+      "status": "unavailable",
+      "overlayId": "asterion-all-public-lifts-closed-2026-07-22",
+      "reason": "clock-unreliable"
+    }
+  ],
+  "rejectedPackageCases": [
+    "content-tampering",
+    "missing-accessibility-flag"
+  ]
+}

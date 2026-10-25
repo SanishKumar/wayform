@@ -1,0 +1,218 @@
+{
+  "formatVersion": 1,
+  "repository": "https://github.com/SanishKumar/voicegis-indoor-ar",
+  "commit": "305c70bd418d7fd2b6f0ebf7a2ecd0ddcb9b9b7f",
+  "extraction": "Exact Git blobs; transitive source subset, not a full application migration.",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 9913,
+      "sha256": "d5a98ce1acc9f5bf549d589c3935d69a00e9600a3cdf1eb7a899b22785d688d0",
+      "gitBlob": "f87b4ce22be2b1b60d0c9e44c4783a5067f2c62f"
+    },
+    {
+      "path": "buildings/asterion-medical-center/compiled/building.package.json",
+      "bytes": 190470,
+      "sha256": "25d32312f507a380f05cdd28759c0c6fa3e1440c176fd069d5223bef5781c1a6",
+      "gitBlob": "a60a83693690ec7f14af1d8f818de70346125820"
+    },
+    {
+      "path": "buildings/asterion-medical-center/compiled/validation-report.json",
+      "bytes": 162,
+      "sha256": "10756fc85346323e41bb09b53c7d3de4ad7c71d2b97402fe2ece5d6a80f604a7",
+      "gitBlob": "5f5d326dd52d5b06e8562e5965d5c3794ba74d9b"
+    },
+    {
+      "path": "buildings/asterion-medical-center/operations/all-public-lifts-closed.overlay.json",
+      "bytes": 717,
+      "sha256": "18eac87c7d656831203e9474d8b610204d784a049113055c3c52de4a431cf126",
+      "gitBlob": "05672bcdc67d76b1187fa068a94f0cdef0fb2c15"
+    },
+    {
+      "path": "buildings/asterion-medical-center/source/building.json",
+      "bytes": 29607,
+      "sha256": "f10f35c4d25c6a7a0ae17eb5131063bd367ecf38233544b9d7a9b2021de9ad0a",
+      "gitBlob": "fdf082730a7469713bc58249614733ec679548d6"
+    },
+    {
+      "path": "buildings/harbor-exchange/compiled/building.package.json",
+      "bytes": 47765,
+      "sha256": "dbded0518810aef1547f9d5a8ddc5d77e726313858006c92097c6e0ab6ac73dc",
+      "gitBlob": "9add010d0ca2bbaf5e0c4ed1039564d2179b3ea3"
+    },
+    {
+      "path": "buildings/harbor-exchange/compiled/validation-report.json",
+      "bytes": 154,
+      "sha256": "a3cf720290e4236b069daadc4e263d8d7c0e5a1d6b6f687c2f56bfce5f2663dd",
+      "gitBlob": "0807abd036f8c5be0c3c0beb5c57fa5281d232ea"
+    },
+    {
+      "path": "buildings/harbor-exchange/source/building.json",
+      "bytes": 10874,
+      "sha256": "dfce5d137f6766fc7ed02e81a3ddff4f6bcc2e5f771c862dfecf62816494a8c5",
+      "gitBlob": "e938fd1de6b9a19c87238c09e66a8fa657905df7"
+    },
+    {
+      "path": "buildings/meridian-park-campus/compiled/building.package.json",
+      "bytes": 227190,
+      "sha256": "d63e610481bba78c19a1ed9c42e31c1c304c26ccb38077e41328e552372e1d6a",
+      "gitBlob": "34a7638acda15ae205a9b5e6325e6d60ec7d4e49"
+    },
+    {
+      "path": "buildings/meridian-park-campus/compiled/validation-report.json",
+      "bytes": 159,
+      "sha256": "9155912ff2582ad3cb82ff5eae30641a208d842add0c2be4ff1b600cba81b74e",
+      "gitBlob": "24c907e27b0c8d77fa4c7ea2214ba1155130a8dc"
+    },
+    {
+      "path": "buildings/meridian-park-campus/source/building.json",
+      "bytes": 79590,
+      "sha256": "0b0b83077788fb47e83ab1b1ce811e8ec77668a615038585c43ddcace0d590a6",
+      "gitBlob": "c5fa054c5172f2eb5e5413df4538d360808636e6"
+    },
+    {
+      "path": "buildings/reference-medical-centre/compiled/building.package.json",
+      "bytes": 60990,
+      "sha256": "6e2ef0bd1ea582af14353e142397c3fee40a2eae0e6a25cda764599af0cd260b",
+      "gitBlob": "34497703617c5001b2a8381169e44d59032736db"
+    },
+    {
+      "path": "buildings/reference-medical-centre/compiled/validation-report.json",
+      "bytes": 163,
+      "sha256": "6e56f0fa93f0c0dac6366fb708c07d9ada2c5dc48626b352cbe35f7152968b3a",
+      "gitBlob": "b9f746ad50e659a5aef8d89d7baf00c159d93abb"
+    },
+    {
+      "path": "buildings/reference-medical-centre/source/building.json",
+      "bytes": 14867,
+      "sha256": "9e958009cfdfd7544c064cacb957f802b47687f27145edc55ce3a00a4fd95343",
+      "gitBlob": "90964dde76e88b2c3bd4a6c4cb9b07a7c5a1b86e"
+    },
+    {
+      "path": "packages/map-compiler/package.json",
+      "bytes": 330,
+      "sha256": "812a021a540e1adff56dd23f99b1f63f25779bf8905c8f8f86dc2d5d9b50faec",
+      "gitBlob": "21876468d7344a33c6a6d168b610e20d8cf3f543"
+    },
+    {
+      "path": "packages/map-compiler/src/browser.ts",
+      "bytes": 1030,
+      "sha256": "016483d8a051949ef11ece4ae3d5bace09b49065c1ccd179854f7a8cbfaa1524",
+      "gitBlob": "2da1a6b95c62641ca89ac30e02c0b6ba32c1b601"
+    },
+    {
+      "path": "packages/map-compiler/src/compiler.ts",
+      "bytes": 828,
+      "sha256": "c5e2eee0208b4d558051068810f4293607585e3abfd54b35d4ace48c61cb9233",
+      "gitBlob": "4e3bc61717bb86a2a357f81e94985f3db8cd093b"
+    },
+    {
+      "path": "packages/map-compiler/src/compilerCore.ts",
+      "bytes": 14218,
+      "sha256": "0171239e502167b58d5cab40b8eb60d675ca6d6c58616a3ede20c1fa8a295bbf",
+      "gitBlob": "dd583e5e6d8c294154c64be1f98b389a1b4e67ac"
+    },
+    {
+      "path": "packages/map-compiler/src/geometry.ts",
+      "bytes": 3360,
+      "sha256": "a5c4a9a1d46dba78966db49266162adb72583e45be1a2e2c26c702cb85426606",
+      "gitBlob": "a389503b0263815b6ae7da2c20cd5a1d092a8163"
+    },
+    {
+      "path": "packages/map-compiler/src/index.ts",
+      "bytes": 86,
+      "sha256": "11e0888b4e982fa14255b83b9beb9265da5964f411c60efdadef6d174f36f0df",
+      "gitBlob": "b1223b878229db1b679eca04aebe94daeb865d27"
+    },
+    {
+      "path": "packages/map-compiler/src/validation.ts",
+      "bytes": 19276,
+      "sha256": "1ec63643a6c072e932c32620e36fefd471917c8770e099579c48e2c1abf83a5a",
+      "gitBlob": "d2ae5265c6aafab6799cc22fc3a51294e676b015"
+    },
+    {
+      "path": "packages/spatial-schema/package.json",
+      "bytes": 271,
+      "sha256": "2c6fb3e83d037a6d12368c980196ed57e54f658c3dc68f3c2da86f17ba2cb5eb",
+      "gitBlob": "e982f29470117e56129a8653cd4c077e2b13bbd7"
+    },
+    {
+      "path": "packages/spatial-schema/schema/building-source.schema.json",
+      "bytes": 8845,
+      "sha256": "06265e13c903fea1ba930f91c707e8a5feef7ef4a2df75d827ce73b4bcec1cf1",
+      "gitBlob": "fd3974a88bab98274a9b77ed3b75cff52bf14072"
+    },
+    {
+      "path": "packages/spatial-schema/src/index.ts",
+      "bytes": 4573,
+      "sha256": "9698b1946c7e1a16da548df211178abcf6ea0edd834e45c25fe91f7d0f1bcfde",
+      "gitBlob": "728905dbb43eb73ed35a8ea84155366782ccd5c0"
+    },
+    {
+      "path": "scripts/auditDirections.ts",
+      "bytes": 3974,
+      "sha256": "9e127ede0a70617826ccfc1765a7a3b934a1e75dda7bcc174c029b59f159fb1d",
+      "gitBlob": "d3caff6d983dc915133daf080b6e5569cb0413c9"
+    },
+    {
+      "path": "src/capture/anchorCheckIn.ts",
+      "bytes": 7170,
+      "sha256": "b77bc519bfb565fa28803c3bea8cbfb0c04af7237d755a225f7f518ff998c402",
+      "gitBlob": "d310808fb0df14e23f4ad03c109eb9c5458d4720"
+    },
+    {
+      "path": "src/data/compiledBuilding.ts",
+      "bytes": 10709,
+      "sha256": "f11cd04c23265493f599e65268089e3e43b9ce4e5e7435042760297ea94f9100",
+      "gitBlob": "582c557bdb1342eb284c4aff4cf6b101af6a4d48"
+    },
+    {
+      "path": "src/data/packageLifecycle.ts",
+      "bytes": 6788,
+      "sha256": "5af47e9f791266a44674c9775263242f6351bedeab2bfc7c43555507bbeece57",
+      "gitBlob": "0143485c2ce6dcb6308a35154ee0c815bbb861fc"
+    },
+    {
+      "path": "src/data/venuePackageContract.ts",
+      "bytes": 14489,
+      "sha256": "9e5b13c1c60e46443b733267e3fac74f1220ae4e58b6f12ed531c159a321315f",
+      "gitBlob": "03fac3dfa690e547abbc081c38d2b17eb62a765e"
+    },
+    {
+      "path": "src/engine/compiledRoutePolicy.ts",
+      "bytes": 6062,
+      "sha256": "9e8025db26f1712abb32485e6621d2a24c206d524d7f6498ce368cc52ab318a8",
+      "gitBlob": "10ed81bd5195eb2625db461969f7af6ce3498643"
+    },
+    {
+      "path": "src/engine/operationalOverlay.ts",
+      "bytes": 5742,
+      "sha256": "5dca293c5a1042238026f5338e357cacaf3c63d1fdc49ba3dae672e94ebb7e27",
+      "gitBlob": "124caf983191b7e854c3c94a312f957fc718bb03"
+    },
+    {
+      "path": "src/engine/routeClearance.ts",
+      "bytes": 18195,
+      "sha256": "517c6c5c0f4933dd755ad454917a660c95979d7f4c1e488fcc01d55ba554fc75",
+      "gitBlob": "1b2d19b79e700dfd40db2f4041b741bfb1a47987"
+    },
+    {
+      "path": "src/engine/routeLandmarks.ts",
+      "bytes": 15573,
+      "sha256": "a02d570d509c8539005499def76fe7b054b6f03df3a0ebc1faa82a4a515a9b5e",
+      "gitBlob": "73b65bddd02dac23a5670d34c996c2698a639c2d"
+    },
+    {
+      "path": "src/engine/routingCore.ts",
+      "bytes": 20722,
+      "sha256": "fac585dc50455f92455a965d49637b0bf829dfa5d7c7ae8d38f659dfd2e8862f",
+      "gitBlob": "b428c0a8c709d8cf6a1b92670dd2b40aeae97d4b"
+    },
+    {
+      "path": "src/navigation/operationalLease.ts",
+      "bytes": 4734,
+      "sha256": "5b8bfbea0e9d7077c9f66c1e259cf9c30b8e41d83820210ea24d1d4c1ed7886d",
+      "gitBlob": "25484738c3b85766fa95e0fbaec2fed113034ad3"
+    }
+  ]
+}

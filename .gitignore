@@ -1,0 +1,12 @@
+node_modules/
+coverage/
+*.tsbuildinfo
+.tmp/
+.local/
+/AGENTS.md
+.codex/
+.agents/
+.env
+.env.*
+!.env.example
+/target/

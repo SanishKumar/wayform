@@ -1,0 +1,2638 @@
+{
+  "reference-medical-centre/standard": {
+    "startId": "poi:administration",
+    "destinationId": "poi:cardiology",
+    "result": {
+      "found": true,
+      "algorithm": "a-star",
+      "pathIds": [
+        "poi:administration",
+        "space:l1-administration",
+        "portal:l1-administration-door",
+        "waypoint:l1-corridor:04",
+        "space:l1-corridor",
+        "portal:l1-cardiology-door",
+        "space:l1-cardiology",
+        "poi:cardiology"
+      ],
+      "path": [
+        {
+          "id": "poi:administration",
+          "x": 16,
+          "y": 14.5,
+          "floor": "l1",
+          "floorName": "Level 1",
+          "type": "poi",
+          "sourceId": "administration",
+          "poi": {
+            "sourceId": "administration",
+            "name": "Administration",
+            "category": "service",
+            "icon": "S",
+            "description": "Administration · Level 1",
+            "floorId": "l1",
+            "floorName": "Level 1",
+            "spaceId": "l1-administration",
+            "spaceName": "Administration",
+            "where": "Level 1",
+            "public": true,
+            "accessible": true,
+            "aliases": []
+          }
+        },
+        {
+          "id": "space:l1-administration",
+          "x": 16,
+          "y": 14.5,
+          "floor": "l1",
+          "floorName": "Level 1",
+          "type": "space",
+          "sourceId": "l1-administration"
+        },
+        {
+          "id": "portal:l1-administration-door",
+          "x": 16,
+          "y": 11,
+          "floor": "l1",
+          "floorName": "Level 1",
+          "type": "portal",
+          "sourceId": "l1-administration-door"
+        },
+        {
+          "id": "waypoint:l1-corridor:04",
+          "x": 16,
+          "y": 9,
+          "floor": "l1",
+          "floorName": "Level 1",
+          "type": "waypoint",
+          "sourceId": "l1-corridor"
+        },
+        {
+          "id": "space:l1-corridor",
+          "x": 14.5,
+          "y": 9,
+          "floor": "l1",
+          "floorName": "Level 1",
+          "type": "space",
+          "sourceId": "l1-corridor"
+        },
+        {
+          "id": "portal:l1-cardiology-door",
+          "x": 14.5,
+          "y": 7,
+          "floor": "l1",
+          "floorName": "Level 1",
+          "type": "portal",
+          "sourceId": "l1-cardiology-door"
+        },
+        {
+          "id": "space:l1-cardiology",
+          "x": 14.5,
+          "y": 3.5,
+          "floor": "l1",
+          "floorName": "Level 1",
+          "type": "space",
+          "sourceId": "l1-cardiology"
+        },
+        {
+          "id": "poi:cardiology",
+          "x": 14.5,
+          "y": 3.5,
+          "floor": "l1",
+          "floorName": "Level 1",
+          "type": "poi",
+          "sourceId": "cardiology",
+          "poi": {
+            "sourceId": "cardiology",
+            "name": "Cardiology",
+            "category": "medical",
+            "icon": "M",
+            "description": "Cardiology · Level 1",
+            "floorId": "l1",
+            "floorName": "Level 1",
+            "spaceId": "l1-cardiology",
+            "spaceName": "Cardiology",
+            "where": "Level 1",
+            "public": true,
+            "accessible": true,
+            "aliases": [
+              "heart clinic"
+            ]
+          }
+        }
+      ],
+      "steps": [
+        {
+          "type": "start",
+          "instruction": "Start at Administration",
+          "distance": 3.51,
+          "nodeId": "poi:administration",
+          "bearing": 0,
+          "floorId": "l1"
+        },
+        {
+          "type": "straight",
+          "instruction": "Continue on Level 1 Main Corridor",
+          "distance": 2,
+          "nodeId": "portal:l1-administration-door",
+          "bearing": 0,
+          "floorId": "l1"
+        },
+        {
+          "type": "turn_left",
+          "instruction": "Turn left at Level 1 Accessible Restroom",
+          "distance": 1.5,
+          "nodeId": "waypoint:l1-corridor:04",
+          "bearing": 270,
+          "floorId": "l1"
+        },
+        {
+          "type": "turn_right",
+          "instruction": "Turn right at Training Room into Cardiology",
+          "distance": 5.51,
+          "nodeId": "space:l1-corridor",
+          "bearing": 0,
+          "floorId": "l1"
+        },
+        {
+          "type": "arrive",
+          "instruction": "Arrive at Cardiology, on your right",
+          "distance": 0,
+          "nodeId": "poi:cardiology",
+          "bearing": 0,
+          "floorId": "l1"
+        }
+      ],
+      "totalDistance": 12.52,
+      "displayClearance": {
+        "basis": "authored-geometry",
+        "packageHash": "386a43f4b6094d9608b8a5ab822bd2a918c01098d7d78d672744d5767b0c41a4",
+        "profile": "standard",
+        "allowRestricted": false,
+        "widthMeters": 0.7,
+        "status": "checked",
+        "centerlineValid": true,
+        "issues": []
+      },
+      "receipt": {
+        "receiptVersion": "0.1.0",
+        "buildingId": "reference-medical-centre",
+        "packageHash": "386a43f4b6094d9608b8a5ab822bd2a918c01098d7d78d672744d5767b0c41a4",
+        "profile": "standard",
+        "startId": "poi:administration",
+        "destinationId": "poi:cardiology",
+        "operationalOverlayId": null,
+        "evaluatedAt": null,
+        "appliedClosureIds": [],
+        "excludedEdges": {
+          "restricted": 6,
+          "inaccessible": 0,
+          "closed": 0
+        },
+        "overlayIssues": [],
+        "status": "routed",
+        "totalDistanceMeters": 12.52,
+        "selectedConnectors": []
+      }
+    }
+  },
+  "reference-medical-centre/wheelchair": {
+    "startId": "poi:administration",
+    "destinationId": "poi:cardiology",
+    "result": {
+      "found": true,
+      "algorithm": "a-star",
+      "pathIds": [
+        "poi:administration",
+        "space:l1-administration",
+        "portal:l1-administration-door",
+        "waypoint:l1-corridor:04",
+        "space:l1-corridor",
+        "portal:l1-cardiology-door",
+        "space:l1-cardiology",
+        "poi:cardiology"
+      ],
+      "path": [
+        {
+          "id": "poi:administration",
+          "x": 16,
+          "y": 14.5,
+          "floor": "l1",
+          "floorName": "Level 1",
+          "type": "poi",
+          "sourceId": "administration",
+          "poi": {
+            "sourceId": "administration",
+            "name": "Administration",
+            "category": "service",
+            "icon": "S",
+            "description": "Administration · Level 1",
+            "floorId": "l1",
+            "floorName": "Level 1",
+            "spaceId": "l1-administration",
+            "spaceName": "Administration",
+            "where": "Level 1",
+            "public": true,
+            "accessible": true,
+            "aliases": []
+          }
+        },
+        {
+          "id": "space:l1-administration",
+          "x": 16,
+          "y": 14.5,
+          "floor": "l1",
+          "floorName": "Level 1",
+          "type": "space",
+          "sourceId": "l1-administration"
+        },
+        {
+          "id": "portal:l1-administration-door",
+          "x": 16,
+          "y": 11,
+          "floor": "l1",
+          "floorName": "Level 1",
+          "type": "portal",
+          "sourceId": "l1-administration-door"
+        },
+        {
+          "id": "waypoint:l1-corridor:04",
+          "x": 16,
+          "y": 9,
+          "floor": "l1",
+          "floorName": "Level 1",
+          "type": "waypoint",
+          "sourceId": "l1-corridor"
+        },
+        {
+          "id": "space:l1-corridor",
+          "x": 14.5,
+          "y": 9,
+          "floor": "l1",
+          "floorName": "Level 1",
+          "type": "space",
+          "sourceId": "l1-corridor"
+        },
+        {
+          "id": "portal:l1-cardiology-door",
+          "x": 14.5,
+          "y": 7,
+          "floor": "l1",
+          "floorName": "Level 1",
+          "type": "portal",
+          "sourceId": "l1-cardiology-door"
+        },
+        {
+          "id": "space:l1-cardiology",
+          "x": 14.5,
+          "y": 3.5,
+          "floor": "l1",
+          "floorName": "Level 1",
+          "type": "space",
+          "sourceId": "l1-cardiology"
+        },
+        {
+          "id": "poi:cardiology",
+          "x": 14.5,
+          "y": 3.5,
+          "floor": "l1",
+          "floorName": "Level 1",
+          "type": "poi",
+          "sourceId": "cardiology",
+          "poi": {
+            "sourceId": "cardiology",
+            "name": "Cardiology",
+            "category": "medical",
+            "icon": "M",
+            "description": "Cardiology · Level 1",
+            "floorId": "l1",
+            "floorName": "Level 1",
+            "spaceId": "l1-cardiology",
+            "spaceName": "Cardiology",
+            "where": "Level 1",
+            "public": true,
+            "accessible": true,
+            "aliases": [
+              "heart clinic"
+            ]
+          }
+        }
+      ],
+      "steps": [
+        {
+          "type": "start",
+          "instruction": "Start at Administration",
+          "distance": 3.51,
+          "nodeId": "poi:administration",
+          "bearing": 0,
+          "floorId": "l1"
+        },
+        {
+          "type": "straight",
+          "instruction": "Continue on Level 1 Main Corridor",
+          "distance": 2,
+          "nodeId": "portal:l1-administration-door",
+          "bearing": 0,
+          "floorId": "l1"
+        },
+        {
+          "type": "turn_left",
+          "instruction": "Turn left at Level 1 Accessible Restroom",
+          "distance": 1.5,
+          "nodeId": "waypoint:l1-corridor:04",
+          "bearing": 270,
+          "floorId": "l1"
+        },
+        {
+          "type": "turn_right",
+          "instruction": "Turn right at Training Room into Cardiology",
+          "distance": 5.51,
+          "nodeId": "space:l1-corridor",
+          "bearing": 0,
+          "floorId": "l1"
+        },
+        {
+          "type": "arrive",
+          "instruction": "Arrive at Cardiology, on your right",
+          "distance": 0,
+          "nodeId": "poi:cardiology",
+          "bearing": 0,
+          "floorId": "l1"
+        }
+      ],
+      "totalDistance": 12.52,
+      "displayClearance": {
+        "basis": "authored-geometry",
+        "packageHash": "386a43f4b6094d9608b8a5ab822bd2a918c01098d7d78d672744d5767b0c41a4",
+        "profile": "wheelchair",
+        "allowRestricted": false,
+        "widthMeters": 0.7,
+        "status": "checked",
+        "centerlineValid": true,
+        "issues": []
+      },
+      "receipt": {
+        "receiptVersion": "0.1.0",
+        "buildingId": "reference-medical-centre",
+        "packageHash": "386a43f4b6094d9608b8a5ab822bd2a918c01098d7d78d672744d5767b0c41a4",
+        "profile": "wheelchair",
+        "startId": "poi:administration",
+        "destinationId": "poi:cardiology",
+        "operationalOverlayId": null,
+        "evaluatedAt": null,
+        "appliedClosureIds": [],
+        "excludedEdges": {
+          "restricted": 6,
+          "inaccessible": 7,
+          "closed": 0
+        },
+        "overlayIssues": [],
+        "status": "routed",
+        "totalDistanceMeters": 12.52,
+        "selectedConnectors": []
+      }
+    }
+  },
+  "asterion-medical-center/standard": {
+    "startId": "poi:poi-admin",
+    "destinationId": "poi:poi-atrium",
+    "result": {
+      "found": true,
+      "algorithm": "a-star",
+      "pathIds": [
+        "poi:poi-admin",
+        "space:l3-admin-reception",
+        "portal:p-l3-admin",
+        "waypoint:l3-concourse:02",
+        "waypoint:l3-concourse:03",
+        "waypoint:l3-concourse:04",
+        "waypoint:l3-concourse:05",
+        "portal:p-l3-atrium",
+        "space:l3-atrium",
+        "connector:lift-atrium:l3",
+        "connector:lift-atrium:l2",
+        "connector:lift-atrium:l1",
+        "connector:lift-atrium:g",
+        "space:g-atrium",
+        "poi:poi-atrium"
+      ],
+      "path": [
+        {
+          "id": "poi:poi-admin",
+          "x": 13,
+          "y": 34,
+          "floor": "l3",
+          "floorName": "Level 3 · Research & Learning",
+          "type": "poi",
+          "sourceId": "poi-admin",
+          "poi": {
+            "sourceId": "poi-admin",
+            "name": "Administration Reception",
+            "category": "service",
+            "icon": "S",
+            "description": "Administration Reception · Level 3 · Research & Learning",
+            "floorId": "l3",
+            "floorName": "Level 3 · Research & Learning",
+            "spaceId": "l3-admin-reception",
+            "spaceName": "Administration Reception",
+            "where": "Level 3 · Research & Learning",
+            "public": true,
+            "accessible": true,
+            "aliases": []
+          }
+        },
+        {
+          "id": "space:l3-admin-reception",
+          "x": 13,
+          "y": 34,
+          "floor": "l3",
+          "floorName": "Level 3 · Research & Learning",
+          "type": "space",
+          "sourceId": "l3-admin-reception"
+        },
+        {
+          "id": "portal:p-l3-admin",
+          "x": 13,
+          "y": 28,
+          "floor": "l3",
+          "floorName": "Level 3 · Research & Learning",
+          "type": "portal",
+          "sourceId": "p-l3-admin"
+        },
+        {
+          "id": "waypoint:l3-concourse:02",
+          "x": 13,
+          "y": 24,
+          "floor": "l3",
+          "floorName": "Level 3 · Research & Learning",
+          "type": "waypoint",
+          "sourceId": "l3-concourse"
+        },
+        {
+          "id": "waypoint:l3-concourse:03",
+          "x": 23,
+          "y": 24,
+          "floor": "l3",
+          "floorName": "Level 3 · Research & Learning",
+          "type": "waypoint",
+          "sourceId": "l3-concourse"
+        },
+        {
+          "id": "waypoint:l3-concourse:04",
+          "x": 31,
+          "y": 24,
+          "floor": "l3",
+          "floorName": "Level 3 · Research & Learning",
+          "type": "waypoint",
+          "sourceId": "l3-concourse"
+        },
+        {
+          "id": "waypoint:l3-concourse:05",
+          "x": 33,
+          "y": 24,
+          "floor": "l3",
+          "floorName": "Level 3 · Research & Learning",
+          "type": "waypoint",
+          "sourceId": "l3-concourse"
+        },
+        {
+          "id": "portal:p-l3-atrium",
+          "x": 33,
+          "y": 20,
+          "floor": "l3",
+          "floorName": "Level 3 · Research & Learning",
+          "type": "portal",
+          "sourceId": "p-l3-atrium"
+        },
+        {
+          "id": "space:l3-atrium",
+          "x": 33,
+          "y": 14,
+          "floor": "l3",
+          "floorName": "Level 3 · Research & Learning",
+          "type": "space",
+          "sourceId": "l3-atrium"
+        },
+        {
+          "id": "connector:lift-atrium:l3",
+          "x": 31,
+          "y": 14,
+          "floor": "l3",
+          "floorName": "Level 3 · Research & Learning",
+          "type": "connector-stop",
+          "sourceId": "lift-atrium"
+        },
+        {
+          "id": "connector:lift-atrium:l2",
+          "x": 31,
+          "y": 14,
+          "floor": "l2",
+          "floorName": "Level 2 · Women & Children",
+          "type": "connector-stop",
+          "sourceId": "lift-atrium"
+        },
+        {
+          "id": "connector:lift-atrium:l1",
+          "x": 31,
+          "y": 14,
+          "floor": "l1",
+          "floorName": "Level 1 · Specialty Care",
+          "type": "connector-stop",
+          "sourceId": "lift-atrium"
+        },
+        {
+          "id": "connector:lift-atrium:g",
+          "x": 31,
+          "y": 14,
+          "floor": "g",
+          "floorName": "Ground · Diagnostics & Outpatients",
+          "type": "connector-stop",
+          "sourceId": "lift-atrium"
+        },
+        {
+          "id": "space:g-atrium",
+          "x": 33,
+          "y": 14,
+          "floor": "g",
+          "floorName": "Ground · Diagnostics & Outpatients",
+          "type": "space",
+          "sourceId": "g-atrium"
+        },
+        {
+          "id": "poi:poi-atrium",
+          "x": 33,
+          "y": 14,
+          "floor": "g",
+          "floorName": "Ground · Diagnostics & Outpatients",
+          "type": "poi",
+          "sourceId": "poi-atrium",
+          "poi": {
+            "sourceId": "poi-atrium",
+            "name": "Central Atrium",
+            "category": "landmark",
+            "icon": "A",
+            "description": "Four-Storey Atrium · Ground · Diagnostics & Outpatients",
+            "floorId": "g",
+            "floorName": "Ground · Diagnostics & Outpatients",
+            "spaceId": "g-atrium",
+            "spaceName": "Four-Storey Atrium",
+            "where": "Ground · Diagnostics & Outpatients",
+            "public": true,
+            "accessible": true,
+            "aliases": []
+          }
+        }
+      ],
+      "steps": [
+        {
+          "type": "start",
+          "instruction": "Start at Administration Reception",
+          "distance": 6.01,
+          "nodeId": "poi:poi-admin",
+          "bearing": 0,
+          "floorId": "l3"
+        },
+        {
+          "type": "straight",
+          "instruction": "Continue on Learning Concourse",
+          "distance": 4,
+          "nodeId": "portal:p-l3-admin",
+          "bearing": 0,
+          "floorId": "l3"
+        },
+        {
+          "type": "turn_right",
+          "instruction": "Turn right at Clinical Research Gallery",
+          "distance": 20,
+          "nodeId": "waypoint:l3-concourse:02",
+          "bearing": 90,
+          "floorId": "l3"
+        },
+        {
+          "type": "turn_left",
+          "instruction": "Turn left at Medical Education Center into Atrium Overlook · Level 3",
+          "distance": 10,
+          "nodeId": "waypoint:l3-concourse:05",
+          "bearing": 0,
+          "floorId": "l3"
+        },
+        {
+          "type": "turn_left",
+          "instruction": "Turn left along Atrium Overlook · Level 3",
+          "distance": 2,
+          "nodeId": "space:l3-atrium",
+          "bearing": 270,
+          "floorId": "l3"
+        },
+        {
+          "type": "elevator",
+          "instruction": "Take Panoramic Atrium Lift to Ground · Diagnostics & Outpatients",
+          "distance": 13.2,
+          "nodeId": "connector:lift-atrium:l3",
+          "bearing": 0,
+          "floorId": "g"
+        },
+        {
+          "type": "straight",
+          "instruction": "Continue through Four-Storey Atrium",
+          "distance": 2.01,
+          "nodeId": "connector:lift-atrium:g",
+          "bearing": 90,
+          "floorId": "g"
+        },
+        {
+          "type": "arrive",
+          "instruction": "Arrive at Central Atrium",
+          "distance": 0,
+          "nodeId": "poi:poi-atrium",
+          "bearing": 90,
+          "floorId": "g"
+        }
+      ],
+      "totalDistance": 57.22,
+      "displayClearance": {
+        "basis": "authored-geometry",
+        "packageHash": "9a9c9d37907c78ec1b72bed95658ec248c43d96a891ae4109ac8eebfad144a13",
+        "profile": "standard",
+        "allowRestricted": false,
+        "widthMeters": 0.7,
+        "status": "checked",
+        "centerlineValid": true,
+        "issues": []
+      },
+      "receipt": {
+        "receiptVersion": "0.1.0",
+        "buildingId": "asterion-medical-center",
+        "packageHash": "9a9c9d37907c78ec1b72bed95658ec248c43d96a891ae4109ac8eebfad144a13",
+        "profile": "standard",
+        "startId": "poi:poi-admin",
+        "destinationId": "poi:poi-atrium",
+        "operationalOverlayId": null,
+        "evaluatedAt": null,
+        "appliedClosureIds": [],
+        "excludedEdges": {
+          "restricted": 14,
+          "inaccessible": 0,
+          "closed": 0
+        },
+        "overlayIssues": [],
+        "status": "routed",
+        "totalDistanceMeters": 57.22,
+        "selectedConnectors": [
+          {
+            "sourceId": "lift-atrium",
+            "kind": "elevator",
+            "fromFloorId": "l3",
+            "toFloorId": "g"
+          }
+        ]
+      }
+    }
+  },
+  "asterion-medical-center/wheelchair": {
+    "startId": "poi:poi-admin",
+    "destinationId": "poi:poi-atrium",
+    "result": {
+      "found": true,
+      "algorithm": "a-star",
+      "pathIds": [
+        "poi:poi-admin",
+        "space:l3-admin-reception",
+        "portal:p-l3-admin",
+        "waypoint:l3-concourse:02",
+        "waypoint:l3-concourse:03",
+        "waypoint:l3-concourse:04",
+        "waypoint:l3-concourse:05",
+        "portal:p-l3-atrium",
+        "space:l3-atrium",
+        "connector:lift-atrium:l3",
+        "connector:lift-atrium:l2",
+        "connector:lift-atrium:l1",
+        "connector:lift-atrium:g",
+        "space:g-atrium",
+        "poi:poi-atrium"
+      ],
+      "path": [
+        {
+          "id": "poi:poi-admin",
+          "x": 13,
+          "y": 34,
+          "floor": "l3",
+          "floorName": "Level 3 · Research & Learning",
+          "type": "poi",
+          "sourceId": "poi-admin",
+          "poi": {
+            "sourceId": "poi-admin",
+            "name": "Administration Reception",
+            "category": "service",
+            "icon": "S",
+            "description": "Administration Reception · Level 3 · Research & Learning",
+            "floorId": "l3",
+            "floorName": "Level 3 · Research & Learning",
+            "spaceId": "l3-admin-reception",
+            "spaceName": "Administration Reception",
+            "where": "Level 3 · Research & Learning",
+            "public": true,
+            "accessible": true,
+            "aliases": []
+          }
+        },
+        {
+          "id": "space:l3-admin-reception",
+          "x": 13,
+          "y": 34,
+          "floor": "l3",
+          "floorName": "Level 3 · Research & Learning",
+          "type": "space",
+          "sourceId": "l3-admin-reception"
+        },
+        {
+          "id": "portal:p-l3-admin",
+          "x": 13,
+          "y": 28,
+          "floor": "l3",
+          "floorName": "Level 3 · Research & Learning",
+          "type": "portal",
+          "sourceId": "p-l3-admin"
+        },
+        {
+          "id": "waypoint:l3-concourse:02",
+          "x": 13,
+          "y": 24,
+          "floor": "l3",
+          "floorName": "Level 3 · Research & Learning",
+          "type": "waypoint",
+          "sourceId": "l3-concourse"
+        },
+        {
+          "id": "waypoint:l3-concourse:03",
+          "x": 23,
+          "y": 24,
+          "floor": "l3",
+          "floorName": "Level 3 · Research & Learning",
+          "type": "waypoint",
+          "sourceId": "l3-concourse"
+        },
+        {
+          "id": "waypoint:l3-concourse:04",
+          "x": 31,
+          "y": 24,
+          "floor": "l3",
+          "floorName": "Level 3 · Research & Learning",
+          "type": "waypoint",
+          "sourceId": "l3-concourse"
+        },
+        {
+          "id": "waypoint:l3-concourse:05",
+          "x": 33,
+          "y": 24,
+          "floor": "l3",
+          "floorName": "Level 3 · Research & Learning",
+          "type": "waypoint",
+          "sourceId": "l3-concourse"
+        },
+        {
+          "id": "portal:p-l3-atrium",
+          "x": 33,
+          "y": 20,
+          "floor": "l3",
+          "floorName": "Level 3 · Research & Learning",
+          "type": "portal",
+          "sourceId": "p-l3-atrium"
+        },
+        {
+          "id": "space:l3-atrium",
+          "x": 33,
+          "y": 14,
+          "floor": "l3",
+          "floorName": "Level 3 · Research & Learning",
+          "type": "space",
+          "sourceId": "l3-atrium"
+        },
+        {
+          "id": "connector:lift-atrium:l3",
+          "x": 31,
+          "y": 14,
+          "floor": "l3",
+          "floorName": "Level 3 · Research & Learning",
+          "type": "connector-stop",
+          "sourceId": "lift-atrium"
+        },
+        {
+          "id": "connector:lift-atrium:l2",
+          "x": 31,
+          "y": 14,
+          "floor": "l2",
+          "floorName": "Level 2 · Women & Children",
+          "type": "connector-stop",
+          "sourceId": "lift-atrium"
+        },
+        {
+          "id": "connector:lift-atrium:l1",
+          "x": 31,
+          "y": 14,
+          "floor": "l1",
+          "floorName": "Level 1 · Specialty Care",
+          "type": "connector-stop",
+          "sourceId": "lift-atrium"
+        },
+        {
+          "id": "connector:lift-atrium:g",
+          "x": 31,
+          "y": 14,
+          "floor": "g",
+          "floorName": "Ground · Diagnostics & Outpatients",
+          "type": "connector-stop",
+          "sourceId": "lift-atrium"
+        },
+        {
+          "id": "space:g-atrium",
+          "x": 33,
+          "y": 14,
+          "floor": "g",
+          "floorName": "Ground · Diagnostics & Outpatients",
+          "type": "space",
+          "sourceId": "g-atrium"
+        },
+        {
+          "id": "poi:poi-atrium",
+          "x": 33,
+          "y": 14,
+          "floor": "g",
+          "floorName": "Ground · Diagnostics & Outpatients",
+          "type": "poi",
+          "sourceId": "poi-atrium",
+          "poi": {
+            "sourceId": "poi-atrium",
+            "name": "Central Atrium",
+            "category": "landmark",
+            "icon": "A",
+            "description": "Four-Storey Atrium · Ground · Diagnostics & Outpatients",
+            "floorId": "g",
+            "floorName": "Ground · Diagnostics & Outpatients",
+            "spaceId": "g-atrium",
+            "spaceName": "Four-Storey Atrium",
+            "where": "Ground · Diagnostics & Outpatients",
+            "public": true,
+            "accessible": true,
+            "aliases": []
+          }
+        }
+      ],
+      "steps": [
+        {
+          "type": "start",
+          "instruction": "Start at Administration Reception",
+          "distance": 6.01,
+          "nodeId": "poi:poi-admin",
+          "bearing": 0,
+          "floorId": "l3"
+        },
+        {
+          "type": "straight",
+          "instruction": "Continue on Learning Concourse",
+          "distance": 4,
+          "nodeId": "portal:p-l3-admin",
+          "bearing": 0,
+          "floorId": "l3"
+        },
+        {
+          "type": "turn_right",
+          "instruction": "Turn right at Clinical Research Gallery",
+          "distance": 20,
+          "nodeId": "waypoint:l3-concourse:02",
+          "bearing": 90,
+          "floorId": "l3"
+        },
+        {
+          "type": "turn_left",
+          "instruction": "Turn left at Medical Education Center into Atrium Overlook · Level 3",
+          "distance": 10,
+          "nodeId": "waypoint:l3-concourse:05",
+          "bearing": 0,
+          "floorId": "l3"
+        },
+        {
+          "type": "turn_left",
+          "instruction": "Turn left along Atrium Overlook · Level 3",
+          "distance": 2,
+          "nodeId": "space:l3-atrium",
+          "bearing": 270,
+          "floorId": "l3"
+        },
+        {
+          "type": "elevator",
+          "instruction": "Take Panoramic Atrium Lift to Ground · Diagnostics & Outpatients",
+          "distance": 13.2,
+          "nodeId": "connector:lift-atrium:l3",
+          "bearing": 0,
+          "floorId": "g"
+        },
+        {
+          "type": "straight",
+          "instruction": "Continue through Four-Storey Atrium",
+          "distance": 2.01,
+          "nodeId": "connector:lift-atrium:g",
+          "bearing": 90,
+          "floorId": "g"
+        },
+        {
+          "type": "arrive",
+          "instruction": "Arrive at Central Atrium",
+          "distance": 0,
+          "nodeId": "poi:poi-atrium",
+          "bearing": 90,
+          "floorId": "g"
+        }
+      ],
+      "totalDistance": 57.22,
+      "displayClearance": {
+        "basis": "authored-geometry",
+        "packageHash": "9a9c9d37907c78ec1b72bed95658ec248c43d96a891ae4109ac8eebfad144a13",
+        "profile": "wheelchair",
+        "allowRestricted": false,
+        "widthMeters": 0.7,
+        "status": "checked",
+        "centerlineValid": true,
+        "issues": []
+      },
+      "receipt": {
+        "receiptVersion": "0.1.0",
+        "buildingId": "asterion-medical-center",
+        "packageHash": "9a9c9d37907c78ec1b72bed95658ec248c43d96a891ae4109ac8eebfad144a13",
+        "profile": "wheelchair",
+        "startId": "poi:poi-admin",
+        "destinationId": "poi:poi-atrium",
+        "operationalOverlayId": null,
+        "evaluatedAt": null,
+        "appliedClosureIds": [],
+        "excludedEdges": {
+          "restricted": 14,
+          "inaccessible": 22,
+          "closed": 0
+        },
+        "overlayIssues": [],
+        "status": "routed",
+        "totalDistanceMeters": 57.22,
+        "selectedConnectors": [
+          {
+            "sourceId": "lift-atrium",
+            "kind": "elevator",
+            "fromFloorId": "l3",
+            "toFloorId": "g"
+          }
+        ]
+      }
+    }
+  },
+  "harbor-exchange/standard": {
+    "startId": "poi:poi-community-room",
+    "destinationId": "poi:poi-cycle-hub",
+    "result": {
+      "found": true,
+      "algorithm": "a-star",
+      "pathIds": [
+        "poi:poi-community-room",
+        "space:m-community",
+        "portal:p-community-bridge",
+        "waypoint:m-lobby:03",
+        "space:m-lobby",
+        "waypoint:m-lobby:04",
+        "connector:escalator-center:m",
+        "connector:escalator-center:g",
+        "waypoint:g-concourse:05",
+        "space:g-concourse",
+        "waypoint:g-concourse:04",
+        "portal:p-platform-concourse",
+        "space:g-platform",
+        "portal:p-bike-platform",
+        "space:g-bike",
+        "poi:poi-cycle-hub"
+      ],
+      "path": [
+        {
+          "id": "poi:poi-community-room",
+          "x": 16,
+          "y": 16,
+          "floor": "m",
+          "floorName": "Mezzanine",
+          "type": "poi",
+          "sourceId": "poi-community-room",
+          "poi": {
+            "sourceId": "poi-community-room",
+            "name": "Community Room",
+            "category": "community",
+            "icon": "C",
+            "description": "Community Room · Mezzanine",
+            "floorId": "m",
+            "floorName": "Mezzanine",
+            "spaceId": "m-community",
+            "spaceName": "Community Room",
+            "where": "Mezzanine",
+            "public": true,
+            "accessible": true,
+            "aliases": [
+              "meeting room"
+            ]
+          }
+        },
+        {
+          "id": "space:m-community",
+          "x": 16,
+          "y": 16,
+          "floor": "m",
+          "floorName": "Mezzanine",
+          "type": "space",
+          "sourceId": "m-community"
+        },
+        {
+          "id": "portal:p-community-bridge",
+          "x": 16,
+          "y": 14,
+          "floor": "m",
+          "floorName": "Mezzanine",
+          "type": "portal",
+          "sourceId": "p-community-bridge"
+        },
+        {
+          "id": "waypoint:m-lobby:03",
+          "x": 16,
+          "y": 11,
+          "floor": "m",
+          "floorName": "Mezzanine",
+          "type": "waypoint",
+          "sourceId": "m-lobby"
+        },
+        {
+          "id": "space:m-lobby",
+          "x": 22,
+          "y": 11,
+          "floor": "m",
+          "floorName": "Mezzanine",
+          "type": "space",
+          "sourceId": "m-lobby"
+        },
+        {
+          "id": "waypoint:m-lobby:04",
+          "x": 24,
+          "y": 11,
+          "floor": "m",
+          "floorName": "Mezzanine",
+          "type": "waypoint",
+          "sourceId": "m-lobby"
+        },
+        {
+          "id": "connector:escalator-center:m",
+          "x": 24,
+          "y": 11,
+          "floor": "m",
+          "floorName": "Mezzanine",
+          "type": "connector-stop",
+          "sourceId": "escalator-center"
+        },
+        {
+          "id": "connector:escalator-center:g",
+          "x": 24,
+          "y": 11,
+          "floor": "g",
+          "floorName": "Concourse",
+          "type": "connector-stop",
+          "sourceId": "escalator-center"
+        },
+        {
+          "id": "waypoint:g-concourse:05",
+          "x": 24,
+          "y": 11,
+          "floor": "g",
+          "floorName": "Concourse",
+          "type": "waypoint",
+          "sourceId": "g-concourse"
+        },
+        {
+          "id": "space:g-concourse",
+          "x": 22,
+          "y": 11,
+          "floor": "g",
+          "floorName": "Concourse",
+          "type": "space",
+          "sourceId": "g-concourse"
+        },
+        {
+          "id": "waypoint:g-concourse:04",
+          "x": 20,
+          "y": 11,
+          "floor": "g",
+          "floorName": "Concourse",
+          "type": "waypoint",
+          "sourceId": "g-concourse"
+        },
+        {
+          "id": "portal:p-platform-concourse",
+          "x": 20,
+          "y": 14,
+          "floor": "g",
+          "floorName": "Concourse",
+          "type": "portal",
+          "sourceId": "p-platform-concourse"
+        },
+        {
+          "id": "space:g-platform",
+          "x": 18,
+          "y": 18,
+          "floor": "g",
+          "floorName": "Concourse",
+          "type": "space",
+          "sourceId": "g-platform"
+        },
+        {
+          "id": "portal:p-bike-platform",
+          "x": 30,
+          "y": 18,
+          "floor": "g",
+          "floorName": "Concourse",
+          "type": "portal",
+          "sourceId": "p-bike-platform"
+        },
+        {
+          "id": "space:g-bike",
+          "x": 34,
+          "y": 18,
+          "floor": "g",
+          "floorName": "Concourse",
+          "type": "space",
+          "sourceId": "g-bike"
+        },
+        {
+          "id": "poi:poi-cycle-hub",
+          "x": 34,
+          "y": 18,
+          "floor": "g",
+          "floorName": "Concourse",
+          "type": "poi",
+          "sourceId": "poi-cycle-hub",
+          "poi": {
+            "sourceId": "poi-cycle-hub",
+            "name": "Cycle Hub",
+            "category": "service",
+            "icon": "S",
+            "description": "Cycle Hub · Concourse",
+            "floorId": "g",
+            "floorName": "Concourse",
+            "spaceId": "g-bike",
+            "spaceName": "Cycle Hub",
+            "where": "Concourse",
+            "public": true,
+            "accessible": true,
+            "aliases": [
+              "bike parking"
+            ]
+          }
+        }
+      ],
+      "steps": [
+        {
+          "type": "start",
+          "instruction": "Start at Community Room",
+          "distance": 2.01,
+          "nodeId": "poi:poi-community-room",
+          "bearing": 0,
+          "floorId": "m"
+        },
+        {
+          "type": "straight",
+          "instruction": "Continue on Mezzanine Bridge",
+          "distance": 3,
+          "nodeId": "portal:p-community-bridge",
+          "bearing": 0,
+          "floorId": "m"
+        },
+        {
+          "type": "turn_right",
+          "instruction": "Turn right at Harbor Overlook",
+          "distance": 8,
+          "nodeId": "waypoint:m-lobby:03",
+          "bearing": 90,
+          "floorId": "m"
+        },
+        {
+          "type": "escalator",
+          "instruction": "Take Central Escalator to Concourse",
+          "distance": 4.81,
+          "nodeId": "connector:escalator-center:m",
+          "bearing": 0,
+          "floorId": "g"
+        },
+        {
+          "type": "straight",
+          "instruction": "Continue on Exchange Concourse",
+          "distance": 4.01,
+          "nodeId": "waypoint:g-concourse:05",
+          "bearing": 270,
+          "floorId": "g"
+        },
+        {
+          "type": "turn_left",
+          "instruction": "Turn left at Harbor Market",
+          "distance": 3,
+          "nodeId": "waypoint:g-concourse:04",
+          "bearing": 180,
+          "floorId": "g"
+        },
+        {
+          "type": "slight_right",
+          "instruction": "Bear right into Waterfront Platform",
+          "distance": 4.472,
+          "nodeId": "portal:p-platform-concourse",
+          "bearing": 206.565051177078,
+          "floorId": "g"
+        },
+        {
+          "type": "turn_left",
+          "instruction": "Turn left along Waterfront Platform",
+          "distance": 12,
+          "nodeId": "space:g-platform",
+          "bearing": 90,
+          "floorId": "g"
+        },
+        {
+          "type": "straight",
+          "instruction": "Continue into Cycle Hub",
+          "distance": 4.01,
+          "nodeId": "portal:p-bike-platform",
+          "bearing": 90,
+          "floorId": "g"
+        },
+        {
+          "type": "arrive",
+          "instruction": "Arrive at Cycle Hub",
+          "distance": 0,
+          "nodeId": "poi:poi-cycle-hub",
+          "bearing": 90,
+          "floorId": "g"
+        }
+      ],
+      "totalDistance": 45.312000000000005,
+      "displayClearance": {
+        "basis": "authored-geometry",
+        "packageHash": "639ca9c4a7ae2cdfe7384f78586a3e179f6ca2ba467022fd7b184a4b7d164222",
+        "profile": "standard",
+        "allowRestricted": false,
+        "widthMeters": 0.7,
+        "status": "checked",
+        "centerlineValid": true,
+        "issues": []
+      },
+      "receipt": {
+        "receiptVersion": "0.1.0",
+        "buildingId": "harbor-exchange",
+        "packageHash": "639ca9c4a7ae2cdfe7384f78586a3e179f6ca2ba467022fd7b184a4b7d164222",
+        "profile": "standard",
+        "startId": "poi:poi-community-room",
+        "destinationId": "poi:poi-cycle-hub",
+        "operationalOverlayId": null,
+        "evaluatedAt": null,
+        "appliedClosureIds": [],
+        "excludedEdges": {
+          "restricted": 0,
+          "inaccessible": 0,
+          "closed": 0
+        },
+        "overlayIssues": [],
+        "status": "routed",
+        "totalDistanceMeters": 45.312000000000005,
+        "selectedConnectors": [
+          {
+            "sourceId": "escalator-center",
+            "kind": "escalator",
+            "fromFloorId": "m",
+            "toFloorId": "g"
+          }
+        ]
+      }
+    }
+  },
+  "harbor-exchange/wheelchair": {
+    "startId": "poi:poi-community-room",
+    "destinationId": "poi:poi-cycle-hub",
+    "result": {
+      "found": true,
+      "algorithm": "a-star",
+      "pathIds": [
+        "poi:poi-community-room",
+        "space:m-community",
+        "portal:p-community-bridge",
+        "waypoint:m-lobby:03",
+        "space:m-lobby",
+        "waypoint:m-lobby:04",
+        "waypoint:m-lobby:05",
+        "waypoint:m-lobby:06",
+        "waypoint:m-lobby:07",
+        "connector:lift-east:m",
+        "connector:lift-east:g",
+        "waypoint:g-concourse:07",
+        "waypoint:g-concourse:06",
+        "waypoint:g-concourse:05",
+        "space:g-concourse",
+        "waypoint:g-concourse:04",
+        "portal:p-platform-concourse",
+        "space:g-platform",
+        "portal:p-bike-platform",
+        "space:g-bike",
+        "poi:poi-cycle-hub"
+      ],
+      "path": [
+        {
+          "id": "poi:poi-community-room",
+          "x": 16,
+          "y": 16,
+          "floor": "m",
+          "floorName": "Mezzanine",
+          "type": "poi",
+          "sourceId": "poi-community-room",
+          "poi": {
+            "sourceId": "poi-community-room",
+            "name": "Community Room",
+            "category": "community",
+            "icon": "C",
+            "description": "Community Room · Mezzanine",
+            "floorId": "m",
+            "floorName": "Mezzanine",
+            "spaceId": "m-community",
+            "spaceName": "Community Room",
+            "where": "Mezzanine",
+            "public": true,
+            "accessible": true,
+            "aliases": [
+              "meeting room"
+            ]
+          }
+        },
+        {
+          "id": "space:m-community",
+          "x": 16,
+          "y": 16,
+          "floor": "m",
+          "floorName": "Mezzanine",
+          "type": "space",
+          "sourceId": "m-community"
+        },
+        {
+          "id": "portal:p-community-bridge",
+          "x": 16,
+          "y": 14,
+          "floor": "m",
+          "floorName": "Mezzanine",
+          "type": "portal",
+          "sourceId": "p-community-bridge"
+        },
+        {
+          "id": "waypoint:m-lobby:03",
+          "x": 16,
+          "y": 11,
+          "floor": "m",
+          "floorName": "Mezzanine",
+          "type": "waypoint",
+          "sourceId": "m-lobby"
+        },
+        {
+          "id": "space:m-lobby",
+          "x": 22,
+          "y": 11,
+          "floor": "m",
+          "floorName": "Mezzanine",
+          "type": "space",
+          "sourceId": "m-lobby"
+        },
+        {
+          "id": "waypoint:m-lobby:04",
+          "x": 24,
+          "y": 11,
+          "floor": "m",
+          "floorName": "Mezzanine",
+          "type": "waypoint",
+          "sourceId": "m-lobby"
+        },
+        {
+          "id": "waypoint:m-lobby:05",
+          "x": 28,
+          "y": 11,
+          "floor": "m",
+          "floorName": "Mezzanine",
+          "type": "waypoint",
+          "sourceId": "m-lobby"
+        },
+        {
+          "id": "waypoint:m-lobby:06",
+          "x": 30,
+          "y": 11,
+          "floor": "m",
+          "floorName": "Mezzanine",
+          "type": "waypoint",
+          "sourceId": "m-lobby"
+        },
+        {
+          "id": "waypoint:m-lobby:07",
+          "x": 34,
+          "y": 11,
+          "floor": "m",
+          "floorName": "Mezzanine",
+          "type": "waypoint",
+          "sourceId": "m-lobby"
+        },
+        {
+          "id": "connector:lift-east:m",
+          "x": 34,
+          "y": 11,
+          "floor": "m",
+          "floorName": "Mezzanine",
+          "type": "connector-stop",
+          "sourceId": "lift-east"
+        },
+        {
+          "id": "connector:lift-east:g",
+          "x": 34,
+          "y": 11,
+          "floor": "g",
+          "floorName": "Concourse",
+          "type": "connector-stop",
+          "sourceId": "lift-east"
+        },
+        {
+          "id": "waypoint:g-concourse:07",
+          "x": 34,
+          "y": 11,
+          "floor": "g",
+          "floorName": "Concourse",
+          "type": "waypoint",
+          "sourceId": "g-concourse"
+        },
+        {
+          "id": "waypoint:g-concourse:06",
+          "x": 33,
+          "y": 11,
+          "floor": "g",
+          "floorName": "Concourse",
+          "type": "waypoint",
+          "sourceId": "g-concourse"
+        },
+        {
+          "id": "waypoint:g-concourse:05",
+          "x": 24,
+          "y": 11,
+          "floor": "g",
+          "floorName": "Concourse",
+          "type": "waypoint",
+          "sourceId": "g-concourse"
+        },
+        {
+          "id": "space:g-concourse",
+          "x": 22,
+          "y": 11,
+          "floor": "g",
+          "floorName": "Concourse",
+          "type": "space",
+          "sourceId": "g-concourse"
+        },
+        {
+          "id": "waypoint:g-concourse:04",
+          "x": 20,
+          "y": 11,
+          "floor": "g",
+          "floorName": "Concourse",
+          "type": "waypoint",
+          "sourceId": "g-concourse"
+        },
+        {
+          "id": "portal:p-platform-concourse",
+          "x": 20,
+          "y": 14,
+          "floor": "g",
+          "floorName": "Concourse",
+          "type": "portal",
+          "sourceId": "p-platform-concourse"
+        },
+        {
+          "id": "space:g-platform",
+          "x": 18,
+          "y": 18,
+          "floor": "g",
+          "floorName": "Concourse",
+          "type": "space",
+          "sourceId": "g-platform"
+        },
+        {
+          "id": "portal:p-bike-platform",
+          "x": 30,
+          "y": 18,
+          "floor": "g",
+          "floorName": "Concourse",
+          "type": "portal",
+          "sourceId": "p-bike-platform"
+        },
+        {
+          "id": "space:g-bike",
+          "x": 34,
+          "y": 18,
+          "floor": "g",
+          "floorName": "Concourse",
+          "type": "space",
+          "sourceId": "g-bike"
+        },
+        {
+          "id": "poi:poi-cycle-hub",
+          "x": 34,
+          "y": 18,
+          "floor": "g",
+          "floorName": "Concourse",
+          "type": "poi",
+          "sourceId": "poi-cycle-hub",
+          "poi": {
+            "sourceId": "poi-cycle-hub",
+            "name": "Cycle Hub",
+            "category": "service",
+            "icon": "S",
+            "description": "Cycle Hub · Concourse",
+            "floorId": "g",
+            "floorName": "Concourse",
+            "spaceId": "g-bike",
+            "spaceName": "Cycle Hub",
+            "where": "Concourse",
+            "public": true,
+            "accessible": true,
+            "aliases": [
+              "bike parking"
+            ]
+          }
+        }
+      ],
+      "steps": [
+        {
+          "type": "start",
+          "instruction": "Start at Community Room",
+          "distance": 2.01,
+          "nodeId": "poi:poi-community-room",
+          "bearing": 0,
+          "floorId": "m"
+        },
+        {
+          "type": "straight",
+          "instruction": "Continue on Mezzanine Bridge",
+          "distance": 3,
+          "nodeId": "portal:p-community-bridge",
+          "bearing": 0,
+          "floorId": "m"
+        },
+        {
+          "type": "turn_right",
+          "instruction": "Turn right at Harbor Overlook",
+          "distance": 18,
+          "nodeId": "waypoint:m-lobby:03",
+          "bearing": 90,
+          "floorId": "m"
+        },
+        {
+          "type": "elevator",
+          "instruction": "Take East Glass Lift to Concourse",
+          "distance": 4.81,
+          "nodeId": "connector:lift-east:m",
+          "bearing": 0,
+          "floorId": "g"
+        },
+        {
+          "type": "straight",
+          "instruction": "Continue on Exchange Concourse, past Tide Gallery",
+          "distance": 14.01,
+          "nodeId": "waypoint:g-concourse:07",
+          "bearing": 270,
+          "floorId": "g"
+        },
+        {
+          "type": "turn_left",
+          "instruction": "Turn left at Harbor Market",
+          "distance": 3,
+          "nodeId": "waypoint:g-concourse:04",
+          "bearing": 180,
+          "floorId": "g"
+        },
+        {
+          "type": "slight_right",
+          "instruction": "Bear right into Waterfront Platform",
+          "distance": 4.472,
+          "nodeId": "portal:p-platform-concourse",
+          "bearing": 206.565051177078,
+          "floorId": "g"
+        },
+        {
+          "type": "turn_left",
+          "instruction": "Turn left along Waterfront Platform",
+          "distance": 12,
+          "nodeId": "space:g-platform",
+          "bearing": 90,
+          "floorId": "g"
+        },
+        {
+          "type": "straight",
+          "instruction": "Continue into Cycle Hub",
+          "distance": 4.01,
+          "nodeId": "portal:p-bike-platform",
+          "bearing": 90,
+          "floorId": "g"
+        },
+        {
+          "type": "arrive",
+          "instruction": "Arrive at Cycle Hub",
+          "distance": 0,
+          "nodeId": "poi:poi-cycle-hub",
+          "bearing": 90,
+          "floorId": "g"
+        }
+      ],
+      "totalDistance": 65.312,
+      "displayClearance": {
+        "basis": "authored-geometry",
+        "packageHash": "639ca9c4a7ae2cdfe7384f78586a3e179f6ca2ba467022fd7b184a4b7d164222",
+        "profile": "wheelchair",
+        "allowRestricted": false,
+        "widthMeters": 0.7,
+        "status": "checked",
+        "centerlineValid": true,
+        "issues": []
+      },
+      "receipt": {
+        "receiptVersion": "0.1.0",
+        "buildingId": "harbor-exchange",
+        "packageHash": "639ca9c4a7ae2cdfe7384f78586a3e179f6ca2ba467022fd7b184a4b7d164222",
+        "profile": "wheelchair",
+        "startId": "poi:poi-community-room",
+        "destinationId": "poi:poi-cycle-hub",
+        "operationalOverlayId": null,
+        "evaluatedAt": null,
+        "appliedClosureIds": [],
+        "excludedEdges": {
+          "restricted": 0,
+          "inaccessible": 6,
+          "closed": 0
+        },
+        "overlayIssues": [],
+        "status": "routed",
+        "totalDistanceMeters": 65.312,
+        "selectedConnectors": [
+          {
+            "sourceId": "lift-east",
+            "kind": "elevator",
+            "fromFloorId": "m",
+            "toFloorId": "g"
+          }
+        ]
+      }
+    }
+  },
+  "meridian-park-campus/standard": {
+    "startId": "poi:poi-car-park",
+    "destinationId": "poi:poi-e-minor-injuries",
+    "result": {
+      "found": true,
+      "algorithm": "a-star",
+      "pathIds": [
+        "poi:poi-car-park",
+        "space:car-park",
+        "portal:p-car-park-walk--car-park",
+        "waypoint:car-park-walk:01",
+        "space:car-park-walk",
+        "waypoint:car-park-walk:02",
+        "portal:p-promenade--car-park-walk",
+        "waypoint:promenade:03",
+        "space:promenade",
+        "waypoint:promenade:02",
+        "waypoint:promenade:01",
+        "portal:p-promenade--court-south",
+        "space:court-south",
+        "waypoint:court-south:01",
+        "portal:p-court-south--court-west",
+        "waypoint:court-west:02",
+        "space:court-west",
+        "portal:p-court-west--west-walk",
+        "waypoint:west-walk:02",
+        "space:west-walk",
+        "waypoint:west-walk:01",
+        "portal:p-west-walk--e-entrance",
+        "space:e-entrance",
+        "portal:p-e-entrance--e-corridor",
+        "space:e-corridor",
+        "waypoint:e-corridor:02",
+        "portal:p-e-minor-injuries--e-corridor",
+        "space:e-minor-injuries",
+        "poi:poi-e-minor-injuries"
+      ],
+      "path": [
+        {
+          "id": "poi:poi-car-park",
+          "x": 60,
+          "y": 123,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "poi",
+          "sourceId": "poi-car-park",
+          "poi": {
+            "sourceId": "poi-car-park",
+            "name": "Visitor Car Park",
+            "category": "service",
+            "icon": "S",
+            "description": "Visitor Car Park · Ground · Campus",
+            "floorId": "g",
+            "floorName": "Ground · Campus",
+            "spaceId": "car-park",
+            "spaceName": "Visitor Car Park",
+            "where": "Grounds",
+            "public": true,
+            "accessible": true,
+            "aliases": [
+              "car park",
+              "parking"
+            ]
+          }
+        },
+        {
+          "id": "space:car-park",
+          "x": 60,
+          "y": 123,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "space",
+          "sourceId": "car-park"
+        },
+        {
+          "id": "portal:p-car-park-walk--car-park",
+          "x": 96,
+          "y": 123,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "portal",
+          "sourceId": "p-car-park-walk--car-park"
+        },
+        {
+          "id": "waypoint:car-park-walk:01",
+          "x": 96,
+          "y": 123,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "waypoint",
+          "sourceId": "car-park-walk"
+        },
+        {
+          "id": "space:car-park-walk",
+          "x": 99,
+          "y": 123,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "space",
+          "sourceId": "car-park-walk"
+        },
+        {
+          "id": "waypoint:car-park-walk:02",
+          "x": 102,
+          "y": 123,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "waypoint",
+          "sourceId": "car-park-walk"
+        },
+        {
+          "id": "portal:p-promenade--car-park-walk",
+          "x": 102,
+          "y": 123,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "portal",
+          "sourceId": "p-promenade--car-park-walk"
+        },
+        {
+          "id": "waypoint:promenade:03",
+          "x": 105,
+          "y": 123,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "waypoint",
+          "sourceId": "promenade"
+        },
+        {
+          "id": "space:promenade",
+          "x": 105,
+          "y": 115,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "space",
+          "sourceId": "promenade"
+        },
+        {
+          "id": "waypoint:promenade:02",
+          "x": 105,
+          "y": 113,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "waypoint",
+          "sourceId": "promenade"
+        },
+        {
+          "id": "waypoint:promenade:01",
+          "x": 105,
+          "y": 96,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "waypoint",
+          "sourceId": "promenade"
+        },
+        {
+          "id": "portal:p-promenade--court-south",
+          "x": 105,
+          "y": 96,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "portal",
+          "sourceId": "p-promenade--court-south"
+        },
+        {
+          "id": "space:court-south",
+          "x": 105,
+          "y": 93,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "space",
+          "sourceId": "court-south"
+        },
+        {
+          "id": "waypoint:court-south:01",
+          "x": 96,
+          "y": 93,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "waypoint",
+          "sourceId": "court-south"
+        },
+        {
+          "id": "portal:p-court-south--court-west",
+          "x": 96,
+          "y": 90,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "portal",
+          "sourceId": "p-court-south--court-west"
+        },
+        {
+          "id": "waypoint:court-west:02",
+          "x": 96,
+          "y": 90,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "waypoint",
+          "sourceId": "court-west"
+        },
+        {
+          "id": "space:court-west",
+          "x": 96,
+          "y": 84,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "space",
+          "sourceId": "court-west"
+        },
+        {
+          "id": "portal:p-court-west--west-walk",
+          "x": 93,
+          "y": 84,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "portal",
+          "sourceId": "p-court-west--west-walk"
+        },
+        {
+          "id": "waypoint:west-walk:02",
+          "x": 93,
+          "y": 84,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "waypoint",
+          "sourceId": "west-walk"
+        },
+        {
+          "id": "space:west-walk",
+          "x": 71.5,
+          "y": 84,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "space",
+          "sourceId": "west-walk"
+        },
+        {
+          "id": "waypoint:west-walk:01",
+          "x": 50,
+          "y": 84,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "waypoint",
+          "sourceId": "west-walk"
+        },
+        {
+          "id": "portal:p-west-walk--e-entrance",
+          "x": 50,
+          "y": 84,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "portal",
+          "sourceId": "p-west-walk--e-entrance"
+        },
+        {
+          "id": "space:e-entrance",
+          "x": 45,
+          "y": 84,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "space",
+          "sourceId": "e-entrance"
+        },
+        {
+          "id": "portal:p-e-entrance--e-corridor",
+          "x": 40,
+          "y": 84,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "portal",
+          "sourceId": "p-e-entrance--e-corridor"
+        },
+        {
+          "id": "space:e-corridor",
+          "x": 37,
+          "y": 84,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "space",
+          "sourceId": "e-corridor"
+        },
+        {
+          "id": "waypoint:e-corridor:02",
+          "x": 37,
+          "y": 96,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "waypoint",
+          "sourceId": "e-corridor"
+        },
+        {
+          "id": "portal:p-e-minor-injuries--e-corridor",
+          "x": 34,
+          "y": 96,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "portal",
+          "sourceId": "p-e-minor-injuries--e-corridor"
+        },
+        {
+          "id": "space:e-minor-injuries",
+          "x": 23,
+          "y": 96,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "space",
+          "sourceId": "e-minor-injuries"
+        },
+        {
+          "id": "poi:poi-e-minor-injuries",
+          "x": 23,
+          "y": 96,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "poi",
+          "sourceId": "poi-e-minor-injuries",
+          "poi": {
+            "sourceId": "poi-e-minor-injuries",
+            "name": "Minor Injuries",
+            "category": "emergency",
+            "icon": "ER",
+            "description": "Minor Injuries · Ground · Campus",
+            "floorId": "g",
+            "floorName": "Ground · Campus",
+            "spaceId": "e-minor-injuries",
+            "spaceName": "Minor Injuries",
+            "where": "Emergency Centre · Ground",
+            "public": true,
+            "accessible": true,
+            "aliases": [
+              "urgent care"
+            ]
+          }
+        }
+      ],
+      "steps": [
+        {
+          "type": "start",
+          "instruction": "Start at Visitor Car Park",
+          "distance": 36.01,
+          "nodeId": "poi:poi-car-park",
+          "bearing": 90,
+          "floorId": "g"
+        },
+        {
+          "type": "straight",
+          "instruction": "Continue on Car Park Walk",
+          "distance": 6.01,
+          "nodeId": "waypoint:car-park-walk:01",
+          "bearing": 90,
+          "floorId": "g"
+        },
+        {
+          "type": "straight",
+          "instruction": "Continue on Garden Promenade",
+          "distance": 3.01,
+          "nodeId": "portal:p-promenade--car-park-walk",
+          "bearing": 90,
+          "floorId": "g"
+        },
+        {
+          "type": "turn_left",
+          "instruction": "Turn left along Garden Promenade",
+          "distance": 27,
+          "nodeId": "waypoint:promenade:03",
+          "bearing": 0,
+          "floorId": "g"
+        },
+        {
+          "type": "straight",
+          "instruction": "Continue on Fountain Court",
+          "distance": 3.01,
+          "nodeId": "portal:p-promenade--court-south",
+          "bearing": 0,
+          "floorId": "g"
+        },
+        {
+          "type": "turn_left",
+          "instruction": "Turn left along Fountain Court",
+          "distance": 9,
+          "nodeId": "space:court-south",
+          "bearing": 270,
+          "floorId": "g"
+        },
+        {
+          "type": "turn_right",
+          "instruction": "Turn right along Fountain Court",
+          "distance": 9.01,
+          "nodeId": "waypoint:court-south:01",
+          "bearing": 0,
+          "floorId": "g"
+        },
+        {
+          "type": "turn_left",
+          "instruction": "Turn left at Central Fountain onto West Garden Walk",
+          "distance": 46.010000000000005,
+          "nodeId": "space:court-west",
+          "bearing": 270,
+          "floorId": "g"
+        },
+        {
+          "type": "straight",
+          "instruction": "Continue into Emergency Entrance",
+          "distance": 10.01,
+          "nodeId": "portal:p-west-walk--e-entrance",
+          "bearing": 270,
+          "floorId": "g"
+        },
+        {
+          "type": "straight",
+          "instruction": "Continue on Emergency Corridor",
+          "distance": 3,
+          "nodeId": "portal:p-e-entrance--e-corridor",
+          "bearing": 270,
+          "floorId": "g"
+        },
+        {
+          "type": "turn_left",
+          "instruction": "Turn left at Emergency Entrance",
+          "distance": 12,
+          "nodeId": "space:e-corridor",
+          "bearing": 180,
+          "floorId": "g"
+        },
+        {
+          "type": "turn_right",
+          "instruction": "Turn right at Out-of-Hours Pharmacy into Minor Injuries",
+          "distance": 14.01,
+          "nodeId": "waypoint:e-corridor:02",
+          "bearing": 270,
+          "floorId": "g"
+        },
+        {
+          "type": "arrive",
+          "instruction": "Arrive at Minor Injuries, on your right",
+          "distance": 0,
+          "nodeId": "poi:poi-e-minor-injuries",
+          "bearing": 270,
+          "floorId": "g"
+        }
+      ],
+      "totalDistance": 178.07999999999998,
+      "displayClearance": {
+        "basis": "authored-geometry",
+        "packageHash": "abbedcc0418e2f68ed709648693feee4c4c4a11c9c1ccbe7794919303ac5b177",
+        "profile": "standard",
+        "allowRestricted": false,
+        "widthMeters": 0.7,
+        "status": "checked",
+        "centerlineValid": true,
+        "issues": []
+      },
+      "receipt": {
+        "receiptVersion": "0.1.0",
+        "buildingId": "meridian-park-campus",
+        "packageHash": "abbedcc0418e2f68ed709648693feee4c4c4a11c9c1ccbe7794919303ac5b177",
+        "profile": "standard",
+        "startId": "poi:poi-car-park",
+        "destinationId": "poi:poi-e-minor-injuries",
+        "operationalOverlayId": null,
+        "evaluatedAt": null,
+        "appliedClosureIds": [],
+        "excludedEdges": {
+          "restricted": 2,
+          "inaccessible": 0,
+          "closed": 0
+        },
+        "overlayIssues": [],
+        "status": "routed",
+        "totalDistanceMeters": 178.07999999999998,
+        "selectedConnectors": []
+      }
+    }
+  },
+  "meridian-park-campus/wheelchair": {
+    "startId": "poi:poi-car-park",
+    "destinationId": "poi:poi-e-minor-injuries",
+    "result": {
+      "found": true,
+      "algorithm": "a-star",
+      "pathIds": [
+        "poi:poi-car-park",
+        "space:car-park",
+        "portal:p-car-park-walk--car-park",
+        "waypoint:car-park-walk:01",
+        "space:car-park-walk",
+        "waypoint:car-park-walk:02",
+        "portal:p-promenade--car-park-walk",
+        "waypoint:promenade:03",
+        "space:promenade",
+        "waypoint:promenade:02",
+        "waypoint:promenade:01",
+        "portal:p-promenade--court-south",
+        "space:court-south",
+        "waypoint:court-south:01",
+        "portal:p-court-south--court-west",
+        "waypoint:court-west:02",
+        "space:court-west",
+        "portal:p-court-west--west-walk",
+        "waypoint:west-walk:02",
+        "space:west-walk",
+        "waypoint:west-walk:01",
+        "portal:p-west-walk--e-entrance",
+        "space:e-entrance",
+        "portal:p-e-entrance--e-corridor",
+        "space:e-corridor",
+        "waypoint:e-corridor:02",
+        "portal:p-e-minor-injuries--e-corridor",
+        "space:e-minor-injuries",
+        "poi:poi-e-minor-injuries"
+      ],
+      "path": [
+        {
+          "id": "poi:poi-car-park",
+          "x": 60,
+          "y": 123,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "poi",
+          "sourceId": "poi-car-park",
+          "poi": {
+            "sourceId": "poi-car-park",
+            "name": "Visitor Car Park",
+            "category": "service",
+            "icon": "S",
+            "description": "Visitor Car Park · Ground · Campus",
+            "floorId": "g",
+            "floorName": "Ground · Campus",
+            "spaceId": "car-park",
+            "spaceName": "Visitor Car Park",
+            "where": "Grounds",
+            "public": true,
+            "accessible": true,
+            "aliases": [
+              "car park",
+              "parking"
+            ]
+          }
+        },
+        {
+          "id": "space:car-park",
+          "x": 60,
+          "y": 123,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "space",
+          "sourceId": "car-park"
+        },
+        {
+          "id": "portal:p-car-park-walk--car-park",
+          "x": 96,
+          "y": 123,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "portal",
+          "sourceId": "p-car-park-walk--car-park"
+        },
+        {
+          "id": "waypoint:car-park-walk:01",
+          "x": 96,
+          "y": 123,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "waypoint",
+          "sourceId": "car-park-walk"
+        },
+        {
+          "id": "space:car-park-walk",
+          "x": 99,
+          "y": 123,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "space",
+          "sourceId": "car-park-walk"
+        },
+        {
+          "id": "waypoint:car-park-walk:02",
+          "x": 102,
+          "y": 123,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "waypoint",
+          "sourceId": "car-park-walk"
+        },
+        {
+          "id": "portal:p-promenade--car-park-walk",
+          "x": 102,
+          "y": 123,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "portal",
+          "sourceId": "p-promenade--car-park-walk"
+        },
+        {
+          "id": "waypoint:promenade:03",
+          "x": 105,
+          "y": 123,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "waypoint",
+          "sourceId": "promenade"
+        },
+        {
+          "id": "space:promenade",
+          "x": 105,
+          "y": 115,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "space",
+          "sourceId": "promenade"
+        },
+        {
+          "id": "waypoint:promenade:02",
+          "x": 105,
+          "y": 113,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "waypoint",
+          "sourceId": "promenade"
+        },
+        {
+          "id": "waypoint:promenade:01",
+          "x": 105,
+          "y": 96,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "waypoint",
+          "sourceId": "promenade"
+        },
+        {
+          "id": "portal:p-promenade--court-south",
+          "x": 105,
+          "y": 96,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "portal",
+          "sourceId": "p-promenade--court-south"
+        },
+        {
+          "id": "space:court-south",
+          "x": 105,
+          "y": 93,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "space",
+          "sourceId": "court-south"
+        },
+        {
+          "id": "waypoint:court-south:01",
+          "x": 96,
+          "y": 93,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "waypoint",
+          "sourceId": "court-south"
+        },
+        {
+          "id": "portal:p-court-south--court-west",
+          "x": 96,
+          "y": 90,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "portal",
+          "sourceId": "p-court-south--court-west"
+        },
+        {
+          "id": "waypoint:court-west:02",
+          "x": 96,
+          "y": 90,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "waypoint",
+          "sourceId": "court-west"
+        },
+        {
+          "id": "space:court-west",
+          "x": 96,
+          "y": 84,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "space",
+          "sourceId": "court-west"
+        },
+        {
+          "id": "portal:p-court-west--west-walk",
+          "x": 93,
+          "y": 84,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "portal",
+          "sourceId": "p-court-west--west-walk"
+        },
+        {
+          "id": "waypoint:west-walk:02",
+          "x": 93,
+          "y": 84,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "waypoint",
+          "sourceId": "west-walk"
+        },
+        {
+          "id": "space:west-walk",
+          "x": 71.5,
+          "y": 84,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "space",
+          "sourceId": "west-walk"
+        },
+        {
+          "id": "waypoint:west-walk:01",
+          "x": 50,
+          "y": 84,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "waypoint",
+          "sourceId": "west-walk"
+        },
+        {
+          "id": "portal:p-west-walk--e-entrance",
+          "x": 50,
+          "y": 84,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "portal",
+          "sourceId": "p-west-walk--e-entrance"
+        },
+        {
+          "id": "space:e-entrance",
+          "x": 45,
+          "y": 84,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "space",
+          "sourceId": "e-entrance"
+        },
+        {
+          "id": "portal:p-e-entrance--e-corridor",
+          "x": 40,
+          "y": 84,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "portal",
+          "sourceId": "p-e-entrance--e-corridor"
+        },
+        {
+          "id": "space:e-corridor",
+          "x": 37,
+          "y": 84,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "space",
+          "sourceId": "e-corridor"
+        },
+        {
+          "id": "waypoint:e-corridor:02",
+          "x": 37,
+          "y": 96,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "waypoint",
+          "sourceId": "e-corridor"
+        },
+        {
+          "id": "portal:p-e-minor-injuries--e-corridor",
+          "x": 34,
+          "y": 96,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "portal",
+          "sourceId": "p-e-minor-injuries--e-corridor"
+        },
+        {
+          "id": "space:e-minor-injuries",
+          "x": 23,
+          "y": 96,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "space",
+          "sourceId": "e-minor-injuries"
+        },
+        {
+          "id": "poi:poi-e-minor-injuries",
+          "x": 23,
+          "y": 96,
+          "floor": "g",
+          "floorName": "Ground · Campus",
+          "type": "poi",
+          "sourceId": "poi-e-minor-injuries",
+          "poi": {
+            "sourceId": "poi-e-minor-injuries",
+            "name": "Minor Injuries",
+            "category": "emergency",
+            "icon": "ER",
+            "description": "Minor Injuries · Ground · Campus",
+            "floorId": "g",
+            "floorName": "Ground · Campus",
+            "spaceId": "e-minor-injuries",
+            "spaceName": "Minor Injuries",
+            "where": "Emergency Centre · Ground",
+            "public": true,
+            "accessible": true,
+            "aliases": [
+              "urgent care"
+            ]
+          }
+        }
+      ],
+      "steps": [
+        {
+          "type": "start",
+          "instruction": "Start at Visitor Car Park",
+          "distance": 36.01,
+          "nodeId": "poi:poi-car-park",
+          "bearing": 90,
+          "floorId": "g"
+        },
+        {
+          "type": "straight",
+          "instruction": "Continue on Car Park Walk",
+          "distance": 6.01,
+          "nodeId": "waypoint:car-park-walk:01",
+          "bearing": 90,
+          "floorId": "g"
+        },
+        {
+          "type": "straight",
+          "instruction": "Continue on Garden Promenade",
+          "distance": 3.01,
+          "nodeId": "portal:p-promenade--car-park-walk",
+          "bearing": 90,
+          "floorId": "g"
+        },
+        {
+          "type": "turn_left",
+          "instruction": "Turn left along Garden Promenade",
+          "distance": 27,
+          "nodeId": "waypoint:promenade:03",
+          "bearing": 0,
+          "floorId": "g"
+        },
+        {
+          "type": "straight",
+          "instruction": "Continue on Fountain Court",
+          "distance": 3.01,
+          "nodeId": "portal:p-promenade--court-south",
+          "bearing": 0,
+          "floorId": "g"
+        },
+        {
+          "type": "turn_left",
+          "instruction": "Turn left along Fountain Court",
+          "distance": 9,
+          "nodeId": "space:court-south",
+          "bearing": 270,
+          "floorId": "g"
+        },
+        {
+          "type": "turn_right",
+          "instruction": "Turn right along Fountain Court",
+          "distance": 9.01,
+          "nodeId": "waypoint:court-south:01",
+          "bearing": 0,
+          "floorId": "g"
+        },
+        {
+          "type": "turn_left",
+          "instruction": "Turn left at Central Fountain onto West Garden Walk",
+          "distance": 46.010000000000005,
+          "nodeId": "space:court-west",
+          "bearing": 270,
+          "floorId": "g"
+        },
+        {
+          "type": "straight",
+          "instruction": "Continue into Emergency Entrance",
+          "distance": 10.01,
+          "nodeId": "portal:p-west-walk--e-entrance",
+          "bearing": 270,
+          "floorId": "g"
+        },
+        {
+          "type": "straight",
+          "instruction": "Continue on Emergency Corridor",
+          "distance": 3,
+          "nodeId": "portal:p-e-entrance--e-corridor",
+          "bearing": 270,
+          "floorId": "g"
+        },
+        {
+          "type": "turn_left",
+          "instruction": "Turn left at Emergency Entrance",
+          "distance": 12,
+          "nodeId": "space:e-corridor",
+          "bearing": 180,
+          "floorId": "g"
+        },
+        {
+          "type": "turn_right",
+          "instruction": "Turn right at Out-of-Hours Pharmacy into Minor Injuries",
+          "distance": 14.01,
+          "nodeId": "waypoint:e-corridor:02",
+          "bearing": 270,
+          "floorId": "g"
+        },
+        {
+          "type": "arrive",
+          "instruction": "Arrive at Minor Injuries, on your right",
+          "distance": 0,
+          "nodeId": "poi:poi-e-minor-injuries",
+          "bearing": 270,
+          "floorId": "g"
+        }
+      ],
+      "totalDistance": 178.07999999999998,
+      "displayClearance": {
+        "basis": "authored-geometry",
+        "packageHash": "abbedcc0418e2f68ed709648693feee4c4c4a11c9c1ccbe7794919303ac5b177",
+        "profile": "wheelchair",
+        "allowRestricted": false,
+        "widthMeters": 0.7,
+        "status": "checked",
+        "centerlineValid": true,
+        "issues": []
+      },
+      "receipt": {
+        "receiptVersion": "0.1.0",
+        "buildingId": "meridian-park-campus",
+        "packageHash": "abbedcc0418e2f68ed709648693feee4c4c4a11c9c1ccbe7794919303ac5b177",
+        "profile": "wheelchair",
+        "startId": "poi:poi-car-park",
+        "destinationId": "poi:poi-e-minor-injuries",
+        "operationalOverlayId": null,
+        "evaluatedAt": null,
+        "appliedClosureIds": [],
+        "excludedEdges": {
+          "restricted": 2,
+          "inaccessible": 5,
+          "closed": 0
+        },
+        "overlayIssues": [],
+        "status": "routed",
+        "totalDistanceMeters": 178.07999999999998,
+        "selectedConnectors": []
+      }
+    }
+  }
+}
