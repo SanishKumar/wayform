@@ -1,12 +1,10 @@
 # WAYFORM
 
-Foundations for mobility-aware indoor and outdoor navigation.
+Foundations for mobility-aware outdoor-to-indoor navigation. This repository currently contains a pinned VoiceGIS compatibility harness and a proposed mobility-data contract. It is not a deployed navigation product.
 
-The compatibility baseline pins VoiceGIS source and verifies 7,238 synthetic routes, compiled venue packages, closure policies and route receipts.
+## Run the checks
 
-## Development
-
-Use Node.js 22.14+ and npm.
+Use Node.js 22.14+ (locally verified with Node 24) and npm:
 
 ```sh
 npm ci --ignore-scripts --no-audit --no-fund
@@ -14,6 +12,30 @@ npm run check
 npm run compat:audit
 ```
 
-Checks run offline after dependencies are installed. See [compatibility](docs/compatibility.md) for the source revision, fixture coverage and baseline update policy.
+After dependency installation, these checks need no network or adjacent VoiceGIS checkout. `check` runs TypeScript validation, exported-schema consistency, legacy compatibility, and contract tests. `compat:audit` runs the unmodified upstream direction audit over all four venues.
 
-The fixtures validate software behavior; they do not establish physical navigability. Original VoiceGIS source attribution and rights are preserved.
+## Components
+
+- **Compatibility baseline:** 35 exact Git blobs from VoiceGIS commit `305c70bd418d7fd2b6f0ebf7a2ecd0ddcb9b9b7f`, verified venue packages, deterministic recompilation and 7,238 recorded route results.
+- **Mobility contract:** versioned JSON schemas, semantic validation, supplied-path assessment, a conservative legacy adapter and portable decision fixtures. The contract is `0.1.0-draft.1`.
+- **Quality checks:** TypeScript validation, regression tests and GitHub Actions on Linux/Windows with Node 22/24.
+
+| Location | Responsibility |
+| --- | --- |
+| `compat/voicegis/upstream/` | Immutable upstream source subset and synthetic venue fixtures |
+| `compat/voicegis/source-lock.json` | Upstream revision, SHA-256 digests and Git blob identities |
+| `compat/voicegis/expected/` | Recorded legacy behavior; normal tests never rewrite it |
+| `packages/mobility-contract/` | Proposed data model, schemas, evaluator and examples |
+| `docs/compatibility.md` | Exact compatibility scope and reproduction instructions |
+| `docs/mobility-contract.md` | Normative draft semantics, trust boundaries and limitations |
+| `docs/rust-core.md` | Native interface design and acceptance gates |
+
+The synthetic data demonstrates software behavior. It does not establish physical passability, positioning accuracy, publisher authenticity or a live closure service. A legacy accessibility assertion is never converted into surveyed evidence.
+
+Rust, Android screens, Go services, geographic ingestion and production synchronization are later work.
+
+## Updating baselines
+
+`npm run compat:record` explicitly regenerates expected legacy results. Review every change against the pinned source and documented compatibility decisions; never use regeneration to silence a regression. `npm run schema:write` exports schemas from their TypeScript definitions. Contract examples are explicitly recorded with `node --import tsx scripts/record-contract-examples.ts --record`.
+
+The imported VoiceGIS README retains its original rights statement. No new license is imposed on the imported code.

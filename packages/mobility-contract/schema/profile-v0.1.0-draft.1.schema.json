@@ -1,0 +1,197 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:wayform:mobility-profile:0.1.0-draft.1",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "allowRestricted": {
+      "type": "boolean"
+    },
+    "respectLegacyExclusions": {
+      "type": "boolean"
+    },
+    "hard": {
+      "type": "object",
+      "properties": {
+        "minClearWidthMeters": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "maxUphillPercent": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "maxDownhillPercent": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "maxCrossSlopePercent": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "maxStepCount": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "allowedSurfaces": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "allowedDoorOperations": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "minClearWidthMeters",
+        "maxUphillPercent",
+        "maxDownhillPercent",
+        "maxCrossSlopePercent",
+        "maxStepCount",
+        "allowedSurfaces",
+        "allowedDoorOperations"
+      ],
+      "additionalProperties": false
+    },
+    "preferences": {
+      "type": "object",
+      "properties": {
+        "avoidKinds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "walkway",
+              "door",
+              "ramp",
+              "stairs",
+              "lift",
+              "crossing",
+              "entrance"
+            ]
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "penaltyMeters": {
+          "type": "number",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "avoidKinds",
+        "penaltyMeters"
+      ],
+      "additionalProperties": false
+    },
+    "evidencePolicy": {
+      "type": "object",
+      "properties": {
+        "acceptedSources": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "field-survey",
+              "operator",
+              "imported-map",
+              "inference"
+            ]
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "requireReviewed": {
+          "type": "boolean"
+        },
+        "maxAgeSeconds": {
+          "type": "number",
+          "minimum": 0
+        },
+        "maxTransformErrorMeters": {
+          "type": "number",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "acceptedSources",
+        "requireReviewed",
+        "maxAgeSeconds",
+        "maxTransformErrorMeters"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "id",
+    "allowRestricted",
+    "respectLegacyExclusions",
+    "hard",
+    "preferences",
+    "evidencePolicy"
+  ],
+  "additionalProperties": false
+}

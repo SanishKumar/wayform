@@ -1,0 +1,1705 @@
+{
+  "synthetic": true,
+  "purpose": "Fictional measurements and identities for language-independent contract conformance.",
+  "examples": [
+    {
+      "id": "measured-width",
+      "bundle": {
+        "schemaVersion": "0.1.0-draft.1",
+        "id": "synthetic-venue",
+        "revision": "r1",
+        "frames": [
+          {
+            "id": "plan",
+            "kind": "local",
+            "axes": "x-right-y-up-z-up"
+          }
+        ],
+        "nodes": [
+          {
+            "id": "a",
+            "frameId": "plan",
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "floorId": "g"
+          },
+          {
+            "id": "b",
+            "frameId": "plan",
+            "position": [
+              10,
+              0,
+              0
+            ],
+            "floorId": "g"
+          },
+          {
+            "id": "c",
+            "frameId": "plan",
+            "position": [
+              10,
+              10,
+              0
+            ],
+            "floorId": "g"
+          }
+        ],
+        "edges": [
+          {
+            "id": "ab",
+            "from": "a",
+            "to": "b",
+            "lengthMeters": 10,
+            "kind": "walkway",
+            "access": "public",
+            "transformId": null,
+            "legacy": null
+          }
+        ],
+        "evidence": [
+          {
+            "id": "survey",
+            "source": "field-survey",
+            "actorId": "fictional-surveyor",
+            "method": "synthetic-test",
+            "observedAt": "2026-10-25T10:00:00.000Z",
+            "validUntil": null,
+            "review": {
+              "status": "reviewed",
+              "reviewerId": "fictional-reviewer",
+              "reviewedAt": "2026-10-25T10:15:00.000Z"
+            }
+          }
+        ],
+        "observations": [
+          {
+            "id": "width",
+            "edgeId": "ab",
+            "attribute": "clearWidthMeters",
+            "value": 1,
+            "uncertainty": 0.02,
+            "unknownReason": null,
+            "evidenceId": "survey"
+          }
+        ],
+        "transforms": [],
+        "policyRequirements": []
+      },
+      "profile": {
+        "id": "synthetic-profile",
+        "allowRestricted": false,
+        "respectLegacyExclusions": true,
+        "hard": {
+          "minClearWidthMeters": 0.8,
+          "maxUphillPercent": null,
+          "maxDownhillPercent": null,
+          "maxCrossSlopePercent": null,
+          "maxStepCount": null,
+          "allowedSurfaces": null,
+          "allowedDoorOperations": null
+        },
+        "preferences": {
+          "avoidKinds": [],
+          "penaltyMeters": 0
+        },
+        "evidencePolicy": {
+          "acceptedSources": [
+            "field-survey",
+            "operator"
+          ],
+          "requireReviewed": true,
+          "maxAgeSeconds": 86400,
+          "maxTransformErrorMeters": 0.25
+        }
+      },
+      "context": {
+        "evaluatedAt": "2026-10-25T12:00:00.000Z",
+        "policies": [],
+        "trustedIssuerIds": [
+          "venue-operator"
+        ],
+        "minimumPolicyRevisions": {}
+      },
+      "request": {
+        "startId": "a",
+        "destinationId": "b",
+        "edgeIds": [
+          "ab"
+        ]
+      },
+      "expected": {
+        "status": "suitable",
+        "reasons": [],
+        "evidenceIds": [
+          "survey"
+        ],
+        "receipt": {
+          "schemaVersion": "0.1.0-draft.1",
+          "bundleId": "synthetic-venue",
+          "bundleRevision": "r1",
+          "bundleDigest": "263558207325223f333f9b9bb1a59b5a0e112678ce1f9bcc6c5d63c2fee484dc",
+          "profileDigest": "eef7e2917ed6a26e60018ca0cd24a06dfd801b5c1bdb6f1fc24224988cc59a20",
+          "contextDigest": "dca2bb0506d017dd463b211500666d50dc66578b0ec324a6823ffb292b35d433",
+          "profileId": "synthetic-profile",
+          "evaluatedAt": "2026-10-25T12:00:00.000Z",
+          "edgeIds": [
+            "ab"
+          ],
+          "policyRevisions": [],
+          "distanceMeters": 10,
+          "preferenceCostMeters": 10
+        }
+      }
+    },
+    {
+      "id": "missing-width",
+      "bundle": {
+        "schemaVersion": "0.1.0-draft.1",
+        "id": "synthetic-venue",
+        "revision": "r1",
+        "frames": [
+          {
+            "id": "plan",
+            "kind": "local",
+            "axes": "x-right-y-up-z-up"
+          }
+        ],
+        "nodes": [
+          {
+            "id": "a",
+            "frameId": "plan",
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "floorId": "g"
+          },
+          {
+            "id": "b",
+            "frameId": "plan",
+            "position": [
+              10,
+              0,
+              0
+            ],
+            "floorId": "g"
+          },
+          {
+            "id": "c",
+            "frameId": "plan",
+            "position": [
+              10,
+              10,
+              0
+            ],
+            "floorId": "g"
+          }
+        ],
+        "edges": [
+          {
+            "id": "ab",
+            "from": "a",
+            "to": "b",
+            "lengthMeters": 10,
+            "kind": "walkway",
+            "access": "public",
+            "transformId": null,
+            "legacy": null
+          }
+        ],
+        "evidence": [
+          {
+            "id": "survey",
+            "source": "field-survey",
+            "actorId": "fictional-surveyor",
+            "method": "synthetic-test",
+            "observedAt": "2026-10-25T10:00:00.000Z",
+            "validUntil": null,
+            "review": {
+              "status": "reviewed",
+              "reviewerId": "fictional-reviewer",
+              "reviewedAt": "2026-10-25T10:15:00.000Z"
+            }
+          }
+        ],
+        "observations": [],
+        "transforms": [],
+        "policyRequirements": []
+      },
+      "profile": {
+        "id": "synthetic-profile",
+        "allowRestricted": false,
+        "respectLegacyExclusions": true,
+        "hard": {
+          "minClearWidthMeters": 0.8,
+          "maxUphillPercent": null,
+          "maxDownhillPercent": null,
+          "maxCrossSlopePercent": null,
+          "maxStepCount": null,
+          "allowedSurfaces": null,
+          "allowedDoorOperations": null
+        },
+        "preferences": {
+          "avoidKinds": [],
+          "penaltyMeters": 0
+        },
+        "evidencePolicy": {
+          "acceptedSources": [
+            "field-survey",
+            "operator"
+          ],
+          "requireReviewed": true,
+          "maxAgeSeconds": 86400,
+          "maxTransformErrorMeters": 0.25
+        }
+      },
+      "context": {
+        "evaluatedAt": "2026-10-25T12:00:00.000Z",
+        "policies": [],
+        "trustedIssuerIds": [
+          "venue-operator"
+        ],
+        "minimumPolicyRevisions": {}
+      },
+      "request": {
+        "startId": "a",
+        "destinationId": "b",
+        "edgeIds": [
+          "ab"
+        ]
+      },
+      "expected": {
+        "status": "unknown",
+        "reasons": [
+          {
+            "code": "missing-measurement",
+            "edgeId": "ab",
+            "attribute": "clearWidthMeters",
+            "evidenceIds": []
+          }
+        ],
+        "evidenceIds": [],
+        "receipt": {
+          "schemaVersion": "0.1.0-draft.1",
+          "bundleId": "synthetic-venue",
+          "bundleRevision": "r1",
+          "bundleDigest": "d46911823c2466f14928c2783201f0b034a2961a98b89081acc1dad208e016ec",
+          "profileDigest": "eef7e2917ed6a26e60018ca0cd24a06dfd801b5c1bdb6f1fc24224988cc59a20",
+          "contextDigest": "dca2bb0506d017dd463b211500666d50dc66578b0ec324a6823ffb292b35d433",
+          "profileId": "synthetic-profile",
+          "evaluatedAt": "2026-10-25T12:00:00.000Z",
+          "edgeIds": [
+            "ab"
+          ],
+          "policyRevisions": [],
+          "distanceMeters": 10,
+          "preferenceCostMeters": 10
+        }
+      }
+    },
+    {
+      "id": "missing-slope",
+      "bundle": {
+        "schemaVersion": "0.1.0-draft.1",
+        "id": "synthetic-venue",
+        "revision": "r1",
+        "frames": [
+          {
+            "id": "plan",
+            "kind": "local",
+            "axes": "x-right-y-up-z-up"
+          }
+        ],
+        "nodes": [
+          {
+            "id": "a",
+            "frameId": "plan",
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "floorId": "g"
+          },
+          {
+            "id": "b",
+            "frameId": "plan",
+            "position": [
+              10,
+              0,
+              0
+            ],
+            "floorId": "g"
+          },
+          {
+            "id": "c",
+            "frameId": "plan",
+            "position": [
+              10,
+              10,
+              0
+            ],
+            "floorId": "g"
+          }
+        ],
+        "edges": [
+          {
+            "id": "ab",
+            "from": "a",
+            "to": "b",
+            "lengthMeters": 10,
+            "kind": "walkway",
+            "access": "public",
+            "transformId": null,
+            "legacy": null
+          }
+        ],
+        "evidence": [
+          {
+            "id": "survey",
+            "source": "field-survey",
+            "actorId": "fictional-surveyor",
+            "method": "synthetic-test",
+            "observedAt": "2026-10-25T10:00:00.000Z",
+            "validUntil": null,
+            "review": {
+              "status": "reviewed",
+              "reviewerId": "fictional-reviewer",
+              "reviewedAt": "2026-10-25T10:15:00.000Z"
+            }
+          }
+        ],
+        "observations": [
+          {
+            "id": "width",
+            "edgeId": "ab",
+            "attribute": "clearWidthMeters",
+            "value": 1,
+            "uncertainty": 0.02,
+            "unknownReason": null,
+            "evidenceId": "survey"
+          }
+        ],
+        "transforms": [],
+        "policyRequirements": []
+      },
+      "profile": {
+        "id": "synthetic-profile",
+        "allowRestricted": false,
+        "respectLegacyExclusions": true,
+        "hard": {
+          "minClearWidthMeters": 0.8,
+          "maxUphillPercent": 5,
+          "maxDownhillPercent": null,
+          "maxCrossSlopePercent": null,
+          "maxStepCount": null,
+          "allowedSurfaces": null,
+          "allowedDoorOperations": null
+        },
+        "preferences": {
+          "avoidKinds": [],
+          "penaltyMeters": 0
+        },
+        "evidencePolicy": {
+          "acceptedSources": [
+            "field-survey",
+            "operator"
+          ],
+          "requireReviewed": true,
+          "maxAgeSeconds": 86400,
+          "maxTransformErrorMeters": 0.25
+        }
+      },
+      "context": {
+        "evaluatedAt": "2026-10-25T12:00:00.000Z",
+        "policies": [],
+        "trustedIssuerIds": [
+          "venue-operator"
+        ],
+        "minimumPolicyRevisions": {}
+      },
+      "request": {
+        "startId": "a",
+        "destinationId": "b",
+        "edgeIds": [
+          "ab"
+        ]
+      },
+      "expected": {
+        "status": "unknown",
+        "reasons": [
+          {
+            "code": "missing-measurement",
+            "edgeId": "ab",
+            "attribute": "slopePercent",
+            "evidenceIds": []
+          }
+        ],
+        "evidenceIds": [
+          "survey"
+        ],
+        "receipt": {
+          "schemaVersion": "0.1.0-draft.1",
+          "bundleId": "synthetic-venue",
+          "bundleRevision": "r1",
+          "bundleDigest": "263558207325223f333f9b9bb1a59b5a0e112678ce1f9bcc6c5d63c2fee484dc",
+          "profileDigest": "d9908cff84cedc883f30df916c5846fd99c1b053df426ed0ae8016422910870b",
+          "contextDigest": "dca2bb0506d017dd463b211500666d50dc66578b0ec324a6823ffb292b35d433",
+          "profileId": "synthetic-profile",
+          "evaluatedAt": "2026-10-25T12:00:00.000Z",
+          "edgeIds": [
+            "ab"
+          ],
+          "policyRevisions": [],
+          "distanceMeters": 10,
+          "preferenceCostMeters": 10
+        }
+      }
+    },
+    {
+      "id": "too-narrow",
+      "bundle": {
+        "schemaVersion": "0.1.0-draft.1",
+        "id": "synthetic-venue",
+        "revision": "r1",
+        "frames": [
+          {
+            "id": "plan",
+            "kind": "local",
+            "axes": "x-right-y-up-z-up"
+          }
+        ],
+        "nodes": [
+          {
+            "id": "a",
+            "frameId": "plan",
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "floorId": "g"
+          },
+          {
+            "id": "b",
+            "frameId": "plan",
+            "position": [
+              10,
+              0,
+              0
+            ],
+            "floorId": "g"
+          },
+          {
+            "id": "c",
+            "frameId": "plan",
+            "position": [
+              10,
+              10,
+              0
+            ],
+            "floorId": "g"
+          }
+        ],
+        "edges": [
+          {
+            "id": "ab",
+            "from": "a",
+            "to": "b",
+            "lengthMeters": 10,
+            "kind": "walkway",
+            "access": "public",
+            "transformId": null,
+            "legacy": null
+          }
+        ],
+        "evidence": [
+          {
+            "id": "survey",
+            "source": "field-survey",
+            "actorId": "fictional-surveyor",
+            "method": "synthetic-test",
+            "observedAt": "2026-10-25T10:00:00.000Z",
+            "validUntil": null,
+            "review": {
+              "status": "reviewed",
+              "reviewerId": "fictional-reviewer",
+              "reviewedAt": "2026-10-25T10:15:00.000Z"
+            }
+          }
+        ],
+        "observations": [
+          {
+            "id": "width",
+            "edgeId": "ab",
+            "attribute": "clearWidthMeters",
+            "value": 0.6,
+            "uncertainty": 0.02,
+            "unknownReason": null,
+            "evidenceId": "survey"
+          }
+        ],
+        "transforms": [],
+        "policyRequirements": []
+      },
+      "profile": {
+        "id": "synthetic-profile",
+        "allowRestricted": false,
+        "respectLegacyExclusions": true,
+        "hard": {
+          "minClearWidthMeters": 0.8,
+          "maxUphillPercent": null,
+          "maxDownhillPercent": null,
+          "maxCrossSlopePercent": null,
+          "maxStepCount": null,
+          "allowedSurfaces": null,
+          "allowedDoorOperations": null
+        },
+        "preferences": {
+          "avoidKinds": [],
+          "penaltyMeters": 0
+        },
+        "evidencePolicy": {
+          "acceptedSources": [
+            "field-survey",
+            "operator"
+          ],
+          "requireReviewed": true,
+          "maxAgeSeconds": 86400,
+          "maxTransformErrorMeters": 0.25
+        }
+      },
+      "context": {
+        "evaluatedAt": "2026-10-25T12:00:00.000Z",
+        "policies": [],
+        "trustedIssuerIds": [
+          "venue-operator"
+        ],
+        "minimumPolicyRevisions": {}
+      },
+      "request": {
+        "startId": "a",
+        "destinationId": "b",
+        "edgeIds": [
+          "ab"
+        ]
+      },
+      "expected": {
+        "status": "unsuitable",
+        "reasons": [
+          {
+            "code": "hard-requirement-failed",
+            "edgeId": "ab",
+            "attribute": "clearWidthMeters",
+            "evidenceIds": [
+              "survey"
+            ]
+          }
+        ],
+        "evidenceIds": [
+          "survey"
+        ],
+        "receipt": {
+          "schemaVersion": "0.1.0-draft.1",
+          "bundleId": "synthetic-venue",
+          "bundleRevision": "r1",
+          "bundleDigest": "f1507b08ee4501edb842271994836ef882bda6398aa844f4348b5a5ef75db3e7",
+          "profileDigest": "eef7e2917ed6a26e60018ca0cd24a06dfd801b5c1bdb6f1fc24224988cc59a20",
+          "contextDigest": "dca2bb0506d017dd463b211500666d50dc66578b0ec324a6823ffb292b35d433",
+          "profileId": "synthetic-profile",
+          "evaluatedAt": "2026-10-25T12:00:00.000Z",
+          "edgeIds": [
+            "ab"
+          ],
+          "policyRevisions": [],
+          "distanceMeters": 10,
+          "preferenceCostMeters": 10
+        }
+      }
+    },
+    {
+      "id": "conflicting-width",
+      "bundle": {
+        "schemaVersion": "0.1.0-draft.1",
+        "id": "synthetic-venue",
+        "revision": "r1",
+        "frames": [
+          {
+            "id": "plan",
+            "kind": "local",
+            "axes": "x-right-y-up-z-up"
+          }
+        ],
+        "nodes": [
+          {
+            "id": "a",
+            "frameId": "plan",
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "floorId": "g"
+          },
+          {
+            "id": "b",
+            "frameId": "plan",
+            "position": [
+              10,
+              0,
+              0
+            ],
+            "floorId": "g"
+          },
+          {
+            "id": "c",
+            "frameId": "plan",
+            "position": [
+              10,
+              10,
+              0
+            ],
+            "floorId": "g"
+          }
+        ],
+        "edges": [
+          {
+            "id": "ab",
+            "from": "a",
+            "to": "b",
+            "lengthMeters": 10,
+            "kind": "walkway",
+            "access": "public",
+            "transformId": null,
+            "legacy": null
+          }
+        ],
+        "evidence": [
+          {
+            "id": "survey",
+            "source": "field-survey",
+            "actorId": "fictional-surveyor",
+            "method": "synthetic-test",
+            "observedAt": "2026-10-25T10:00:00.000Z",
+            "validUntil": null,
+            "review": {
+              "status": "reviewed",
+              "reviewerId": "fictional-reviewer",
+              "reviewedAt": "2026-10-25T10:15:00.000Z"
+            }
+          }
+        ],
+        "observations": [
+          {
+            "id": "width",
+            "edgeId": "ab",
+            "attribute": "clearWidthMeters",
+            "value": 1,
+            "uncertainty": 0.02,
+            "unknownReason": null,
+            "evidenceId": "survey"
+          },
+          {
+            "id": "ab:clearWidthMeters:1",
+            "edgeId": "ab",
+            "attribute": "clearWidthMeters",
+            "value": 0.6,
+            "uncertainty": 0.02,
+            "unknownReason": null,
+            "evidenceId": "survey"
+          }
+        ],
+        "transforms": [],
+        "policyRequirements": []
+      },
+      "profile": {
+        "id": "synthetic-profile",
+        "allowRestricted": false,
+        "respectLegacyExclusions": true,
+        "hard": {
+          "minClearWidthMeters": 0.8,
+          "maxUphillPercent": null,
+          "maxDownhillPercent": null,
+          "maxCrossSlopePercent": null,
+          "maxStepCount": null,
+          "allowedSurfaces": null,
+          "allowedDoorOperations": null
+        },
+        "preferences": {
+          "avoidKinds": [],
+          "penaltyMeters": 0
+        },
+        "evidencePolicy": {
+          "acceptedSources": [
+            "field-survey",
+            "operator"
+          ],
+          "requireReviewed": true,
+          "maxAgeSeconds": 86400,
+          "maxTransformErrorMeters": 0.25
+        }
+      },
+      "context": {
+        "evaluatedAt": "2026-10-25T12:00:00.000Z",
+        "policies": [],
+        "trustedIssuerIds": [
+          "venue-operator"
+        ],
+        "minimumPolicyRevisions": {}
+      },
+      "request": {
+        "startId": "a",
+        "destinationId": "b",
+        "edgeIds": [
+          "ab"
+        ]
+      },
+      "expected": {
+        "status": "unknown",
+        "reasons": [
+          {
+            "code": "contradictory-evidence",
+            "edgeId": "ab",
+            "attribute": "clearWidthMeters",
+            "evidenceIds": [
+              "survey"
+            ]
+          }
+        ],
+        "evidenceIds": [
+          "survey"
+        ],
+        "receipt": {
+          "schemaVersion": "0.1.0-draft.1",
+          "bundleId": "synthetic-venue",
+          "bundleRevision": "r1",
+          "bundleDigest": "b72fa4cfb8b64532409cf5781ca525762363a3af52449c70c76849dd51c0ff0a",
+          "profileDigest": "eef7e2917ed6a26e60018ca0cd24a06dfd801b5c1bdb6f1fc24224988cc59a20",
+          "contextDigest": "dca2bb0506d017dd463b211500666d50dc66578b0ec324a6823ffb292b35d433",
+          "profileId": "synthetic-profile",
+          "evaluatedAt": "2026-10-25T12:00:00.000Z",
+          "edgeIds": [
+            "ab"
+          ],
+          "policyRevisions": [],
+          "distanceMeters": 10,
+          "preferenceCostMeters": 10
+        }
+      }
+    },
+    {
+      "id": "one-way-reversed",
+      "bundle": {
+        "schemaVersion": "0.1.0-draft.1",
+        "id": "synthetic-venue",
+        "revision": "r1",
+        "frames": [
+          {
+            "id": "plan",
+            "kind": "local",
+            "axes": "x-right-y-up-z-up"
+          }
+        ],
+        "nodes": [
+          {
+            "id": "a",
+            "frameId": "plan",
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "floorId": "g"
+          },
+          {
+            "id": "b",
+            "frameId": "plan",
+            "position": [
+              10,
+              0,
+              0
+            ],
+            "floorId": "g"
+          },
+          {
+            "id": "c",
+            "frameId": "plan",
+            "position": [
+              10,
+              10,
+              0
+            ],
+            "floorId": "g"
+          }
+        ],
+        "edges": [
+          {
+            "id": "ab",
+            "from": "a",
+            "to": "b",
+            "lengthMeters": 10,
+            "kind": "walkway",
+            "access": "public",
+            "transformId": null,
+            "legacy": null
+          }
+        ],
+        "evidence": [
+          {
+            "id": "survey",
+            "source": "field-survey",
+            "actorId": "fictional-surveyor",
+            "method": "synthetic-test",
+            "observedAt": "2026-10-25T10:00:00.000Z",
+            "validUntil": null,
+            "review": {
+              "status": "reviewed",
+              "reviewerId": "fictional-reviewer",
+              "reviewedAt": "2026-10-25T10:15:00.000Z"
+            }
+          }
+        ],
+        "observations": [
+          {
+            "id": "width",
+            "edgeId": "ab",
+            "attribute": "clearWidthMeters",
+            "value": 1,
+            "uncertainty": 0.02,
+            "unknownReason": null,
+            "evidenceId": "survey"
+          }
+        ],
+        "transforms": [],
+        "policyRequirements": []
+      },
+      "profile": {
+        "id": "synthetic-profile",
+        "allowRestricted": false,
+        "respectLegacyExclusions": true,
+        "hard": {
+          "minClearWidthMeters": 0.8,
+          "maxUphillPercent": null,
+          "maxDownhillPercent": null,
+          "maxCrossSlopePercent": null,
+          "maxStepCount": null,
+          "allowedSurfaces": null,
+          "allowedDoorOperations": null
+        },
+        "preferences": {
+          "avoidKinds": [],
+          "penaltyMeters": 0
+        },
+        "evidencePolicy": {
+          "acceptedSources": [
+            "field-survey",
+            "operator"
+          ],
+          "requireReviewed": true,
+          "maxAgeSeconds": 86400,
+          "maxTransformErrorMeters": 0.25
+        }
+      },
+      "context": {
+        "evaluatedAt": "2026-10-25T12:00:00.000Z",
+        "policies": [],
+        "trustedIssuerIds": [
+          "venue-operator"
+        ],
+        "minimumPolicyRevisions": {}
+      },
+      "request": {
+        "startId": "b",
+        "destinationId": "a",
+        "edgeIds": [
+          "ab"
+        ]
+      },
+      "expected": {
+        "status": "invalid",
+        "reasons": [
+          {
+            "code": "disconnected-or-reversed-edge",
+            "edgeId": "",
+            "attribute": null,
+            "evidenceIds": []
+          }
+        ],
+        "evidenceIds": [],
+        "receipt": {
+          "schemaVersion": "0.1.0-draft.1",
+          "bundleId": "synthetic-venue",
+          "bundleRevision": "r1",
+          "bundleDigest": "263558207325223f333f9b9bb1a59b5a0e112678ce1f9bcc6c5d63c2fee484dc",
+          "profileDigest": "eef7e2917ed6a26e60018ca0cd24a06dfd801b5c1bdb6f1fc24224988cc59a20",
+          "contextDigest": "dca2bb0506d017dd463b211500666d50dc66578b0ec324a6823ffb292b35d433",
+          "profileId": "synthetic-profile",
+          "evaluatedAt": "2026-10-25T12:00:00.000Z",
+          "edgeIds": [
+            "ab"
+          ],
+          "policyRevisions": [],
+          "distanceMeters": null,
+          "preferenceCostMeters": null
+        }
+      }
+    },
+    {
+      "id": "uphill-excluded",
+      "bundle": {
+        "schemaVersion": "0.1.0-draft.1",
+        "id": "synthetic-venue",
+        "revision": "r1",
+        "frames": [
+          {
+            "id": "plan",
+            "kind": "local",
+            "axes": "x-right-y-up-z-up"
+          }
+        ],
+        "nodes": [
+          {
+            "id": "a",
+            "frameId": "plan",
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "floorId": "g"
+          },
+          {
+            "id": "b",
+            "frameId": "plan",
+            "position": [
+              10,
+              0,
+              0
+            ],
+            "floorId": "g"
+          },
+          {
+            "id": "c",
+            "frameId": "plan",
+            "position": [
+              10,
+              10,
+              0
+            ],
+            "floorId": "g"
+          }
+        ],
+        "edges": [
+          {
+            "id": "ab",
+            "from": "a",
+            "to": "b",
+            "lengthMeters": 10,
+            "kind": "walkway",
+            "access": "public",
+            "transformId": null,
+            "legacy": null
+          }
+        ],
+        "evidence": [
+          {
+            "id": "survey",
+            "source": "field-survey",
+            "actorId": "fictional-surveyor",
+            "method": "synthetic-test",
+            "observedAt": "2026-10-25T10:00:00.000Z",
+            "validUntil": null,
+            "review": {
+              "status": "reviewed",
+              "reviewerId": "fictional-reviewer",
+              "reviewedAt": "2026-10-25T10:15:00.000Z"
+            }
+          }
+        ],
+        "observations": [
+          {
+            "id": "width",
+            "edgeId": "ab",
+            "attribute": "clearWidthMeters",
+            "value": 1,
+            "uncertainty": 0.02,
+            "unknownReason": null,
+            "evidenceId": "survey"
+          },
+          {
+            "id": "ab:slopePercent:1",
+            "edgeId": "ab",
+            "attribute": "slopePercent",
+            "value": 8,
+            "uncertainty": 0.2,
+            "unknownReason": null,
+            "evidenceId": "survey"
+          }
+        ],
+        "transforms": [],
+        "policyRequirements": []
+      },
+      "profile": {
+        "id": "synthetic-profile",
+        "allowRestricted": false,
+        "respectLegacyExclusions": true,
+        "hard": {
+          "minClearWidthMeters": 0.8,
+          "maxUphillPercent": 5,
+          "maxDownhillPercent": null,
+          "maxCrossSlopePercent": null,
+          "maxStepCount": null,
+          "allowedSurfaces": null,
+          "allowedDoorOperations": null
+        },
+        "preferences": {
+          "avoidKinds": [],
+          "penaltyMeters": 0
+        },
+        "evidencePolicy": {
+          "acceptedSources": [
+            "field-survey",
+            "operator"
+          ],
+          "requireReviewed": true,
+          "maxAgeSeconds": 86400,
+          "maxTransformErrorMeters": 0.25
+        }
+      },
+      "context": {
+        "evaluatedAt": "2026-10-25T12:00:00.000Z",
+        "policies": [],
+        "trustedIssuerIds": [
+          "venue-operator"
+        ],
+        "minimumPolicyRevisions": {}
+      },
+      "request": {
+        "startId": "a",
+        "destinationId": "b",
+        "edgeIds": [
+          "ab"
+        ]
+      },
+      "expected": {
+        "status": "unsuitable",
+        "reasons": [
+          {
+            "code": "hard-requirement-failed",
+            "edgeId": "ab",
+            "attribute": "slopePercent",
+            "evidenceIds": [
+              "survey"
+            ]
+          }
+        ],
+        "evidenceIds": [
+          "survey"
+        ],
+        "receipt": {
+          "schemaVersion": "0.1.0-draft.1",
+          "bundleId": "synthetic-venue",
+          "bundleRevision": "r1",
+          "bundleDigest": "a5a7cfac89f1a29888aa5216042e758f337700cfd5d289e5fcdad089b301ab0e",
+          "profileDigest": "d9908cff84cedc883f30df916c5846fd99c1b053df426ed0ae8016422910870b",
+          "contextDigest": "dca2bb0506d017dd463b211500666d50dc66578b0ec324a6823ffb292b35d433",
+          "profileId": "synthetic-profile",
+          "evaluatedAt": "2026-10-25T12:00:00.000Z",
+          "edgeIds": [
+            "ab"
+          ],
+          "policyRevisions": [],
+          "distanceMeters": 10,
+          "preferenceCostMeters": 10
+        }
+      }
+    },
+    {
+      "id": "lift-closed",
+      "bundle": {
+        "schemaVersion": "0.1.0-draft.1",
+        "id": "synthetic-venue",
+        "revision": "r1",
+        "frames": [
+          {
+            "id": "plan",
+            "kind": "local",
+            "axes": "x-right-y-up-z-up"
+          }
+        ],
+        "nodes": [
+          {
+            "id": "a",
+            "frameId": "plan",
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "floorId": "g"
+          },
+          {
+            "id": "b",
+            "frameId": "plan",
+            "position": [
+              10,
+              0,
+              0
+            ],
+            "floorId": "g"
+          },
+          {
+            "id": "c",
+            "frameId": "plan",
+            "position": [
+              10,
+              10,
+              0
+            ],
+            "floorId": "g"
+          }
+        ],
+        "edges": [
+          {
+            "id": "ab",
+            "from": "a",
+            "to": "b",
+            "lengthMeters": 10,
+            "kind": "lift",
+            "access": "public",
+            "transformId": null,
+            "legacy": null
+          }
+        ],
+        "evidence": [
+          {
+            "id": "survey",
+            "source": "field-survey",
+            "actorId": "fictional-surveyor",
+            "method": "synthetic-test",
+            "observedAt": "2026-10-25T10:00:00.000Z",
+            "validUntil": null,
+            "review": {
+              "status": "reviewed",
+              "reviewerId": "fictional-reviewer",
+              "reviewedAt": "2026-10-25T10:15:00.000Z"
+            }
+          }
+        ],
+        "observations": [
+          {
+            "id": "width",
+            "edgeId": "ab",
+            "attribute": "clearWidthMeters",
+            "value": 1,
+            "uncertainty": 0.02,
+            "unknownReason": null,
+            "evidenceId": "survey"
+          }
+        ],
+        "transforms": [],
+        "policyRequirements": [
+          {
+            "id": "operations",
+            "edgeIds": [
+              "ab"
+            ]
+          }
+        ]
+      },
+      "profile": {
+        "id": "synthetic-profile",
+        "allowRestricted": false,
+        "respectLegacyExclusions": true,
+        "hard": {
+          "minClearWidthMeters": 0.8,
+          "maxUphillPercent": null,
+          "maxDownhillPercent": null,
+          "maxCrossSlopePercent": null,
+          "maxStepCount": null,
+          "allowedSurfaces": null,
+          "allowedDoorOperations": null
+        },
+        "preferences": {
+          "avoidKinds": [],
+          "penaltyMeters": 0
+        },
+        "evidencePolicy": {
+          "acceptedSources": [
+            "field-survey",
+            "operator"
+          ],
+          "requireReviewed": true,
+          "maxAgeSeconds": 86400,
+          "maxTransformErrorMeters": 0.25
+        }
+      },
+      "context": {
+        "evaluatedAt": "2026-10-25T12:00:00.000Z",
+        "policies": [
+          {
+            "requirementId": "operations",
+            "bundleId": "synthetic-venue",
+            "bundleRevision": "r1",
+            "bundleDigest": "420d79be25a2f4f5579ab4895ed53d26bea1c562def771b788c0c166cdfb0aca",
+            "revision": 3,
+            "issuerId": "venue-operator",
+            "validFrom": "2026-10-25T11:00:00.000Z",
+            "validUntil": "2026-10-25T13:00:00.000Z",
+            "closedEdgeIds": [
+              "ab"
+            ]
+          }
+        ],
+        "trustedIssuerIds": [
+          "venue-operator"
+        ],
+        "minimumPolicyRevisions": {
+          "operations": 3
+        }
+      },
+      "request": {
+        "startId": "a",
+        "destinationId": "b",
+        "edgeIds": [
+          "ab"
+        ]
+      },
+      "expected": {
+        "status": "unsuitable",
+        "reasons": [
+          {
+            "code": "operationally-closed",
+            "edgeId": "ab",
+            "attribute": null,
+            "evidenceIds": []
+          }
+        ],
+        "evidenceIds": [
+          "survey"
+        ],
+        "receipt": {
+          "schemaVersion": "0.1.0-draft.1",
+          "bundleId": "synthetic-venue",
+          "bundleRevision": "r1",
+          "bundleDigest": "420d79be25a2f4f5579ab4895ed53d26bea1c562def771b788c0c166cdfb0aca",
+          "profileDigest": "eef7e2917ed6a26e60018ca0cd24a06dfd801b5c1bdb6f1fc24224988cc59a20",
+          "contextDigest": "97844a13a65c47bbe701b875339f16e9be541dd79c6b1c4cdc5b85b6934a07d6",
+          "profileId": "synthetic-profile",
+          "evaluatedAt": "2026-10-25T12:00:00.000Z",
+          "edgeIds": [
+            "ab"
+          ],
+          "policyRevisions": [
+            {
+              "requirementId": "operations",
+              "revision": 3
+            }
+          ],
+          "distanceMeters": 10,
+          "preferenceCostMeters": 10
+        }
+      }
+    },
+    {
+      "id": "closure-expired",
+      "bundle": {
+        "schemaVersion": "0.1.0-draft.1",
+        "id": "synthetic-venue",
+        "revision": "r1",
+        "frames": [
+          {
+            "id": "plan",
+            "kind": "local",
+            "axes": "x-right-y-up-z-up"
+          }
+        ],
+        "nodes": [
+          {
+            "id": "a",
+            "frameId": "plan",
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "floorId": "g"
+          },
+          {
+            "id": "b",
+            "frameId": "plan",
+            "position": [
+              10,
+              0,
+              0
+            ],
+            "floorId": "g"
+          },
+          {
+            "id": "c",
+            "frameId": "plan",
+            "position": [
+              10,
+              10,
+              0
+            ],
+            "floorId": "g"
+          }
+        ],
+        "edges": [
+          {
+            "id": "ab",
+            "from": "a",
+            "to": "b",
+            "lengthMeters": 10,
+            "kind": "walkway",
+            "access": "public",
+            "transformId": null,
+            "legacy": null
+          }
+        ],
+        "evidence": [
+          {
+            "id": "survey",
+            "source": "field-survey",
+            "actorId": "fictional-surveyor",
+            "method": "synthetic-test",
+            "observedAt": "2026-10-25T10:00:00.000Z",
+            "validUntil": null,
+            "review": {
+              "status": "reviewed",
+              "reviewerId": "fictional-reviewer",
+              "reviewedAt": "2026-10-25T10:15:00.000Z"
+            }
+          }
+        ],
+        "observations": [
+          {
+            "id": "width",
+            "edgeId": "ab",
+            "attribute": "clearWidthMeters",
+            "value": 1,
+            "uncertainty": 0.02,
+            "unknownReason": null,
+            "evidenceId": "survey"
+          }
+        ],
+        "transforms": [],
+        "policyRequirements": [
+          {
+            "id": "operations",
+            "edgeIds": [
+              "ab"
+            ]
+          }
+        ]
+      },
+      "profile": {
+        "id": "synthetic-profile",
+        "allowRestricted": false,
+        "respectLegacyExclusions": true,
+        "hard": {
+          "minClearWidthMeters": 0.8,
+          "maxUphillPercent": null,
+          "maxDownhillPercent": null,
+          "maxCrossSlopePercent": null,
+          "maxStepCount": null,
+          "allowedSurfaces": null,
+          "allowedDoorOperations": null
+        },
+        "preferences": {
+          "avoidKinds": [],
+          "penaltyMeters": 0
+        },
+        "evidencePolicy": {
+          "acceptedSources": [
+            "field-survey",
+            "operator"
+          ],
+          "requireReviewed": true,
+          "maxAgeSeconds": 86400,
+          "maxTransformErrorMeters": 0.25
+        }
+      },
+      "context": {
+        "evaluatedAt": "2026-10-25T13:00:00.000Z",
+        "policies": [
+          {
+            "requirementId": "operations",
+            "bundleId": "synthetic-venue",
+            "bundleRevision": "r1",
+            "bundleDigest": "d5398b82e8935a6ad64d1ac2e919d91e571244bf76a712e52dd29ce0c8ded509",
+            "revision": 3,
+            "issuerId": "venue-operator",
+            "validFrom": "2026-10-25T11:00:00.000Z",
+            "validUntil": "2026-10-25T13:00:00.000Z",
+            "closedEdgeIds": []
+          }
+        ],
+        "trustedIssuerIds": [
+          "venue-operator"
+        ],
+        "minimumPolicyRevisions": {
+          "operations": 3
+        }
+      },
+      "request": {
+        "startId": "a",
+        "destinationId": "b",
+        "edgeIds": [
+          "ab"
+        ]
+      },
+      "expected": {
+        "status": "unknown",
+        "reasons": [
+          {
+            "code": "policy-not-current",
+            "edgeId": "ab",
+            "attribute": null,
+            "evidenceIds": []
+          }
+        ],
+        "evidenceIds": [
+          "survey"
+        ],
+        "receipt": {
+          "schemaVersion": "0.1.0-draft.1",
+          "bundleId": "synthetic-venue",
+          "bundleRevision": "r1",
+          "bundleDigest": "d5398b82e8935a6ad64d1ac2e919d91e571244bf76a712e52dd29ce0c8ded509",
+          "profileDigest": "eef7e2917ed6a26e60018ca0cd24a06dfd801b5c1bdb6f1fc24224988cc59a20",
+          "contextDigest": "bc41f01406a4c4dce1bfcc9994d1dfdb906393c9a966d3fb239e4356b2eecf64",
+          "profileId": "synthetic-profile",
+          "evaluatedAt": "2026-10-25T13:00:00.000Z",
+          "edgeIds": [
+            "ab"
+          ],
+          "policyRevisions": [
+            {
+              "requirementId": "operations",
+              "revision": 3
+            }
+          ],
+          "distanceMeters": 10,
+          "preferenceCostMeters": 10
+        }
+      }
+    },
+    {
+      "id": "entrance-transform-wrong",
+      "bundle": {
+        "schemaVersion": "0.1.0-draft.1",
+        "id": "synthetic-venue",
+        "revision": "r1",
+        "frames": [
+          {
+            "id": "plan",
+            "kind": "local",
+            "axes": "x-right-y-up-z-up"
+          },
+          {
+            "id": "outside",
+            "kind": "enu",
+            "datum": "WGS84",
+            "anchor": {
+              "longitude": 77,
+              "latitude": 28,
+              "heightMeters": 200
+            }
+          }
+        ],
+        "nodes": [
+          {
+            "id": "a",
+            "frameId": "plan",
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "floorId": "g"
+          },
+          {
+            "id": "b",
+            "frameId": "outside",
+            "position": [
+              100,
+              200,
+              0
+            ],
+            "floorId": "g"
+          },
+          {
+            "id": "c",
+            "frameId": "plan",
+            "position": [
+              10,
+              10,
+              0
+            ],
+            "floorId": "g"
+          }
+        ],
+        "edges": [
+          {
+            "id": "ab",
+            "from": "a",
+            "to": "b",
+            "lengthMeters": 10,
+            "kind": "entrance",
+            "access": "public",
+            "transformId": "entrance",
+            "legacy": null
+          }
+        ],
+        "evidence": [
+          {
+            "id": "survey",
+            "source": "field-survey",
+            "actorId": "fictional-surveyor",
+            "method": "synthetic-test",
+            "observedAt": "2026-10-25T10:00:00.000Z",
+            "validUntil": null,
+            "review": {
+              "status": "reviewed",
+              "reviewerId": "fictional-reviewer",
+              "reviewedAt": "2026-10-25T10:15:00.000Z"
+            }
+          }
+        ],
+        "observations": [
+          {
+            "id": "width",
+            "edgeId": "ab",
+            "attribute": "clearWidthMeters",
+            "value": 1,
+            "uncertainty": 0.02,
+            "unknownReason": null,
+            "evidenceId": "survey"
+          }
+        ],
+        "transforms": [
+          {
+            "id": "entrance",
+            "localFrameId": "plan",
+            "enuFrameId": "outside",
+            "rotationDegrees": 0,
+            "translationMeters": [
+              100,
+              200,
+              0
+            ],
+            "uncertaintyMeters": 0.05,
+            "evidenceId": "survey",
+            "controls": [
+              {
+                "local": [
+                  0,
+                  0,
+                  0
+                ],
+                "enu": [
+                  100,
+                  200,
+                  0
+                ]
+              },
+              {
+                "local": [
+                  10,
+                  0,
+                  0
+                ],
+                "enu": [
+                  100,
+                  210,
+                  0
+                ]
+              }
+            ]
+          }
+        ],
+        "policyRequirements": []
+      },
+      "profile": {
+        "id": "synthetic-profile",
+        "allowRestricted": false,
+        "respectLegacyExclusions": true,
+        "hard": {
+          "minClearWidthMeters": 0.8,
+          "maxUphillPercent": null,
+          "maxDownhillPercent": null,
+          "maxCrossSlopePercent": null,
+          "maxStepCount": null,
+          "allowedSurfaces": null,
+          "allowedDoorOperations": null
+        },
+        "preferences": {
+          "avoidKinds": [],
+          "penaltyMeters": 0
+        },
+        "evidencePolicy": {
+          "acceptedSources": [
+            "field-survey",
+            "operator"
+          ],
+          "requireReviewed": true,
+          "maxAgeSeconds": 86400,
+          "maxTransformErrorMeters": 0.25
+        }
+      },
+      "context": {
+        "evaluatedAt": "2026-10-25T12:00:00.000Z",
+        "policies": [],
+        "trustedIssuerIds": [
+          "venue-operator"
+        ],
+        "minimumPolicyRevisions": {}
+      },
+      "request": {
+        "startId": "a",
+        "destinationId": "b",
+        "edgeIds": [
+          "ab"
+        ]
+      },
+      "expected": {
+        "status": "unknown",
+        "reasons": [
+          {
+            "code": "transform-error-exceeds-budget",
+            "edgeId": "ab",
+            "attribute": null,
+            "evidenceIds": [
+              "survey"
+            ]
+          }
+        ],
+        "evidenceIds": [
+          "survey"
+        ],
+        "receipt": {
+          "schemaVersion": "0.1.0-draft.1",
+          "bundleId": "synthetic-venue",
+          "bundleRevision": "r1",
+          "bundleDigest": "3e2c928f5b8c1ce01947911d1df33f5536a471341447851b857630a54af7cfb8",
+          "profileDigest": "eef7e2917ed6a26e60018ca0cd24a06dfd801b5c1bdb6f1fc24224988cc59a20",
+          "contextDigest": "dca2bb0506d017dd463b211500666d50dc66578b0ec324a6823ffb292b35d433",
+          "profileId": "synthetic-profile",
+          "evaluatedAt": "2026-10-25T12:00:00.000Z",
+          "edgeIds": [
+            "ab"
+          ],
+          "policyRevisions": [],
+          "distanceMeters": 10,
+          "preferenceCostMeters": 10
+        }
+      }
+    }
+  ]
+}

@@ -3,19 +3,17 @@
   "version": "0.0.1",
   "private": true,
   "type": "module",
-  "engines": {
-    "node": ">=22.14"
-  },
-  "workspaces": [
-    "compat/voicegis/upstream/packages/*"
-  ],
+  "engines": { "node": ">=22.14" },
+  "workspaces": ["compat/voicegis/upstream/packages/*"],
   "scripts": {
-    "check": "npm run typecheck && npm test",
+    "check": "npm run typecheck && npm run schema:check && npm test",
     "typecheck": "tsc --noEmit",
-    "test": "node --import tsx --test tests/compatibility.test.ts",
+    "test": "node --import tsx --test tests/*.test.ts",
     "compat:check": "node --import tsx scripts/compat-baseline.ts",
     "compat:record": "node --import tsx scripts/compat-baseline.ts --record",
-    "compat:audit": "node scripts/upstream-audit.mjs"
+    "compat:audit": "node scripts/upstream-audit.mjs",
+    "schema:check": "node --import tsx scripts/export-schema.ts --check",
+    "schema:write": "node --import tsx scripts/export-schema.ts"
   },
   "devDependencies": {
     "@types/node": "24.13.3",

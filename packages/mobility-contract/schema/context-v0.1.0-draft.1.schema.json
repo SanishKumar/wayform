@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:wayform:evaluation-context:0.1.0-draft.1",
+  "type": "object",
+  "properties": {
+    "evaluatedAt": {
+      "type": "string",
+      "format": "utc-timestamp"
+    },
+    "policies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "requirementId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "bundleId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "bundleRevision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "bundleDigest": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "issuerId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "validFrom": {
+            "type": "string",
+            "format": "utc-timestamp"
+          },
+          "validUntil": {
+            "type": "string",
+            "format": "utc-timestamp"
+          },
+          "closedEdgeIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 0,
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "requirementId",
+          "bundleId",
+          "bundleRevision",
+          "bundleDigest",
+          "revision",
+          "issuerId",
+          "validFrom",
+          "validUntil",
+          "closedEdgeIds"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "trustedIssuerIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "minimumPolicyRevisions": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "minLength": 1
+      },
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 9007199254740991
+      }
+    }
+  },
+  "required": [
+    "evaluatedAt",
+    "policies",
+    "trustedIssuerIds",
+    "minimumPolicyRevisions"
+  ],
+  "additionalProperties": false
+}

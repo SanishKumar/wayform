@@ -48,7 +48,7 @@ The baseline includes a current → expired → still-unavailable lease sequence
 - Original `standard` / `wheelchair` identifiers are retained in old receipts; they do not become individualized suitability claims.
 - Compiler `northOffsetDegrees`, plan origin, portal widths and flags are not promoted into measured geographic registration or survey evidence.
 
-The planned mobility adapter must emit two distinct directed arcs for each legacy undirected edge, retaining each source edge ID and assertion. It must not invent a reverse slope, observation, policy feed or geographic transform. New-contract geometry and evidence semantics will be specified separately from the legacy oracle.
+The adapter emits two distinct directed arcs for each legacy undirected edge, retaining each source edge ID and assertion. It does not invent a reverse slope, observation, policy feed or geographic transform. Escalators conservatively map to `stairs` in this draft; the preserved source-edge identity makes the loss explicit. Authored portal topology is preserved, but this adapter does not claim a complete physical door model.
 
 ## Baseline change policy
 
