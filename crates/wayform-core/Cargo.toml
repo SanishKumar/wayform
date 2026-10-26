@@ -1,0 +1,10 @@
+[package]
+name = "wayform-core"
+version = "0.1.0"
+description = "Directed graph primitives for WAYFORM navigation"
+edition.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true

@@ -1,6 +1,8 @@
 # Rust navigation core
 
-This is an interface proposal, not implemented Rust. Begin with one `wayform-core` crate and separate `legacy`, `mobility`, `policy`, `geometry` and `receipt` modules. Keep the compiler and authoring tools in TypeScript. Add mobile bindings only after the Rust CLI passes the same fixture corpus.
+The `wayform-core` crate currently implements immutable directed topology. Construction rejects duplicate IDs, missing endpoints, self-loops and nonpositive/nonfinite distances. Parallel arcs retain separate IDs. Indexing uses UTF-16 lexical ID order, matching the TypeScript contract, independently of input collection order. Node and edge limits bound accepted graph size.
+
+The interfaces below describe the remaining routing and policy work. Keep the compiler and authoring tools in TypeScript. Add mobile bindings only after the Rust CLI passes the same fixture corpus.
 
 ## Preserve two explicit contracts
 
