@@ -19,7 +19,7 @@ After dependency installation, these checks need no network or adjacent VoiceGIS
 - **Compatibility baseline:** 35 exact Git blobs from VoiceGIS commit `305c70bd418d7fd2b6f0ebf7a2ecd0ddcb9b9b7f`, verified venue packages, deterministic recompilation and 7,238 recorded route results.
 - **Mobility contract:** versioned JSON schemas, semantic validation, supplied-path assessment, a conservative legacy adapter and portable decision fixtures. The contract is `0.1.0-draft.1`.
 - **Quality checks:** TypeScript validation, regression tests and GitHub Actions on Linux/Windows with Node 22/24.
-- **Native core:** immutable directed graphs and deterministic route search in `crates/wayform-core`. Search consumes explicit edge decisions and distinguishes known exclusions from insufficient evidence.
+- **Native core:** immutable directed graphs, deterministic route search, and typed evidence/measurement evaluation in `crates/wayform-core`. Search consumes explicit edge decisions and distinguishes known exclusions from insufficient evidence. Measurement components are checked against shared TypeScript fixtures.
 
 | Location | Responsibility |
 | --- | --- |
@@ -35,10 +35,12 @@ The synthetic data demonstrates software behavior. It does not establish physica
 
 The Rust toolchain is pinned in `rust-toolchain.toml`. Run `cargo test --workspace --locked` for native tests and `cargo clippy --workspace --all-targets --locked -- -D warnings` for lint checks. `npm run test:native` builds the JSON-lines search CLI and checks it against TypeScript-evaluated mobility fixtures on Linux and Windows in CI. The [CLI protocol](docs/native-search-protocol.md) accepts already evaluated edges; its snapshot labels are supplied by the caller.
 
-Native evidence/policy evaluation, legacy routing parity, Android screens, Go services, geographic ingestion and production synchronization are later work.
+Full native contract evaluation and receipts, operational policy gates, legacy routing parity, Android screens, Go services, geographic ingestion and production synchronization are later work.
 
 ## Updating baselines
 
 `npm run compat:record` explicitly regenerates expected legacy results. Review every change against the pinned source and documented compatibility decisions; never use regeneration to silence a regression. `npm run schema:write` exports schemas from their TypeScript definitions. Contract examples are explicitly recorded with `node --import tsx scripts/record-contract-examples.ts --record`.
+
+The [native measurement corpus](docs/native-measurements.md) is recorded with `node --import tsx scripts/record-measurement-examples.ts --record`. Both TypeScript and Rust tests read the committed expectations; normal tests do not rewrite them.
 
 The imported VoiceGIS README retains its original rights statement. No new license is imposed on the imported code.
