@@ -2,7 +2,13 @@
 
 The `wayform-core` crate currently implements immutable directed topology. Construction rejects duplicate IDs, missing endpoints, self-loops and nonpositive/nonfinite distances. Parallel arcs retain separate IDs. Indexing uses UTF-16 lexical ID order, matching the TypeScript contract, independently of input collection order. Node and edge limits bound accepted graph size.
 
-The interfaces below describe the remaining routing and policy work. Keep the compiler and authoring tools in TypeScript. Add mobile bindings only after the Rust CLI passes the same fixture corpus.
+`Graph::route` now searches an explicit snapshot of `EdgeDecision` records. Every arc must have exactly one suitable, unsuitable or unknown decision and a finite nonnegative preference penalty. Missing or duplicate decisions are errors. Search returns the shortest suitable path; unknown edges are used only in a separate reachability check to distinguish insufficient evidence from infeasibility. It never returns an unknown path to follow.
+
+The heap orders by accumulated cost and then the complete UTF-16 lexical edge-ID sequence. Costs that overflow or cannot advance in floating-point arithmetic return an error. A cumulative path-copy budget bounds this initial implementation's work; exhausting it is a resource error, not evidence that a route is impossible. These limits need benchmarking before large-region use.
+
+Tests compare every endpoint pair across all 729 three-node suitability assignments against an independent exhaustive path enumerator. They also cover parallel arcs, input permutation, closure monotonicity, asymmetric travel, preference penalties, Unicode ties, cycles, incomplete decisions and numeric/resource limits.
+
+Eligibility is currently supplied by the caller. Rust does not yet validate mobility evidence, authenticate policy, reproduce legacy instructions or issue full contract receipts. The interfaces below describe those remaining boundaries. Keep the compiler and authoring tools in TypeScript. Add mobile bindings only after the Rust CLI passes the same fixture corpus.
 
 ## Preserve two explicit contracts
 
