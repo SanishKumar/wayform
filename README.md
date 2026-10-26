@@ -33,7 +33,7 @@ After dependency installation, these checks need no network or adjacent VoiceGIS
 
 The synthetic data demonstrates software behavior. It does not establish physical passability, positioning accuracy, publisher authenticity or a live closure service. A legacy accessibility assertion is never converted into surveyed evidence.
 
-The Rust toolchain is pinned in `rust-toolchain.toml`. Run `cargo test --workspace --locked` for native tests and `cargo clippy --workspace --all-targets --locked -- -D warnings` for lint checks.
+The Rust toolchain is pinned in `rust-toolchain.toml`. Run `cargo test --workspace --locked` for native tests and `cargo clippy --workspace --all-targets --locked -- -D warnings` for lint checks. `npm run test:native` builds the JSON-lines search CLI and checks it against TypeScript-evaluated mobility fixtures on Linux and Windows in CI. The [CLI protocol](docs/native-search-protocol.md) accepts already evaluated edges; its snapshot labels are supplied by the caller.
 
 Native evidence/policy evaluation, legacy routing parity, Android screens, Go services, geographic ingestion and production synchronization are later work.
 

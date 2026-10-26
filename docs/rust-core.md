@@ -10,6 +10,8 @@ Tests compare every endpoint pair across all 729 three-node suitability assignme
 
 Eligibility is currently supplied by the caller. Rust does not yet validate mobility evidence, authenticate policy, reproduce legacy instructions or issue full contract receipts. The interfaces below describe those remaining boundaries. Keep the compiler and authoring tools in TypeScript. Add mobile bindings only after the Rust CLI passes the same fixture corpus.
 
+The `wayform-search` binary exposes evaluated-graph search through a bounded [JSON-lines protocol](native-search-protocol.md). `npm run test:native` feeds it decisions from the TypeScript oracle for all ten portable contract examples and six additional search scenarios, each with a reordered-input variant. Returned paths are assessed again in TypeScript, including distance and preference cost. This verifies the integration boundary; evidence evaluation and receipt generation have not been ported to Rust.
+
 ## Preserve two explicit contracts
 
 1. **Legacy compatibility mode** accepts the pinned VoiceGIS package/profile/overlay contract. It reproduces the existing undirected routing, tie behavior, instruction generation, graphic clearance and receipts. It never claims the new evidence semantics.
