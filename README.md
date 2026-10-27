@@ -37,6 +37,8 @@ The Rust toolchain is pinned in `rust-toolchain.toml`. Run `cargo test --workspa
 
 Native [edge eligibility](docs/native-eligibility.md) combines physical requirements with access rules, closures and entrance registration. The [document loader](docs/native-loading.md) validates complete bundle/profile/context JSON and computes their identities before evaluating edges or issuing [supplied-path receipts](docs/native-path-receipts.md). The `wayform-mobility` [document protocol](docs/native-mobility-protocol.md) exposes supplied-path assessment and suitable-route selection over JSON lines. Legacy routing parity, Android screens, Go services, geographic ingestion and production synchronization are later work.
 
+An isolated [legacy search component](docs/native-legacy-search.md) preserves VoiceGIS's undirected adjacency and queue tie behavior. Its component tests cover node-path selection and distance; full legacy output parity remains incomplete.
+
 ## Updating baselines
 
 `npm run compat:record` explicitly regenerates expected legacy results. Review every change against the pinned source and documented compatibility decisions; never use regeneration to silence a regression. `npm run schema:write` exports schemas from their TypeScript definitions. Contract examples are explicitly recorded with `node --import tsx scripts/record-contract-examples.ts --record`.

@@ -57,3 +57,5 @@ Run `npm run compat:check` to compare, or `npm run compat:record` only for a rev
 A future source refresh must separately review the source lock, dependency lock, counts, compiler outputs and behavior changes. Do not edit `upstream/` to implement WAYFORM features. The new native engine will become authoritative for the new contract after parity gates pass; the old subset stays a frozen oracle.
 
 The full original browser, localization, authoring and device test suites are outside this extracted harness. Passing it is not a claim that all VoiceGIS behavior has been migrated.
+
+The [native legacy search component](native-legacy-search.md) now has a separate, explicitly scoped baseline for selected node paths, distances and heuristic scales. It preserves legacy tie behavior without changing the immutable upstream subset or replacing the original full-result fingerprints. Instructions, package verification, overlay resolution, route graphics and receipts still require separate native parity work.

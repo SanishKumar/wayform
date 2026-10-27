@@ -6,6 +6,7 @@ mod eligibility;
 mod evidence;
 mod graph;
 mod identity;
+mod legacy;
 mod loader;
 mod measurement;
 mod policy;
@@ -23,6 +24,10 @@ pub use evidence::{
 };
 pub use graph::{Edge, Graph, GraphError, MAX_EDGES, MAX_NODES};
 pub use identity::{IdentityError, InputDigests, bundle_digest, canonical_json, input_digests};
+pub use legacy::{
+    LegacyEdge, LegacyFloor, LegacyGraph, LegacyNode, LegacyRouteOptions, LegacySearchError,
+    LegacySearchOutcome,
+};
 pub use loader::{
     AssessmentStatus, Document, LoadError, MAX_DOCUMENT_BYTES, MAX_PATH_EDGES, MOBILITY_VERSION,
     MobilityRouteError, MobilityRouteOutcome, MobilitySnapshot, PathAssessment, PathError,
