@@ -74,6 +74,8 @@ A cross-frame edge must be an entrance with the matching transform. Its two endp
 
 Two supplied controls only test internal consistency. They do not prove an independent survey occurred. Field collection must establish anchor placement, control quality, error bounds and the correctness of the geographic anchor.
 
+An unrepresentable registration error, including arithmetic overflow from otherwise finite inputs, also produces unknown with `transform-error-exceeds-budget`.
+
 ## Receipts and native conformance
 
 Receipts retain the contract version, bundle identity, profile, evaluation time, exact directed edge sequence, input digests, supplied policy revisions and path costs. Reasons carry edge/attribute/evidence IDs. Receipts include considered evidence even when it causes an unknown result. Stored input snapshots are still needed for later reconstruction; a digest alone cannot recover them.

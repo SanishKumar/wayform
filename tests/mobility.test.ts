@@ -146,6 +146,16 @@ test('an entrance uses surveyed controls and its node correspondence', () => {
   data.bundle.nodes[1].position[0] += 2;
   assert.equal(assess(data).status, 'unknown');
 });
+test('overflowing entrance calculations cannot qualify a route', () => {
+  const data = fixture(); addEntrance(data.bundle);
+  data.bundle.transforms[0].rotationDegrees = Number.MAX_VALUE;
+  assert.deepEqual(validateBundle(data.bundle), []);
+  const result = assess(data);
+  assert.equal(result.status, 'unknown');
+  assert(result.reasons.some(reason => reason.code === 'transform-error-exceeds-budget'));
+  data.bundle.transforms[0].rotationDegrees = 90;
+  assert.equal(assess(data).status, 'suitable');
+});
 test('entrance uncertainty, provenance and frame identity are required', () => {
   const data = fixture(); addEntrance(data.bundle);
   data.bundle.transforms[0].uncertaintyMeters = 0.5;

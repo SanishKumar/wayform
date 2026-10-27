@@ -63,7 +63,8 @@ function assessEdge(bundle: MobilityBundle, edge: DirectedEdge, profile: Mobilit
     const local = endpoints.find(item => item.frameId === transform.localFrameId)!;
     const enu = endpoints.find(item => item.frameId === transform.enuFrameId)!;
     const joinError = distance(localToEnu(local.position, transform, yDown), enu.position);
-    if (Math.max(residual, joinError) + transform.uncertaintyMeters > profile.evidencePolicy.maxTransformErrorMeters) note('unknown', 'transform-error-exceeds-budget', null, [source.id]);
+    const registrationError = Math.max(residual, joinError) + transform.uncertaintyMeters;
+    if (!Number.isFinite(registrationError) || registrationError > profile.evidencePolicy.maxTransformErrorMeters) note('unknown', 'transform-error-exceeds-budget', null, [source.id]);
   }
   const constraints: { attribute: Attribute; min?: number; max?: number; allowed?: string[] }[] = [];
   const hard = profile.hard;
