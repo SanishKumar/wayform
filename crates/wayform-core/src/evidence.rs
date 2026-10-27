@@ -3,7 +3,8 @@ use std::fmt;
 
 use crate::validation::valid_time;
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, serde::Deserialize)]
+#[serde(rename_all = "kebab-case")]
 pub enum EvidenceSource {
     FieldSurvey,
     Operator,
@@ -11,7 +12,8 @@ pub enum EvidenceSource {
     Inference,
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, serde::Deserialize)]
+#[serde(rename_all = "lowercase")]
 pub enum ReviewStatus {
     Reviewed,
     Pending,

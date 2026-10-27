@@ -9,7 +9,8 @@ use crate::{
     PolicyError, PolicyIssue, PolicySnapshot, Suitability, assess_measurement,
 };
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, serde::Deserialize)]
+#[serde(rename_all = "lowercase")]
 pub enum EdgeKind {
     Walkway,
     Door,

@@ -1,6 +1,7 @@
 pub type Point3 = [f64; 3];
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, serde::Deserialize)]
+#[serde(deny_unknown_fields)]
 pub struct RegistrationControl {
     pub local: Point3,
     pub enu: Point3,

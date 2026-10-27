@@ -1,0 +1,5538 @@
+{
+  "version": "0.1.0-draft.1",
+  "base": {
+    "bundle": {
+      "schemaVersion": "0.1.0-draft.1",
+      "id": "synthetic-venue",
+      "revision": "r1",
+      "frames": [
+        {
+          "id": "plan",
+          "kind": "local",
+          "axes": "x-right-y-up-z-up"
+        },
+        {
+          "id": "outside",
+          "kind": "enu",
+          "datum": "WGS84",
+          "anchor": {
+            "longitude": 77,
+            "latitude": 28,
+            "heightMeters": 200
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "id": "a",
+          "frameId": "plan",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "floorId": "g"
+        },
+        {
+          "id": "b",
+          "frameId": "outside",
+          "position": [
+            100,
+            200,
+            0
+          ],
+          "floorId": "g"
+        },
+        {
+          "id": "c",
+          "frameId": "plan",
+          "position": [
+            10,
+            10,
+            0
+          ],
+          "floorId": "g"
+        }
+      ],
+      "edges": [
+        {
+          "id": "ab",
+          "from": "a",
+          "to": "b",
+          "lengthMeters": 10,
+          "kind": "entrance",
+          "access": "public",
+          "transformId": "entrance",
+          "legacy": {
+            "accessible": true,
+            "meaning": "author-assertion",
+            "sourceCommit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "packageHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "sourceEdgeId": "original"
+          }
+        }
+      ],
+      "evidence": [
+        {
+          "id": "survey",
+          "source": "field-survey",
+          "actorId": "fictional-surveyor",
+          "method": "synthetic-test",
+          "observedAt": "2026-10-25T10:00:00.000Z",
+          "validUntil": null,
+          "review": {
+            "status": "reviewed",
+            "reviewerId": "fictional-reviewer",
+            "reviewedAt": "2026-10-25T10:15:00.000Z"
+          }
+        }
+      ],
+      "observations": [
+        {
+          "id": "width",
+          "edgeId": "ab",
+          "attribute": "clearWidthMeters",
+          "value": 1,
+          "uncertainty": 0.02,
+          "unknownReason": null,
+          "evidenceId": "survey"
+        },
+        {
+          "id": "ab:slopePercent:1",
+          "edgeId": "ab",
+          "attribute": "slopePercent",
+          "value": -2,
+          "uncertainty": 0.1,
+          "unknownReason": null,
+          "evidenceId": "survey"
+        },
+        {
+          "id": "ab:crossSlopePercent:2",
+          "edgeId": "ab",
+          "attribute": "crossSlopePercent",
+          "value": 1,
+          "uncertainty": 0.1,
+          "unknownReason": null,
+          "evidenceId": "survey"
+        },
+        {
+          "id": "ab:stepCount:3",
+          "edgeId": "ab",
+          "attribute": "stepCount",
+          "value": 0,
+          "uncertainty": 0,
+          "unknownReason": null,
+          "evidenceId": "survey"
+        },
+        {
+          "id": "ab:surface:4",
+          "edgeId": "ab",
+          "attribute": "surface",
+          "value": "paved",
+          "uncertainty": null,
+          "unknownReason": null,
+          "evidenceId": "survey"
+        }
+      ],
+      "transforms": [
+        {
+          "id": "entrance",
+          "localFrameId": "plan",
+          "enuFrameId": "outside",
+          "rotationDegrees": 90,
+          "translationMeters": [
+            100,
+            200,
+            0
+          ],
+          "uncertaintyMeters": 0.05,
+          "evidenceId": "survey",
+          "controls": [
+            {
+              "local": [
+                0,
+                0,
+                0
+              ],
+              "enu": [
+                100,
+                200,
+                0
+              ]
+            },
+            {
+              "local": [
+                10,
+                0,
+                0
+              ],
+              "enu": [
+                100,
+                210,
+                0
+              ]
+            }
+          ]
+        }
+      ],
+      "policyRequirements": [
+        {
+          "id": "operations",
+          "edgeIds": [
+            "ab"
+          ]
+        }
+      ]
+    },
+    "profile": {
+      "id": "synthetic-profile",
+      "allowRestricted": false,
+      "respectLegacyExclusions": true,
+      "hard": {
+        "minClearWidthMeters": 0.8,
+        "maxUphillPercent": 5,
+        "maxDownhillPercent": 6,
+        "maxCrossSlopePercent": 2,
+        "maxStepCount": 0,
+        "allowedSurfaces": [
+          "paved"
+        ],
+        "allowedDoorOperations": [
+          "automatic"
+        ]
+      },
+      "preferences": {
+        "avoidKinds": [],
+        "penaltyMeters": 0
+      },
+      "evidencePolicy": {
+        "acceptedSources": [
+          "field-survey",
+          "operator"
+        ],
+        "requireReviewed": true,
+        "maxAgeSeconds": 86400,
+        "maxTransformErrorMeters": 0.25
+      }
+    },
+    "context": {
+      "evaluatedAt": "2026-10-25T12:00:00.000Z",
+      "policies": [
+        {
+          "requirementId": "operations",
+          "bundleId": "synthetic-venue",
+          "bundleRevision": "r1",
+          "bundleDigest": "3576b6c31c264bc009118f99ec7b773684b8923e3d99bedac49eb1953215c52a",
+          "revision": 3,
+          "issuerId": "venue-operator",
+          "validFrom": "2026-10-25T11:00:00.000Z",
+          "validUntil": "2026-10-25T13:00:00.000Z",
+          "closedEdgeIds": []
+        }
+      ],
+      "trustedIssuerIds": [
+        "venue-operator"
+      ],
+      "minimumPolicyRevisions": {
+        "operations": 3
+      }
+    }
+  },
+  "cases": [
+    {
+      "id": "complete",
+      "edits": [],
+      "valid": true,
+      "expected": {
+        "digests": {
+          "bundleDigest": "3576b6c31c264bc009118f99ec7b773684b8923e3d99bedac49eb1953215c52a",
+          "profileDigest": "7c11142875b5603b3989c8c9bb20b96bfb5ce6f074653e316dca64f62dc214db",
+          "contextDigest": "1c4cab9706877eb712b5820a6578fa7c3357a9be6a47635b383acf710440b8e4"
+        },
+        "assessment": {
+          "status": "suitable",
+          "reasons": [],
+          "evidenceIds": [
+            "survey"
+          ],
+          "receipt": {
+            "schemaVersion": "0.1.0-draft.1",
+            "bundleId": "synthetic-venue",
+            "bundleRevision": "r1",
+            "bundleDigest": "3576b6c31c264bc009118f99ec7b773684b8923e3d99bedac49eb1953215c52a",
+            "profileDigest": "7c11142875b5603b3989c8c9bb20b96bfb5ce6f074653e316dca64f62dc214db",
+            "contextDigest": "1c4cab9706877eb712b5820a6578fa7c3357a9be6a47635b383acf710440b8e4",
+            "profileId": "synthetic-profile",
+            "evaluatedAt": "2026-10-25T12:00:00.000Z",
+            "edgeIds": [
+              "ab"
+            ],
+            "policyRevisions": [
+              {
+                "requirementId": "operations",
+                "revision": 3
+              }
+            ],
+            "distanceMeters": 10,
+            "preferenceCostMeters": 10
+          }
+        }
+      }
+    },
+    {
+      "id": "missing:bundle/schemaVersion",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "schemaVersion"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/id",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "id"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/revision",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "revision"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/frames",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "frames"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/nodes",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "nodes"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/edges",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "edges"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/evidence",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "evidence"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/observations",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "observations"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/transforms",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "transforms"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/policyRequirements",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "policyRequirements"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "extra:bundle",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "unexpected"
+          ],
+          "value": true
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/frames/0/id",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "frames",
+            0,
+            "id"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/frames/0/kind",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "frames",
+            0,
+            "kind"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/frames/0/axes",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "frames",
+            0,
+            "axes"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "extra:bundle/frames/0",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "frames",
+            0,
+            "unexpected"
+          ],
+          "value": true
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/frames/1/id",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "frames",
+            1,
+            "id"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/frames/1/kind",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "frames",
+            1,
+            "kind"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/frames/1/datum",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "frames",
+            1,
+            "datum"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/frames/1/anchor",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "frames",
+            1,
+            "anchor"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "extra:bundle/frames/1",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "frames",
+            1,
+            "unexpected"
+          ],
+          "value": true
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/frames/1/anchor/longitude",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "frames",
+            1,
+            "anchor",
+            "longitude"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/frames/1/anchor/latitude",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "frames",
+            1,
+            "anchor",
+            "latitude"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/frames/1/anchor/heightMeters",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "frames",
+            1,
+            "anchor",
+            "heightMeters"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "extra:bundle/frames/1/anchor",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "frames",
+            1,
+            "anchor",
+            "unexpected"
+          ],
+          "value": true
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/nodes/0/id",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "nodes",
+            0,
+            "id"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/nodes/0/frameId",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "nodes",
+            0,
+            "frameId"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/nodes/0/position",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "nodes",
+            0,
+            "position"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/nodes/0/floorId",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "nodes",
+            0,
+            "floorId"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "extra:bundle/nodes/0",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "nodes",
+            0,
+            "unexpected"
+          ],
+          "value": true
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/nodes/1/id",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "nodes",
+            1,
+            "id"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/nodes/1/frameId",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "nodes",
+            1,
+            "frameId"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/nodes/1/position",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "nodes",
+            1,
+            "position"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/nodes/1/floorId",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "nodes",
+            1,
+            "floorId"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "extra:bundle/nodes/1",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "nodes",
+            1,
+            "unexpected"
+          ],
+          "value": true
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/nodes/2/id",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "nodes",
+            2,
+            "id"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/nodes/2/frameId",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "nodes",
+            2,
+            "frameId"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/nodes/2/position",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "nodes",
+            2,
+            "position"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/nodes/2/floorId",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "nodes",
+            2,
+            "floorId"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "extra:bundle/nodes/2",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "nodes",
+            2,
+            "unexpected"
+          ],
+          "value": true
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/edges/0/id",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "edges",
+            0,
+            "id"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/edges/0/from",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "edges",
+            0,
+            "from"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/edges/0/to",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "edges",
+            0,
+            "to"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/edges/0/lengthMeters",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "edges",
+            0,
+            "lengthMeters"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/edges/0/kind",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "edges",
+            0,
+            "kind"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/edges/0/access",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "edges",
+            0,
+            "access"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/edges/0/transformId",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "edges",
+            0,
+            "transformId"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/edges/0/legacy",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "edges",
+            0,
+            "legacy"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "extra:bundle/edges/0",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "edges",
+            0,
+            "unexpected"
+          ],
+          "value": true
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/edges/0/legacy/accessible",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "edges",
+            0,
+            "legacy",
+            "accessible"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/edges/0/legacy/meaning",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "edges",
+            0,
+            "legacy",
+            "meaning"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/edges/0/legacy/sourceCommit",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "edges",
+            0,
+            "legacy",
+            "sourceCommit"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/edges/0/legacy/packageHash",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "edges",
+            0,
+            "legacy",
+            "packageHash"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/edges/0/legacy/sourceEdgeId",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "edges",
+            0,
+            "legacy",
+            "sourceEdgeId"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "extra:bundle/edges/0/legacy",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "edges",
+            0,
+            "legacy",
+            "unexpected"
+          ],
+          "value": true
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/evidence/0/id",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "evidence",
+            0,
+            "id"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/evidence/0/source",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "evidence",
+            0,
+            "source"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/evidence/0/actorId",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "evidence",
+            0,
+            "actorId"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/evidence/0/method",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "evidence",
+            0,
+            "method"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/evidence/0/observedAt",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "evidence",
+            0,
+            "observedAt"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/evidence/0/validUntil",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "evidence",
+            0,
+            "validUntil"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/evidence/0/review",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "evidence",
+            0,
+            "review"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "extra:bundle/evidence/0",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "evidence",
+            0,
+            "unexpected"
+          ],
+          "value": true
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/evidence/0/review/status",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "evidence",
+            0,
+            "review",
+            "status"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/evidence/0/review/reviewerId",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "evidence",
+            0,
+            "review",
+            "reviewerId"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/evidence/0/review/reviewedAt",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "evidence",
+            0,
+            "review",
+            "reviewedAt"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "extra:bundle/evidence/0/review",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "evidence",
+            0,
+            "review",
+            "unexpected"
+          ],
+          "value": true
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/observations/0/id",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "observations",
+            0,
+            "id"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/observations/0/edgeId",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "observations",
+            0,
+            "edgeId"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/observations/0/attribute",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "observations",
+            0,
+            "attribute"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/observations/0/value",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "observations",
+            0,
+            "value"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/observations/0/uncertainty",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "observations",
+            0,
+            "uncertainty"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/observations/0/unknownReason",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "observations",
+            0,
+            "unknownReason"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/observations/0/evidenceId",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "observations",
+            0,
+            "evidenceId"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "extra:bundle/observations/0",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "observations",
+            0,
+            "unexpected"
+          ],
+          "value": true
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/observations/1/id",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "observations",
+            1,
+            "id"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/observations/1/edgeId",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "observations",
+            1,
+            "edgeId"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/observations/1/attribute",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "observations",
+            1,
+            "attribute"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/observations/1/value",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "observations",
+            1,
+            "value"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/observations/1/uncertainty",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "observations",
+            1,
+            "uncertainty"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/observations/1/unknownReason",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "observations",
+            1,
+            "unknownReason"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/observations/1/evidenceId",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "observations",
+            1,
+            "evidenceId"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "extra:bundle/observations/1",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "observations",
+            1,
+            "unexpected"
+          ],
+          "value": true
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/observations/2/id",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "observations",
+            2,
+            "id"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/observations/2/edgeId",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "observations",
+            2,
+            "edgeId"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/observations/2/attribute",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "observations",
+            2,
+            "attribute"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/observations/2/value",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "observations",
+            2,
+            "value"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/observations/2/uncertainty",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "observations",
+            2,
+            "uncertainty"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/observations/2/unknownReason",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "observations",
+            2,
+            "unknownReason"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/observations/2/evidenceId",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "observations",
+            2,
+            "evidenceId"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "extra:bundle/observations/2",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "observations",
+            2,
+            "unexpected"
+          ],
+          "value": true
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/observations/3/id",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "observations",
+            3,
+            "id"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/observations/3/edgeId",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "observations",
+            3,
+            "edgeId"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/observations/3/attribute",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "observations",
+            3,
+            "attribute"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/observations/3/value",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "observations",
+            3,
+            "value"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/observations/3/uncertainty",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "observations",
+            3,
+            "uncertainty"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/observations/3/unknownReason",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "observations",
+            3,
+            "unknownReason"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/observations/3/evidenceId",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "observations",
+            3,
+            "evidenceId"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "extra:bundle/observations/3",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "observations",
+            3,
+            "unexpected"
+          ],
+          "value": true
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/observations/4/id",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "observations",
+            4,
+            "id"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/observations/4/edgeId",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "observations",
+            4,
+            "edgeId"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/observations/4/attribute",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "observations",
+            4,
+            "attribute"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/observations/4/value",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "observations",
+            4,
+            "value"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/observations/4/uncertainty",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "observations",
+            4,
+            "uncertainty"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/observations/4/unknownReason",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "observations",
+            4,
+            "unknownReason"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/observations/4/evidenceId",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "observations",
+            4,
+            "evidenceId"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "extra:bundle/observations/4",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "observations",
+            4,
+            "unexpected"
+          ],
+          "value": true
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/transforms/0/id",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "transforms",
+            0,
+            "id"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/transforms/0/localFrameId",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "transforms",
+            0,
+            "localFrameId"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/transforms/0/enuFrameId",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "transforms",
+            0,
+            "enuFrameId"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/transforms/0/rotationDegrees",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "transforms",
+            0,
+            "rotationDegrees"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/transforms/0/translationMeters",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "transforms",
+            0,
+            "translationMeters"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/transforms/0/uncertaintyMeters",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "transforms",
+            0,
+            "uncertaintyMeters"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/transforms/0/evidenceId",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "transforms",
+            0,
+            "evidenceId"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/transforms/0/controls",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "transforms",
+            0,
+            "controls"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "extra:bundle/transforms/0",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "transforms",
+            0,
+            "unexpected"
+          ],
+          "value": true
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/transforms/0/controls/0/local",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "transforms",
+            0,
+            "controls",
+            0,
+            "local"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/transforms/0/controls/0/enu",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "transforms",
+            0,
+            "controls",
+            0,
+            "enu"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "extra:bundle/transforms/0/controls/0",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "transforms",
+            0,
+            "controls",
+            0,
+            "unexpected"
+          ],
+          "value": true
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/transforms/0/controls/1/local",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "transforms",
+            0,
+            "controls",
+            1,
+            "local"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/transforms/0/controls/1/enu",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "transforms",
+            0,
+            "controls",
+            1,
+            "enu"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "extra:bundle/transforms/0/controls/1",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "transforms",
+            0,
+            "controls",
+            1,
+            "unexpected"
+          ],
+          "value": true
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/policyRequirements/0/id",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "policyRequirements",
+            0,
+            "id"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:bundle/policyRequirements/0/edgeIds",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "bundle",
+            "policyRequirements",
+            0,
+            "edgeIds"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "extra:bundle/policyRequirements/0",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "policyRequirements",
+            0,
+            "unexpected"
+          ],
+          "value": true
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:profile/id",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "profile",
+            "id"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:profile/allowRestricted",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "profile",
+            "allowRestricted"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:profile/respectLegacyExclusions",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "profile",
+            "respectLegacyExclusions"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:profile/hard",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "profile",
+            "hard"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:profile/preferences",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "profile",
+            "preferences"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:profile/evidencePolicy",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "profile",
+            "evidencePolicy"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "extra:profile",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "profile",
+            "unexpected"
+          ],
+          "value": true
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:profile/hard/minClearWidthMeters",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "profile",
+            "hard",
+            "minClearWidthMeters"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:profile/hard/maxUphillPercent",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "profile",
+            "hard",
+            "maxUphillPercent"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:profile/hard/maxDownhillPercent",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "profile",
+            "hard",
+            "maxDownhillPercent"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:profile/hard/maxCrossSlopePercent",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "profile",
+            "hard",
+            "maxCrossSlopePercent"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:profile/hard/maxStepCount",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "profile",
+            "hard",
+            "maxStepCount"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:profile/hard/allowedSurfaces",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "profile",
+            "hard",
+            "allowedSurfaces"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:profile/hard/allowedDoorOperations",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "profile",
+            "hard",
+            "allowedDoorOperations"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "extra:profile/hard",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "profile",
+            "hard",
+            "unexpected"
+          ],
+          "value": true
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:profile/preferences/avoidKinds",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "profile",
+            "preferences",
+            "avoidKinds"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:profile/preferences/penaltyMeters",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "profile",
+            "preferences",
+            "penaltyMeters"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "extra:profile/preferences",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "profile",
+            "preferences",
+            "unexpected"
+          ],
+          "value": true
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:profile/evidencePolicy/acceptedSources",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "profile",
+            "evidencePolicy",
+            "acceptedSources"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:profile/evidencePolicy/requireReviewed",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "profile",
+            "evidencePolicy",
+            "requireReviewed"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:profile/evidencePolicy/maxAgeSeconds",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "profile",
+            "evidencePolicy",
+            "maxAgeSeconds"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:profile/evidencePolicy/maxTransformErrorMeters",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "profile",
+            "evidencePolicy",
+            "maxTransformErrorMeters"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "extra:profile/evidencePolicy",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "profile",
+            "evidencePolicy",
+            "unexpected"
+          ],
+          "value": true
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:context/evaluatedAt",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "context",
+            "evaluatedAt"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:context/policies",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "context",
+            "policies"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:context/trustedIssuerIds",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "context",
+            "trustedIssuerIds"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:context/minimumPolicyRevisions",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "context",
+            "minimumPolicyRevisions"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "extra:context",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "context",
+            "unexpected"
+          ],
+          "value": true
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:context/policies/0/requirementId",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "context",
+            "policies",
+            0,
+            "requirementId"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:context/policies/0/bundleId",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "context",
+            "policies",
+            0,
+            "bundleId"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:context/policies/0/bundleRevision",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "context",
+            "policies",
+            0,
+            "bundleRevision"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:context/policies/0/bundleDigest",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "context",
+            "policies",
+            0,
+            "bundleDigest"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:context/policies/0/revision",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "context",
+            "policies",
+            0,
+            "revision"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:context/policies/0/issuerId",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "context",
+            "policies",
+            0,
+            "issuerId"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:context/policies/0/validFrom",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "context",
+            "policies",
+            0,
+            "validFrom"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:context/policies/0/validUntil",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "context",
+            "policies",
+            0,
+            "validUntil"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing:context/policies/0/closedEdgeIds",
+      "edits": [
+        {
+          "op": "remove",
+          "path": [
+            "context",
+            "policies",
+            0,
+            "closedEdgeIds"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "extra:context/policies/0",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "context",
+            "policies",
+            0,
+            "unexpected"
+          ],
+          "value": true
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "duplicate:frames",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "frames"
+          ],
+          "value": [
+            {
+              "id": "plan",
+              "kind": "local",
+              "axes": "x-right-y-up-z-up"
+            },
+            {
+              "id": "outside",
+              "kind": "enu",
+              "datum": "WGS84",
+              "anchor": {
+                "longitude": 77,
+                "latitude": 28,
+                "heightMeters": 200
+              }
+            },
+            {
+              "id": "plan",
+              "kind": "local",
+              "axes": "x-right-y-up-z-up"
+            }
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "duplicate:nodes",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "nodes"
+          ],
+          "value": [
+            {
+              "id": "a",
+              "frameId": "plan",
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "floorId": "g"
+            },
+            {
+              "id": "b",
+              "frameId": "outside",
+              "position": [
+                100,
+                200,
+                0
+              ],
+              "floorId": "g"
+            },
+            {
+              "id": "c",
+              "frameId": "plan",
+              "position": [
+                10,
+                10,
+                0
+              ],
+              "floorId": "g"
+            },
+            {
+              "id": "a",
+              "frameId": "plan",
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "floorId": "g"
+            }
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "duplicate:edges",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "edges"
+          ],
+          "value": [
+            {
+              "id": "ab",
+              "from": "a",
+              "to": "b",
+              "lengthMeters": 10,
+              "kind": "entrance",
+              "access": "public",
+              "transformId": "entrance",
+              "legacy": {
+                "accessible": true,
+                "meaning": "author-assertion",
+                "sourceCommit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "packageHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "sourceEdgeId": "original"
+              }
+            },
+            {
+              "id": "ab",
+              "from": "a",
+              "to": "b",
+              "lengthMeters": 10,
+              "kind": "entrance",
+              "access": "public",
+              "transformId": "entrance",
+              "legacy": {
+                "accessible": true,
+                "meaning": "author-assertion",
+                "sourceCommit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "packageHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "sourceEdgeId": "original"
+              }
+            }
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "duplicate:evidence",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "evidence"
+          ],
+          "value": [
+            {
+              "id": "survey",
+              "source": "field-survey",
+              "actorId": "fictional-surveyor",
+              "method": "synthetic-test",
+              "observedAt": "2026-10-25T10:00:00.000Z",
+              "validUntil": null,
+              "review": {
+                "status": "reviewed",
+                "reviewerId": "fictional-reviewer",
+                "reviewedAt": "2026-10-25T10:15:00.000Z"
+              }
+            },
+            {
+              "id": "survey",
+              "source": "field-survey",
+              "actorId": "fictional-surveyor",
+              "method": "synthetic-test",
+              "observedAt": "2026-10-25T10:00:00.000Z",
+              "validUntil": null,
+              "review": {
+                "status": "reviewed",
+                "reviewerId": "fictional-reviewer",
+                "reviewedAt": "2026-10-25T10:15:00.000Z"
+              }
+            }
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "duplicate:observations",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "observations"
+          ],
+          "value": [
+            {
+              "id": "width",
+              "edgeId": "ab",
+              "attribute": "clearWidthMeters",
+              "value": 1,
+              "uncertainty": 0.02,
+              "unknownReason": null,
+              "evidenceId": "survey"
+            },
+            {
+              "id": "ab:slopePercent:1",
+              "edgeId": "ab",
+              "attribute": "slopePercent",
+              "value": -2,
+              "uncertainty": 0.1,
+              "unknownReason": null,
+              "evidenceId": "survey"
+            },
+            {
+              "id": "ab:crossSlopePercent:2",
+              "edgeId": "ab",
+              "attribute": "crossSlopePercent",
+              "value": 1,
+              "uncertainty": 0.1,
+              "unknownReason": null,
+              "evidenceId": "survey"
+            },
+            {
+              "id": "ab:stepCount:3",
+              "edgeId": "ab",
+              "attribute": "stepCount",
+              "value": 0,
+              "uncertainty": 0,
+              "unknownReason": null,
+              "evidenceId": "survey"
+            },
+            {
+              "id": "ab:surface:4",
+              "edgeId": "ab",
+              "attribute": "surface",
+              "value": "paved",
+              "uncertainty": null,
+              "unknownReason": null,
+              "evidenceId": "survey"
+            },
+            {
+              "id": "width",
+              "edgeId": "ab",
+              "attribute": "clearWidthMeters",
+              "value": 1,
+              "uncertainty": 0.02,
+              "unknownReason": null,
+              "evidenceId": "survey"
+            }
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "duplicate:transforms",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "transforms"
+          ],
+          "value": [
+            {
+              "id": "entrance",
+              "localFrameId": "plan",
+              "enuFrameId": "outside",
+              "rotationDegrees": 90,
+              "translationMeters": [
+                100,
+                200,
+                0
+              ],
+              "uncertaintyMeters": 0.05,
+              "evidenceId": "survey",
+              "controls": [
+                {
+                  "local": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "enu": [
+                    100,
+                    200,
+                    0
+                  ]
+                },
+                {
+                  "local": [
+                    10,
+                    0,
+                    0
+                  ],
+                  "enu": [
+                    100,
+                    210,
+                    0
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "entrance",
+              "localFrameId": "plan",
+              "enuFrameId": "outside",
+              "rotationDegrees": 90,
+              "translationMeters": [
+                100,
+                200,
+                0
+              ],
+              "uncertaintyMeters": 0.05,
+              "evidenceId": "survey",
+              "controls": [
+                {
+                  "local": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "enu": [
+                    100,
+                    200,
+                    0
+                  ]
+                },
+                {
+                  "local": [
+                    10,
+                    0,
+                    0
+                  ],
+                  "enu": [
+                    100,
+                    210,
+                    0
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "duplicate:policyRequirements",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "policyRequirements"
+          ],
+          "value": [
+            {
+              "id": "operations",
+              "edgeIds": [
+                "ab"
+              ]
+            },
+            {
+              "id": "operations",
+              "edgeIds": [
+                "ab"
+              ]
+            }
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "wrong-version",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "schemaVersion"
+          ],
+          "value": "1.0.0"
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "empty-id",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "id"
+          ],
+          "value": ""
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "empty-nodes",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "nodes"
+          ],
+          "value": []
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "wrong-frame",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "nodes",
+            0,
+            "frameId"
+          ],
+          "value": "missing"
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "short-point",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "nodes",
+            0,
+            "position"
+          ],
+          "value": [
+            0,
+            0
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "null-floor",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "nodes",
+            0,
+            "floorId"
+          ],
+          "value": null
+        }
+      ],
+      "valid": true,
+      "expected": {
+        "digests": {
+          "bundleDigest": "505178ac280c92f45863a2ba48a3b825cb0244d2afe1badcf82076feb672b455",
+          "profileDigest": "7c11142875b5603b3989c8c9bb20b96bfb5ce6f074653e316dca64f62dc214db",
+          "contextDigest": "1c4cab9706877eb712b5820a6578fa7c3357a9be6a47635b383acf710440b8e4"
+        },
+        "assessment": {
+          "status": "unknown",
+          "reasons": [
+            {
+              "code": "policy-bundle-mismatch",
+              "edgeId": "ab",
+              "attribute": null,
+              "evidenceIds": []
+            }
+          ],
+          "evidenceIds": [
+            "survey"
+          ],
+          "receipt": {
+            "schemaVersion": "0.1.0-draft.1",
+            "bundleId": "synthetic-venue",
+            "bundleRevision": "r1",
+            "bundleDigest": "505178ac280c92f45863a2ba48a3b825cb0244d2afe1badcf82076feb672b455",
+            "profileDigest": "7c11142875b5603b3989c8c9bb20b96bfb5ce6f074653e316dca64f62dc214db",
+            "contextDigest": "1c4cab9706877eb712b5820a6578fa7c3357a9be6a47635b383acf710440b8e4",
+            "profileId": "synthetic-profile",
+            "evaluatedAt": "2026-10-25T12:00:00.000Z",
+            "edgeIds": [
+              "ab"
+            ],
+            "policyRevisions": [
+              {
+                "requirementId": "operations",
+                "revision": 3
+              }
+            ],
+            "distanceMeters": 10,
+            "preferenceCostMeters": 10
+          }
+        }
+      }
+    },
+    {
+      "id": "empty-floor",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "nodes",
+            0,
+            "floorId"
+          ],
+          "value": ""
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "longitude-range",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "frames",
+            1,
+            "anchor",
+            "longitude"
+          ],
+          "value": 181
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "latitude-range",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "frames",
+            1,
+            "anchor",
+            "latitude"
+          ],
+          "value": -91
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "wrong-datum",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "frames",
+            1,
+            "datum"
+          ],
+          "value": "other"
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "wrong-axes",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "frames",
+            0,
+            "axes"
+          ],
+          "value": "other"
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "endpoint",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "edges",
+            0,
+            "to"
+          ],
+          "value": "missing"
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "self-loop",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "edges",
+            0,
+            "to"
+          ],
+          "value": "a"
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "zero-length",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "edges",
+            0,
+            "lengthMeters"
+          ],
+          "value": 0
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "negative-length",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "edges",
+            0,
+            "lengthMeters"
+          ],
+          "value": -1
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "unknown-kind",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "edges",
+            0,
+            "kind"
+          ],
+          "value": "teleport"
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "bad-access",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "edges",
+            0,
+            "access"
+          ],
+          "value": true
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "cross-frame-kind",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "edges",
+            0,
+            "kind"
+          ],
+          "value": "walkway"
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "cross-frame-no-transform",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "edges",
+            0,
+            "transformId"
+          ],
+          "value": null
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "cross-frame-wrong-transform",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "edges",
+            0,
+            "transformId"
+          ],
+          "value": "missing"
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "legacy-null",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "edges",
+            0,
+            "legacy"
+          ],
+          "value": null
+        }
+      ],
+      "valid": true,
+      "expected": {
+        "digests": {
+          "bundleDigest": "4c60f97312998b595a9baf17f63b94a7ed50b115a515b9852d824180ef8b954d",
+          "profileDigest": "7c11142875b5603b3989c8c9bb20b96bfb5ce6f074653e316dca64f62dc214db",
+          "contextDigest": "1c4cab9706877eb712b5820a6578fa7c3357a9be6a47635b383acf710440b8e4"
+        },
+        "assessment": {
+          "status": "unknown",
+          "reasons": [
+            {
+              "code": "policy-bundle-mismatch",
+              "edgeId": "ab",
+              "attribute": null,
+              "evidenceIds": []
+            }
+          ],
+          "evidenceIds": [
+            "survey"
+          ],
+          "receipt": {
+            "schemaVersion": "0.1.0-draft.1",
+            "bundleId": "synthetic-venue",
+            "bundleRevision": "r1",
+            "bundleDigest": "4c60f97312998b595a9baf17f63b94a7ed50b115a515b9852d824180ef8b954d",
+            "profileDigest": "7c11142875b5603b3989c8c9bb20b96bfb5ce6f074653e316dca64f62dc214db",
+            "contextDigest": "1c4cab9706877eb712b5820a6578fa7c3357a9be6a47635b383acf710440b8e4",
+            "profileId": "synthetic-profile",
+            "evaluatedAt": "2026-10-25T12:00:00.000Z",
+            "edgeIds": [
+              "ab"
+            ],
+            "policyRevisions": [
+              {
+                "requirementId": "operations",
+                "revision": 3
+              }
+            ],
+            "distanceMeters": 10,
+            "preferenceCostMeters": 10
+          }
+        }
+      }
+    },
+    {
+      "id": "legacy-semantics",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "edges",
+            0,
+            "legacy",
+            "meaning"
+          ],
+          "value": "surveyed"
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "legacy-commit",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "edges",
+            0,
+            "legacy",
+            "sourceCommit"
+          ],
+          "value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "legacy-hash",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "edges",
+            0,
+            "legacy",
+            "packageHash"
+          ],
+          "value": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "review-provenance",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "evidence",
+            0,
+            "review",
+            "reviewerId"
+          ],
+          "value": null
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "review-before-observation",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "evidence",
+            0,
+            "review",
+            "reviewedAt"
+          ],
+          "value": "2026-10-24T00:00:00.000Z"
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "expiry-before-observation",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "evidence",
+            0,
+            "validUntil"
+          ],
+          "value": "2026-10-24T00:00:00.000Z"
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "pending-null-review",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "evidence",
+            0,
+            "review"
+          ],
+          "value": {
+            "status": "pending",
+            "reviewerId": null,
+            "reviewedAt": null
+          }
+        }
+      ],
+      "valid": true,
+      "expected": {
+        "digests": {
+          "bundleDigest": "b8abfdc52ec6533cab48df065c6ec46224f7ce5889d940cbd1ac24bc769f71be",
+          "profileDigest": "7c11142875b5603b3989c8c9bb20b96bfb5ce6f074653e316dca64f62dc214db",
+          "contextDigest": "1c4cab9706877eb712b5820a6578fa7c3357a9be6a47635b383acf710440b8e4"
+        },
+        "assessment": {
+          "status": "unknown",
+          "reasons": [
+            {
+              "code": "policy-bundle-mismatch",
+              "edgeId": "ab",
+              "attribute": null,
+              "evidenceIds": []
+            },
+            {
+              "code": "transform-unreviewed-evidence",
+              "edgeId": "ab",
+              "attribute": null,
+              "evidenceIds": [
+                "survey"
+              ]
+            },
+            {
+              "code": "unreviewed-evidence",
+              "edgeId": "ab",
+              "attribute": "clearWidthMeters",
+              "evidenceIds": [
+                "survey"
+              ]
+            },
+            {
+              "code": "unreviewed-evidence",
+              "edgeId": "ab",
+              "attribute": "crossSlopePercent",
+              "evidenceIds": [
+                "survey"
+              ]
+            },
+            {
+              "code": "unreviewed-evidence",
+              "edgeId": "ab",
+              "attribute": "slopePercent",
+              "evidenceIds": [
+                "survey"
+              ]
+            },
+            {
+              "code": "unreviewed-evidence",
+              "edgeId": "ab",
+              "attribute": "stepCount",
+              "evidenceIds": [
+                "survey"
+              ]
+            },
+            {
+              "code": "unreviewed-evidence",
+              "edgeId": "ab",
+              "attribute": "surface",
+              "evidenceIds": [
+                "survey"
+              ]
+            }
+          ],
+          "evidenceIds": [
+            "survey"
+          ],
+          "receipt": {
+            "schemaVersion": "0.1.0-draft.1",
+            "bundleId": "synthetic-venue",
+            "bundleRevision": "r1",
+            "bundleDigest": "b8abfdc52ec6533cab48df065c6ec46224f7ce5889d940cbd1ac24bc769f71be",
+            "profileDigest": "7c11142875b5603b3989c8c9bb20b96bfb5ce6f074653e316dca64f62dc214db",
+            "contextDigest": "1c4cab9706877eb712b5820a6578fa7c3357a9be6a47635b383acf710440b8e4",
+            "profileId": "synthetic-profile",
+            "evaluatedAt": "2026-10-25T12:00:00.000Z",
+            "edgeIds": [
+              "ab"
+            ],
+            "policyRevisions": [
+              {
+                "requirementId": "operations",
+                "revision": 3
+              }
+            ],
+            "distanceMeters": 10,
+            "preferenceCostMeters": 10
+          }
+        }
+      }
+    },
+    {
+      "id": "observation-edge",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "observations",
+            0,
+            "edgeId"
+          ],
+          "value": "missing"
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "observation-evidence",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "observations",
+            0,
+            "evidenceId"
+          ],
+          "value": "missing"
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "measurement-string",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "observations",
+            0,
+            "value"
+          ],
+          "value": "wide"
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "negative-width",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "observations",
+            0,
+            "value"
+          ],
+          "value": -1
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "negative-uncertainty",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "observations",
+            0,
+            "uncertainty"
+          ],
+          "value": -1
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "unknown-error",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "observations",
+            0,
+            "uncertainty"
+          ],
+          "value": null
+        }
+      ],
+      "valid": true,
+      "expected": {
+        "digests": {
+          "bundleDigest": "656bc2b61535659390edd8958d22da37405bd84a7a3cd90c1516d0c8e78cdd9c",
+          "profileDigest": "7c11142875b5603b3989c8c9bb20b96bfb5ce6f074653e316dca64f62dc214db",
+          "contextDigest": "1c4cab9706877eb712b5820a6578fa7c3357a9be6a47635b383acf710440b8e4"
+        },
+        "assessment": {
+          "status": "unknown",
+          "reasons": [
+            {
+              "code": "policy-bundle-mismatch",
+              "edgeId": "ab",
+              "attribute": null,
+              "evidenceIds": []
+            },
+            {
+              "code": "unknown-measurement-error",
+              "edgeId": "ab",
+              "attribute": "clearWidthMeters",
+              "evidenceIds": [
+                "survey"
+              ]
+            }
+          ],
+          "evidenceIds": [
+            "survey"
+          ],
+          "receipt": {
+            "schemaVersion": "0.1.0-draft.1",
+            "bundleId": "synthetic-venue",
+            "bundleRevision": "r1",
+            "bundleDigest": "656bc2b61535659390edd8958d22da37405bd84a7a3cd90c1516d0c8e78cdd9c",
+            "profileDigest": "7c11142875b5603b3989c8c9bb20b96bfb5ce6f074653e316dca64f62dc214db",
+            "contextDigest": "1c4cab9706877eb712b5820a6578fa7c3357a9be6a47635b383acf710440b8e4",
+            "profileId": "synthetic-profile",
+            "evaluatedAt": "2026-10-25T12:00:00.000Z",
+            "edgeIds": [
+              "ab"
+            ],
+            "policyRevisions": [
+              {
+                "requirementId": "operations",
+                "revision": 3
+              }
+            ],
+            "distanceMeters": 10,
+            "preferenceCostMeters": 10
+          }
+        }
+      }
+    },
+    {
+      "id": "unknown-without-reason",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "observations",
+            0,
+            "value"
+          ],
+          "value": null
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "known-with-reason",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "observations",
+            0,
+            "unknownReason"
+          ],
+          "value": "not-surveyed"
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "fractional-steps",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "observations",
+            3,
+            "value"
+          ],
+          "value": 0.5
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "fractional-step-error",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "observations",
+            3,
+            "uncertainty"
+          ],
+          "value": 0.1
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "unsafe-step-count",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "observations",
+            3,
+            "value"
+          ],
+          "value": 9007199254740992
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "category-number",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "observations",
+            4,
+            "value"
+          ],
+          "value": 1
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "category-error",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "observations",
+            4,
+            "uncertainty"
+          ],
+          "value": 0
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "transform-local-reference",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "transforms",
+            0,
+            "localFrameId"
+          ],
+          "value": "outside"
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "transform-enu-reference",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "transforms",
+            0,
+            "enuFrameId"
+          ],
+          "value": "plan"
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "transform-evidence",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "transforms",
+            0,
+            "evidenceId"
+          ],
+          "value": "missing"
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "transform-uncertainty",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "transforms",
+            0,
+            "uncertaintyMeters"
+          ],
+          "value": -1
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "transform-control-count",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "transforms",
+            0,
+            "controls"
+          ],
+          "value": [
+            {
+              "local": [
+                0,
+                0,
+                0
+              ],
+              "enu": [
+                100,
+                200,
+                0
+              ]
+            }
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "transform-degenerate",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "transforms",
+            0,
+            "controls"
+          ],
+          "value": [
+            {
+              "local": [
+                0,
+                0,
+                0
+              ],
+              "enu": [
+                100,
+                200,
+                0
+              ]
+            },
+            {
+              "local": [
+                0,
+                0,
+                0
+              ],
+              "enu": [
+                100,
+                200,
+                0
+              ]
+            }
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "transform-residual",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "transforms",
+            0,
+            "rotationDegrees"
+          ],
+          "value": 0
+        }
+      ],
+      "valid": true,
+      "expected": {
+        "digests": {
+          "bundleDigest": "503612fff1dda01d42fbbb17470ed8e5f682876adfaf547f6bbcc251f10f054d",
+          "profileDigest": "7c11142875b5603b3989c8c9bb20b96bfb5ce6f074653e316dca64f62dc214db",
+          "contextDigest": "1c4cab9706877eb712b5820a6578fa7c3357a9be6a47635b383acf710440b8e4"
+        },
+        "assessment": {
+          "status": "unknown",
+          "reasons": [
+            {
+              "code": "policy-bundle-mismatch",
+              "edgeId": "ab",
+              "attribute": null,
+              "evidenceIds": []
+            },
+            {
+              "code": "transform-error-exceeds-budget",
+              "edgeId": "ab",
+              "attribute": null,
+              "evidenceIds": [
+                "survey"
+              ]
+            }
+          ],
+          "evidenceIds": [
+            "survey"
+          ],
+          "receipt": {
+            "schemaVersion": "0.1.0-draft.1",
+            "bundleId": "synthetic-venue",
+            "bundleRevision": "r1",
+            "bundleDigest": "503612fff1dda01d42fbbb17470ed8e5f682876adfaf547f6bbcc251f10f054d",
+            "profileDigest": "7c11142875b5603b3989c8c9bb20b96bfb5ce6f074653e316dca64f62dc214db",
+            "contextDigest": "1c4cab9706877eb712b5820a6578fa7c3357a9be6a47635b383acf710440b8e4",
+            "profileId": "synthetic-profile",
+            "evaluatedAt": "2026-10-25T12:00:00.000Z",
+            "edgeIds": [
+              "ab"
+            ],
+            "policyRevisions": [
+              {
+                "requirementId": "operations",
+                "revision": 3
+              }
+            ],
+            "distanceMeters": 10,
+            "preferenceCostMeters": 10
+          }
+        }
+      }
+    },
+    {
+      "id": "requirement-empty",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "policyRequirements",
+            0,
+            "edgeIds"
+          ],
+          "value": []
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "requirement-duplicate-edge",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "policyRequirements",
+            0,
+            "edgeIds"
+          ],
+          "value": [
+            "ab",
+            "ab"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "requirement-unknown-edge",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "bundle",
+            "policyRequirements",
+            0,
+            "edgeIds"
+          ],
+          "value": [
+            "missing"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "negative-hard-limit",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "profile",
+            "hard",
+            "maxDownhillPercent"
+          ],
+          "value": -1
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "fractional-hard-steps",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "profile",
+            "hard",
+            "maxStepCount"
+          ],
+          "value": 0.5
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "unsafe-hard-steps",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "profile",
+            "hard",
+            "maxStepCount"
+          ],
+          "value": 9007199254740992
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "empty-categories",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "profile",
+            "hard",
+            "allowedSurfaces"
+          ],
+          "value": []
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "duplicate-categories",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "profile",
+            "hard",
+            "allowedDoorOperations"
+          ],
+          "value": [
+            "manual",
+            "manual"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "duplicate-preferences",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "profile",
+            "preferences",
+            "avoidKinds"
+          ],
+          "value": [
+            "stairs",
+            "stairs"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "negative-penalty",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "profile",
+            "preferences",
+            "penaltyMeters"
+          ],
+          "value": -1
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "empty-sources",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "profile",
+            "evidencePolicy",
+            "acceptedSources"
+          ],
+          "value": []
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "duplicate-sources",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "profile",
+            "evidencePolicy",
+            "acceptedSources"
+          ],
+          "value": [
+            "operator",
+            "operator"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "negative-age",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "profile",
+            "evidencePolicy",
+            "maxAgeSeconds"
+          ],
+          "value": -1
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "negative-transform-budget",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "profile",
+            "evidencePolicy",
+            "maxTransformErrorMeters"
+          ],
+          "value": -1
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "duplicate-policies",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "context",
+            "policies"
+          ],
+          "value": [
+            {
+              "requirementId": "operations",
+              "bundleId": "synthetic-venue",
+              "bundleRevision": "r1",
+              "bundleDigest": "3576b6c31c264bc009118f99ec7b773684b8923e3d99bedac49eb1953215c52a",
+              "revision": 3,
+              "issuerId": "venue-operator",
+              "validFrom": "2026-10-25T11:00:00.000Z",
+              "validUntil": "2026-10-25T13:00:00.000Z",
+              "closedEdgeIds": []
+            },
+            {
+              "requirementId": "operations",
+              "bundleId": "synthetic-venue",
+              "bundleRevision": "r1",
+              "bundleDigest": "3576b6c31c264bc009118f99ec7b773684b8923e3d99bedac49eb1953215c52a",
+              "revision": 3,
+              "issuerId": "venue-operator",
+              "validFrom": "2026-10-25T11:00:00.000Z",
+              "validUntil": "2026-10-25T13:00:00.000Z",
+              "closedEdgeIds": []
+            }
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "policy-target",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "context",
+            "policies",
+            0,
+            "closedEdgeIds"
+          ],
+          "value": [
+            "missing"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "policy-interval",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "context",
+            "policies",
+            0,
+            "validUntil"
+          ],
+          "value": "2026-10-25T11:00:00.000Z"
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "fractional-revision",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "context",
+            "policies",
+            0,
+            "revision"
+          ],
+          "value": 0.5
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "unsafe-revision",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "context",
+            "policies",
+            0,
+            "revision"
+          ],
+          "value": 9007199254740992
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "digest-syntax",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "context",
+            "policies",
+            0,
+            "bundleDigest"
+          ],
+          "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "bundle-mismatch",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "context",
+            "policies",
+            0,
+            "bundleDigest"
+          ],
+          "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ],
+      "valid": true,
+      "expected": {
+        "digests": {
+          "bundleDigest": "3576b6c31c264bc009118f99ec7b773684b8923e3d99bedac49eb1953215c52a",
+          "profileDigest": "7c11142875b5603b3989c8c9bb20b96bfb5ce6f074653e316dca64f62dc214db",
+          "contextDigest": "628227d9dd851351a1e326c7ddcac79fa99687ae4592ac2e0735e4117ebd14e8"
+        },
+        "assessment": {
+          "status": "unknown",
+          "reasons": [
+            {
+              "code": "policy-bundle-mismatch",
+              "edgeId": "ab",
+              "attribute": null,
+              "evidenceIds": []
+            }
+          ],
+          "evidenceIds": [
+            "survey"
+          ],
+          "receipt": {
+            "schemaVersion": "0.1.0-draft.1",
+            "bundleId": "synthetic-venue",
+            "bundleRevision": "r1",
+            "bundleDigest": "3576b6c31c264bc009118f99ec7b773684b8923e3d99bedac49eb1953215c52a",
+            "profileDigest": "7c11142875b5603b3989c8c9bb20b96bfb5ce6f074653e316dca64f62dc214db",
+            "contextDigest": "628227d9dd851351a1e326c7ddcac79fa99687ae4592ac2e0735e4117ebd14e8",
+            "profileId": "synthetic-profile",
+            "evaluatedAt": "2026-10-25T12:00:00.000Z",
+            "edgeIds": [
+              "ab"
+            ],
+            "policyRevisions": [
+              {
+                "requirementId": "operations",
+                "revision": 3
+              }
+            ],
+            "distanceMeters": 10,
+            "preferenceCostMeters": 10
+          }
+        }
+      }
+    },
+    {
+      "id": "closed",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "context",
+            "policies",
+            0,
+            "closedEdgeIds"
+          ],
+          "value": [
+            "ab"
+          ]
+        }
+      ],
+      "valid": true,
+      "expected": {
+        "digests": {
+          "bundleDigest": "3576b6c31c264bc009118f99ec7b773684b8923e3d99bedac49eb1953215c52a",
+          "profileDigest": "7c11142875b5603b3989c8c9bb20b96bfb5ce6f074653e316dca64f62dc214db",
+          "contextDigest": "995a5d3f49b2112f8301a619e48bf3609e90970007da250405234ba7bcc07056"
+        },
+        "assessment": {
+          "status": "unsuitable",
+          "reasons": [
+            {
+              "code": "operationally-closed",
+              "edgeId": "ab",
+              "attribute": null,
+              "evidenceIds": []
+            }
+          ],
+          "evidenceIds": [
+            "survey"
+          ],
+          "receipt": {
+            "schemaVersion": "0.1.0-draft.1",
+            "bundleId": "synthetic-venue",
+            "bundleRevision": "r1",
+            "bundleDigest": "3576b6c31c264bc009118f99ec7b773684b8923e3d99bedac49eb1953215c52a",
+            "profileDigest": "7c11142875b5603b3989c8c9bb20b96bfb5ce6f074653e316dca64f62dc214db",
+            "contextDigest": "995a5d3f49b2112f8301a619e48bf3609e90970007da250405234ba7bcc07056",
+            "profileId": "synthetic-profile",
+            "evaluatedAt": "2026-10-25T12:00:00.000Z",
+            "edgeIds": [
+              "ab"
+            ],
+            "policyRevisions": [
+              {
+                "requirementId": "operations",
+                "revision": 3
+              }
+            ],
+            "distanceMeters": 10,
+            "preferenceCostMeters": 10
+          }
+        }
+      }
+    },
+    {
+      "id": "duplicate-issuers",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "context",
+            "trustedIssuerIds"
+          ],
+          "value": [
+            "operator",
+            "operator"
+          ]
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "untrusted-issuer",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "context",
+            "trustedIssuerIds"
+          ],
+          "value": []
+        }
+      ],
+      "valid": true,
+      "expected": {
+        "digests": {
+          "bundleDigest": "3576b6c31c264bc009118f99ec7b773684b8923e3d99bedac49eb1953215c52a",
+          "profileDigest": "7c11142875b5603b3989c8c9bb20b96bfb5ce6f074653e316dca64f62dc214db",
+          "contextDigest": "11fb4e14ce1b06dcc299c9406882375fdd2ab5afb43eaa1732f99df3cc05e58f"
+        },
+        "assessment": {
+          "status": "unknown",
+          "reasons": [
+            {
+              "code": "untrusted-policy-issuer",
+              "edgeId": "ab",
+              "attribute": null,
+              "evidenceIds": []
+            }
+          ],
+          "evidenceIds": [
+            "survey"
+          ],
+          "receipt": {
+            "schemaVersion": "0.1.0-draft.1",
+            "bundleId": "synthetic-venue",
+            "bundleRevision": "r1",
+            "bundleDigest": "3576b6c31c264bc009118f99ec7b773684b8923e3d99bedac49eb1953215c52a",
+            "profileDigest": "7c11142875b5603b3989c8c9bb20b96bfb5ce6f074653e316dca64f62dc214db",
+            "contextDigest": "11fb4e14ce1b06dcc299c9406882375fdd2ab5afb43eaa1732f99df3cc05e58f",
+            "profileId": "synthetic-profile",
+            "evaluatedAt": "2026-10-25T12:00:00.000Z",
+            "edgeIds": [
+              "ab"
+            ],
+            "policyRevisions": [
+              {
+                "requirementId": "operations",
+                "revision": 3
+              }
+            ],
+            "distanceMeters": 10,
+            "preferenceCostMeters": 10
+          }
+        }
+      }
+    },
+    {
+      "id": "unknown-floor",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "context",
+            "minimumPolicyRevisions",
+            "missing"
+          ],
+          "value": 0
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "unsafe-floor",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "context",
+            "minimumPolicyRevisions",
+            "operations"
+          ],
+          "value": 9007199254740992
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "negative-floor",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "context",
+            "minimumPolicyRevisions",
+            "operations"
+          ],
+          "value": -1
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "missing-floor",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "context",
+            "minimumPolicyRevisions"
+          ],
+          "value": {}
+        }
+      ],
+      "valid": true,
+      "expected": {
+        "digests": {
+          "bundleDigest": "3576b6c31c264bc009118f99ec7b773684b8923e3d99bedac49eb1953215c52a",
+          "profileDigest": "7c11142875b5603b3989c8c9bb20b96bfb5ce6f074653e316dca64f62dc214db",
+          "contextDigest": "527eddc12eb244e0eee7807a5297b99a80235a9aed6c60dbca688aa56660fa36"
+        },
+        "assessment": {
+          "status": "unknown",
+          "reasons": [
+            {
+              "code": "untrusted-policy-revision",
+              "edgeId": "ab",
+              "attribute": null,
+              "evidenceIds": []
+            }
+          ],
+          "evidenceIds": [
+            "survey"
+          ],
+          "receipt": {
+            "schemaVersion": "0.1.0-draft.1",
+            "bundleId": "synthetic-venue",
+            "bundleRevision": "r1",
+            "bundleDigest": "3576b6c31c264bc009118f99ec7b773684b8923e3d99bedac49eb1953215c52a",
+            "profileDigest": "7c11142875b5603b3989c8c9bb20b96bfb5ce6f074653e316dca64f62dc214db",
+            "contextDigest": "527eddc12eb244e0eee7807a5297b99a80235a9aed6c60dbca688aa56660fa36",
+            "profileId": "synthetic-profile",
+            "evaluatedAt": "2026-10-25T12:00:00.000Z",
+            "edgeIds": [
+              "ab"
+            ],
+            "policyRevisions": [
+              {
+                "requirementId": "operations",
+                "revision": 3
+              }
+            ],
+            "distanceMeters": 10,
+            "preferenceCostMeters": 10
+          }
+        }
+      }
+    },
+    {
+      "id": "invalid-time-0",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "context",
+            "evaluatedAt"
+          ],
+          "value": "2026-02-29T00:00:00.000Z"
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "invalid-time-1",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "context",
+            "evaluatedAt"
+          ],
+          "value": "1900-02-29T00:00:00.000Z"
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "invalid-time-2",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "context",
+            "evaluatedAt"
+          ],
+          "value": "2026-01-01T24:00:00.000Z"
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "invalid-time-3",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "context",
+            "evaluatedAt"
+          ],
+          "value": "2026-01-01T00:00:60.000Z"
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "invalid-time-4",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "context",
+            "evaluatedAt"
+          ],
+          "value": "2026-01-01T00:00:00Z"
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "invalid-time-5",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "context",
+            "evaluatedAt"
+          ],
+          "value": "2026-01-01T00:00:00.000+00:00"
+        }
+      ],
+      "valid": false,
+      "expected": null
+    },
+    {
+      "id": "time:0000-02-29T00:00:00.000Z",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "context",
+            "evaluatedAt"
+          ],
+          "value": "0000-02-29T00:00:00.000Z"
+        }
+      ],
+      "valid": true,
+      "expected": {
+        "digests": {
+          "bundleDigest": "3576b6c31c264bc009118f99ec7b773684b8923e3d99bedac49eb1953215c52a",
+          "profileDigest": "7c11142875b5603b3989c8c9bb20b96bfb5ce6f074653e316dca64f62dc214db",
+          "contextDigest": "9d8a3c9f800aa2264daa298f9ace4accdc20267e86f2445a56813a07d6afce7c"
+        },
+        "assessment": {
+          "status": "unknown",
+          "reasons": [
+            {
+              "code": "policy-not-current",
+              "edgeId": "ab",
+              "attribute": null,
+              "evidenceIds": []
+            },
+            {
+              "code": "transform-future-evidence",
+              "edgeId": "ab",
+              "attribute": null,
+              "evidenceIds": [
+                "survey"
+              ]
+            },
+            {
+              "code": "future-evidence",
+              "edgeId": "ab",
+              "attribute": "clearWidthMeters",
+              "evidenceIds": [
+                "survey"
+              ]
+            },
+            {
+              "code": "future-evidence",
+              "edgeId": "ab",
+              "attribute": "crossSlopePercent",
+              "evidenceIds": [
+                "survey"
+              ]
+            },
+            {
+              "code": "future-evidence",
+              "edgeId": "ab",
+              "attribute": "slopePercent",
+              "evidenceIds": [
+                "survey"
+              ]
+            },
+            {
+              "code": "future-evidence",
+              "edgeId": "ab",
+              "attribute": "stepCount",
+              "evidenceIds": [
+                "survey"
+              ]
+            },
+            {
+              "code": "future-evidence",
+              "edgeId": "ab",
+              "attribute": "surface",
+              "evidenceIds": [
+                "survey"
+              ]
+            }
+          ],
+          "evidenceIds": [
+            "survey"
+          ],
+          "receipt": {
+            "schemaVersion": "0.1.0-draft.1",
+            "bundleId": "synthetic-venue",
+            "bundleRevision": "r1",
+            "bundleDigest": "3576b6c31c264bc009118f99ec7b773684b8923e3d99bedac49eb1953215c52a",
+            "profileDigest": "7c11142875b5603b3989c8c9bb20b96bfb5ce6f074653e316dca64f62dc214db",
+            "contextDigest": "9d8a3c9f800aa2264daa298f9ace4accdc20267e86f2445a56813a07d6afce7c",
+            "profileId": "synthetic-profile",
+            "evaluatedAt": "0000-02-29T00:00:00.000Z",
+            "edgeIds": [
+              "ab"
+            ],
+            "policyRevisions": [
+              {
+                "requirementId": "operations",
+                "revision": 3
+              }
+            ],
+            "distanceMeters": 10,
+            "preferenceCostMeters": 10
+          }
+        }
+      }
+    },
+    {
+      "id": "time:1970-01-01T00:00:00.000Z",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "context",
+            "evaluatedAt"
+          ],
+          "value": "1970-01-01T00:00:00.000Z"
+        }
+      ],
+      "valid": true,
+      "expected": {
+        "digests": {
+          "bundleDigest": "3576b6c31c264bc009118f99ec7b773684b8923e3d99bedac49eb1953215c52a",
+          "profileDigest": "7c11142875b5603b3989c8c9bb20b96bfb5ce6f074653e316dca64f62dc214db",
+          "contextDigest": "ca0465a9ca4b794a6ce0867e1d9a1797d86a52ab926c7a287ed410955cb4ce99"
+        },
+        "assessment": {
+          "status": "unknown",
+          "reasons": [
+            {
+              "code": "policy-not-current",
+              "edgeId": "ab",
+              "attribute": null,
+              "evidenceIds": []
+            },
+            {
+              "code": "transform-future-evidence",
+              "edgeId": "ab",
+              "attribute": null,
+              "evidenceIds": [
+                "survey"
+              ]
+            },
+            {
+              "code": "future-evidence",
+              "edgeId": "ab",
+              "attribute": "clearWidthMeters",
+              "evidenceIds": [
+                "survey"
+              ]
+            },
+            {
+              "code": "future-evidence",
+              "edgeId": "ab",
+              "attribute": "crossSlopePercent",
+              "evidenceIds": [
+                "survey"
+              ]
+            },
+            {
+              "code": "future-evidence",
+              "edgeId": "ab",
+              "attribute": "slopePercent",
+              "evidenceIds": [
+                "survey"
+              ]
+            },
+            {
+              "code": "future-evidence",
+              "edgeId": "ab",
+              "attribute": "stepCount",
+              "evidenceIds": [
+                "survey"
+              ]
+            },
+            {
+              "code": "future-evidence",
+              "edgeId": "ab",
+              "attribute": "surface",
+              "evidenceIds": [
+                "survey"
+              ]
+            }
+          ],
+          "evidenceIds": [
+            "survey"
+          ],
+          "receipt": {
+            "schemaVersion": "0.1.0-draft.1",
+            "bundleId": "synthetic-venue",
+            "bundleRevision": "r1",
+            "bundleDigest": "3576b6c31c264bc009118f99ec7b773684b8923e3d99bedac49eb1953215c52a",
+            "profileDigest": "7c11142875b5603b3989c8c9bb20b96bfb5ce6f074653e316dca64f62dc214db",
+            "contextDigest": "ca0465a9ca4b794a6ce0867e1d9a1797d86a52ab926c7a287ed410955cb4ce99",
+            "profileId": "synthetic-profile",
+            "evaluatedAt": "1970-01-01T00:00:00.000Z",
+            "edgeIds": [
+              "ab"
+            ],
+            "policyRevisions": [
+              {
+                "requirementId": "operations",
+                "revision": 3
+              }
+            ],
+            "distanceMeters": 10,
+            "preferenceCostMeters": 10
+          }
+        }
+      }
+    },
+    {
+      "id": "time:2000-02-29T00:00:00.000Z",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "context",
+            "evaluatedAt"
+          ],
+          "value": "2000-02-29T00:00:00.000Z"
+        }
+      ],
+      "valid": true,
+      "expected": {
+        "digests": {
+          "bundleDigest": "3576b6c31c264bc009118f99ec7b773684b8923e3d99bedac49eb1953215c52a",
+          "profileDigest": "7c11142875b5603b3989c8c9bb20b96bfb5ce6f074653e316dca64f62dc214db",
+          "contextDigest": "5efbc4c49a4eb0ea9e659bdbab60597b205c7cbcf666dc36a883e63803433643"
+        },
+        "assessment": {
+          "status": "unknown",
+          "reasons": [
+            {
+              "code": "policy-not-current",
+              "edgeId": "ab",
+              "attribute": null,
+              "evidenceIds": []
+            },
+            {
+              "code": "transform-future-evidence",
+              "edgeId": "ab",
+              "attribute": null,
+              "evidenceIds": [
+                "survey"
+              ]
+            },
+            {
+              "code": "future-evidence",
+              "edgeId": "ab",
+              "attribute": "clearWidthMeters",
+              "evidenceIds": [
+                "survey"
+              ]
+            },
+            {
+              "code": "future-evidence",
+              "edgeId": "ab",
+              "attribute": "crossSlopePercent",
+              "evidenceIds": [
+                "survey"
+              ]
+            },
+            {
+              "code": "future-evidence",
+              "edgeId": "ab",
+              "attribute": "slopePercent",
+              "evidenceIds": [
+                "survey"
+              ]
+            },
+            {
+              "code": "future-evidence",
+              "edgeId": "ab",
+              "attribute": "stepCount",
+              "evidenceIds": [
+                "survey"
+              ]
+            },
+            {
+              "code": "future-evidence",
+              "edgeId": "ab",
+              "attribute": "surface",
+              "evidenceIds": [
+                "survey"
+              ]
+            }
+          ],
+          "evidenceIds": [
+            "survey"
+          ],
+          "receipt": {
+            "schemaVersion": "0.1.0-draft.1",
+            "bundleId": "synthetic-venue",
+            "bundleRevision": "r1",
+            "bundleDigest": "3576b6c31c264bc009118f99ec7b773684b8923e3d99bedac49eb1953215c52a",
+            "profileDigest": "7c11142875b5603b3989c8c9bb20b96bfb5ce6f074653e316dca64f62dc214db",
+            "contextDigest": "5efbc4c49a4eb0ea9e659bdbab60597b205c7cbcf666dc36a883e63803433643",
+            "profileId": "synthetic-profile",
+            "evaluatedAt": "2000-02-29T00:00:00.000Z",
+            "edgeIds": [
+              "ab"
+            ],
+            "policyRevisions": [
+              {
+                "requirementId": "operations",
+                "revision": 3
+              }
+            ],
+            "distanceMeters": 10,
+            "preferenceCostMeters": 10
+          }
+        }
+      }
+    },
+    {
+      "id": "time:9999-12-31T23:59:59.999Z",
+      "edits": [
+        {
+          "op": "set",
+          "path": [
+            "context",
+            "evaluatedAt"
+          ],
+          "value": "9999-12-31T23:59:59.999Z"
+        }
+      ],
+      "valid": true,
+      "expected": {
+        "digests": {
+          "bundleDigest": "3576b6c31c264bc009118f99ec7b773684b8923e3d99bedac49eb1953215c52a",
+          "profileDigest": "7c11142875b5603b3989c8c9bb20b96bfb5ce6f074653e316dca64f62dc214db",
+          "contextDigest": "1144c441b786ff2b1fc1e7fd8d1bab6818464524c71ac3fa9a836f29ada0dc43"
+        },
+        "assessment": {
+          "status": "unknown",
+          "reasons": [
+            {
+              "code": "policy-not-current",
+              "edgeId": "ab",
+              "attribute": null,
+              "evidenceIds": []
+            },
+            {
+              "code": "transform-stale-evidence",
+              "edgeId": "ab",
+              "attribute": null,
+              "evidenceIds": [
+                "survey"
+              ]
+            },
+            {
+              "code": "stale-evidence",
+              "edgeId": "ab",
+              "attribute": "clearWidthMeters",
+              "evidenceIds": [
+                "survey"
+              ]
+            },
+            {
+              "code": "stale-evidence",
+              "edgeId": "ab",
+              "attribute": "crossSlopePercent",
+              "evidenceIds": [
+                "survey"
+              ]
+            },
+            {
+              "code": "stale-evidence",
+              "edgeId": "ab",
+              "attribute": "slopePercent",
+              "evidenceIds": [
+                "survey"
+              ]
+            },
+            {
+              "code": "stale-evidence",
+              "edgeId": "ab",
+              "attribute": "stepCount",
+              "evidenceIds": [
+                "survey"
+              ]
+            },
+            {
+              "code": "stale-evidence",
+              "edgeId": "ab",
+              "attribute": "surface",
+              "evidenceIds": [
+                "survey"
+              ]
+            }
+          ],
+          "evidenceIds": [
+            "survey"
+          ],
+          "receipt": {
+            "schemaVersion": "0.1.0-draft.1",
+            "bundleId": "synthetic-venue",
+            "bundleRevision": "r1",
+            "bundleDigest": "3576b6c31c264bc009118f99ec7b773684b8923e3d99bedac49eb1953215c52a",
+            "profileDigest": "7c11142875b5603b3989c8c9bb20b96bfb5ce6f074653e316dca64f62dc214db",
+            "contextDigest": "1144c441b786ff2b1fc1e7fd8d1bab6818464524c71ac3fa9a836f29ada0dc43",
+            "profileId": "synthetic-profile",
+            "evaluatedAt": "9999-12-31T23:59:59.999Z",
+            "edgeIds": [
+              "ab"
+            ],
+            "policyRevisions": [
+              {
+                "requirementId": "operations",
+                "revision": 3
+              }
+            ],
+            "distanceMeters": 10,
+            "preferenceCostMeters": 10
+          }
+        }
+      }
+    }
+  ]
+}

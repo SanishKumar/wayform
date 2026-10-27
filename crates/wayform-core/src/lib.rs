@@ -6,6 +6,7 @@ mod eligibility;
 mod evidence;
 mod graph;
 mod identity;
+mod loader;
 mod measurement;
 mod policy;
 mod registration;
@@ -22,6 +23,7 @@ pub use evidence::{
 };
 pub use graph::{Edge, Graph, GraphError, MAX_EDGES, MAX_NODES};
 pub use identity::{IdentityError, InputDigests, bundle_digest, canonical_json, input_digests};
+pub use loader::{Document, LoadError, MAX_DOCUMENT_BYTES, MOBILITY_VERSION, MobilitySnapshot};
 pub use measurement::{
     MeasurementAssessment, MeasurementAttribute, MeasurementError, MeasurementObservation,
     MeasurementReason, MeasurementReasonCode, MeasurementRequirement, MeasurementValue,
