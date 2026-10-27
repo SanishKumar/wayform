@@ -1,6 +1,9 @@
 mod json;
 mod path;
+mod route;
 mod wire;
+
+pub use route::{MobilityRouteError, MobilityRouteOutcome, RouteDiagnostic};
 
 pub use path::{
     AssessmentStatus, MAX_PATH_EDGES, PathAssessment, PathError, PathReason, PathReceipt,

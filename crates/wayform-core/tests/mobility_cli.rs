@@ -185,3 +185,80 @@ fn frame_boundaries_invalid_utf8_and_trailing_eof_preserve_the_stream() {
     assert_eq!(responses[0], responses[3]);
     assert!(run(Vec::new()).is_empty());
 }
+
+#[test]
+fn route_requests_compute_decisions_and_keep_failure_paths_private() {
+    let mut valid = request();
+    valid["operation"] = json!("route");
+    valid.as_object_mut().unwrap().remove("edgeIds");
+    let mut unknown = valid.clone();
+    unknown["bundle"]["observations"] = json!([]);
+    let mut unsuitable = valid.clone();
+    unsuitable["bundle"]["observations"][0]["value"] = json!(0.5);
+    let mut reversed = valid.clone();
+    reversed["startId"] = json!("b");
+    reversed["destinationId"] = json!("a");
+    let mut stationary = valid.clone();
+    stationary["destinationId"] = json!("a");
+    let responses = run([
+        &valid,
+        &unknown,
+        &unsuitable,
+        &reversed,
+        &stationary,
+        &valid,
+    ]
+    .map(Value::to_string)
+    .join("\n")
+    .into_bytes());
+    assert_eq!(responses.len(), 6);
+    assert_eq!(responses[0], responses[5]);
+    assert_eq!(responses[0]["outcome"], "routed");
+    assert_eq!(responses[0]["assessment"]["status"], "suitable");
+    assert_eq!(
+        responses[0]["assessment"]["receipt"]["edgeIds"],
+        json!(["ab"])
+    );
+    for (index, outcome) in [
+        (1, "insufficient-evidence"),
+        (2, "infeasible"),
+        (3, "infeasible"),
+    ] {
+        assert_eq!(responses[index]["outcome"], outcome);
+        assert!(responses[index].get("assessment").is_none());
+        assert!(responses[index].get("edgeIds").is_none());
+        assert!(responses[index]["diagnostic"].get("edgeIds").is_none());
+        assert!(responses[index]["snapshot"].is_object());
+    }
+    assert_eq!(
+        responses[1]["diagnostic"]["reasonCodes"],
+        json!(["missing-measurement"])
+    );
+    assert_eq!(responses[4]["assessment"]["receipt"]["edgeIds"], json!([]));
+}
+
+#[test]
+fn operations_reject_missing_or_extraneous_paths_before_loading() {
+    let mut missing = request();
+    missing.as_object_mut().unwrap().remove("edgeIds");
+    let mut extra = request();
+    extra["operation"] = json!("route");
+    let mut null = extra.clone();
+    null["edgeIds"] = Value::Null;
+    let mut unknown = extra.clone();
+    unknown.as_object_mut().unwrap().remove("edgeIds");
+    unknown["startId"] = json!("absent");
+    let responses = run([missing, extra, null, unknown, request()]
+        .map(|value| value.to_string())
+        .join("\n")
+        .into_bytes());
+    for response in &responses[..2] {
+        assert_eq!(response["error"]["code"], "invalid-operation-input");
+        assert_eq!(response["requestId"], "example");
+        assert!(response["snapshot"].is_null());
+    }
+    assert_eq!(responses[2]["error"]["code"], "invalid-request");
+    assert_eq!(responses[3]["error"]["code"], "invalid-search");
+    assert!(responses[3]["snapshot"].is_object());
+    assert_eq!(responses[4]["outcome"], "assessed");
+}

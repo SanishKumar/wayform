@@ -25,7 +25,8 @@ pub use graph::{Edge, Graph, GraphError, MAX_EDGES, MAX_NODES};
 pub use identity::{IdentityError, InputDigests, bundle_digest, canonical_json, input_digests};
 pub use loader::{
     AssessmentStatus, Document, LoadError, MAX_DOCUMENT_BYTES, MAX_PATH_EDGES, MOBILITY_VERSION,
-    MobilitySnapshot, PathAssessment, PathError, PathReason, PathReceipt, PolicyRevision,
+    MobilityRouteError, MobilityRouteOutcome, MobilitySnapshot, PathAssessment, PathError,
+    PathReason, PathReceipt, PolicyRevision, RouteDiagnostic,
 };
 pub use measurement::{
     MeasurementAssessment, MeasurementAttribute, MeasurementError, MeasurementObservation,

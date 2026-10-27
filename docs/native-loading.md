@@ -14,6 +14,8 @@ Each document is limited to 16 MiB. Graph construction retains the native node a
 
 Nullable fields must be present as explicit `null` when unknown. Numbers use binary64 semantics; schema integers accept equivalent spellings such as `3`, `3.0` and `3e0` while enforcing the nonnegative safe-integer range. Timestamps require the exact millisecond UTC spelling and a real Gregorian date, including years `0000` through `9999`. Leap seconds and offset spellings are not accepted by this draft.
 
+`route(start_id, destination_id)` evaluates all edges from the snapshot, selects a suitable path and checks its complete receipt against the search result. Failure returns a bounded frontier diagnostic without a candidate path. Numeric/resource errors remain separate errors. This API and the [mobility CLI](native-mobility-protocol.md) use the same snapshot for eligibility and receipts.
+
 The loader currently builds a complete snapshot for each set of documents. Reusable loaded-bundle handles, streaming ingestion and large-venue performance measurements remain future work.
 
 ## Reproduction

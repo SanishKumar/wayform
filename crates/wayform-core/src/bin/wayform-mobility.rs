@@ -2,10 +2,11 @@ mod support;
 
 use std::io;
 
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize, Deserializer, Serialize};
 use serde_json::value::RawValue;
 use wayform_core::{
-    Document, InputDigests, LoadError, MobilitySnapshot, PathAssessment, PathError,
+    Document, InputDigests, LoadError, MobilityRouteError, MobilityRouteOutcome, MobilitySnapshot,
+    PathAssessment, PathError, RouteDiagnostic, SearchError,
 };
 
 const PROTOCOL_VERSION: &str = "0.1.0";
@@ -14,6 +15,13 @@ const PROTOCOL_VERSION: &str = "0.1.0";
 #[serde(rename_all = "kebab-case")]
 enum Operation {
     AssessPath,
+    Route,
+}
+
+// A present edgeIds must be an array. Null must not collapse into an omitted
+// route argument, and assess-path must retain its explicit path requirement.
+fn present_path<'de, D: Deserializer<'de>>(input: D) -> Result<Option<Vec<String>>, D::Error> {
+    Vec::<String>::deserialize(input).map(Some)
 }
 
 #[derive(Deserialize)]
@@ -29,7 +37,8 @@ struct Request {
     context: Box<RawValue>,
     start_id: String,
     destination_id: String,
-    edge_ids: Vec<String>,
+    #[serde(default, deserialize_with = "present_path")]
+    edge_ids: Option<Vec<String>>,
 }
 
 #[derive(Serialize)]
@@ -46,6 +55,9 @@ struct Response {
 #[serde(tag = "outcome", rename_all = "kebab-case")]
 enum ResultBody {
     Assessed { assessment: Box<PathAssessment> },
+    Routed { assessment: Box<PathAssessment> },
+    InsufficientEvidence { diagnostic: RouteDiagnostic },
+    Infeasible { diagnostic: RouteDiagnostic },
     Rejected { error: Failure },
 }
 
@@ -103,6 +115,14 @@ fn execute(request: Request) -> Response {
     if request.protocol_version != PROTOCOL_VERSION {
         return response;
     }
+    if matches!(request.operation, Operation::AssessPath) != request.edge_ids.is_some() {
+        response.result = rejected(
+            "invalid-operation-input",
+            None,
+            "assess-path requires edgeIds; route requires it to be omitted",
+        );
+        return response;
+    }
     let snapshot = match MobilitySnapshot::from_json(
         request.bundle.get().as_bytes(),
         request.profile.get().as_bytes(),
@@ -119,7 +139,10 @@ fn execute(request: Request) -> Response {
         Operation::AssessPath => match snapshot.assess_path(
             &request.start_id,
             &request.destination_id,
-            &request.edge_ids,
+            request
+                .edge_ids
+                .as_deref()
+                .expect("validated assess-path input"),
         ) {
             Ok(assessment) => ResultBody::Assessed {
                 assessment: Box::new(assessment),
@@ -128,6 +151,30 @@ fn execute(request: Request) -> Response {
                 match error {
                     PathError::ResourceLimit => "path-limit-exceeded",
                     PathError::Eligibility(_) => "evaluation-failed",
+                },
+                None,
+                error,
+            ),
+        },
+        Operation::Route => match snapshot.route(&request.start_id, &request.destination_id) {
+            Ok(MobilityRouteOutcome::Routed(assessment)) => ResultBody::Routed { assessment },
+            Ok(MobilityRouteOutcome::InsufficientEvidence(diagnostic)) => {
+                ResultBody::InsufficientEvidence { diagnostic }
+            }
+            Ok(MobilityRouteOutcome::Infeasible(diagnostic)) => {
+                ResultBody::Infeasible { diagnostic }
+            }
+            Err(error) => rejected(
+                match &error {
+                    MobilityRouteError::Search(SearchError::WorkLimitExceeded) => {
+                        "work-limit-exceeded"
+                    }
+                    MobilityRouteError::Search(SearchError::UnrepresentableCost(_)) => {
+                        "unrepresentable-cost"
+                    }
+                    MobilityRouteError::Search(_) => "invalid-search",
+                    MobilityRouteError::Path(PathError::ResourceLimit) => "path-limit-exceeded",
+                    _ => "evaluation-failed",
                 },
                 None,
                 error,
