@@ -1,9 +1,7 @@
 use std::collections::{HashMap, HashSet};
 use std::fmt;
 
-// The draft contract permits four-digit UTC years, including year zero.
-const MIN_TIMESTAMP_MS: i64 = -62_167_219_200_000;
-const MAX_TIMESTAMP_MS: i64 = 253_402_300_799_999;
+use crate::validation::valid_time;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum EvidenceSource {
@@ -86,10 +84,6 @@ impl fmt::Display for EvidenceError {
 }
 
 impl std::error::Error for EvidenceError {}
-
-fn valid_time(value: i64) -> bool {
-    (MIN_TIMESTAMP_MS..=MAX_TIMESTAMP_MS).contains(&value)
-}
 
 fn valid_record(record: &EvidenceRecord) -> bool {
     !record.id.is_empty()

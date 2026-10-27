@@ -2,9 +2,8 @@ use std::collections::HashSet;
 use std::fmt;
 
 use crate::graph::compare_ids;
+use crate::validation::MAX_SAFE_INTEGER;
 use crate::{EvidenceError, EvidenceIssue, EvidenceSnapshot, Suitability};
-
-const MAX_SAFE_INTEGER: u64 = 9_007_199_254_740_991;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum MeasurementAttribute {
