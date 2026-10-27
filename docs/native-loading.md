@@ -6,7 +6,7 @@ The loader checks closed object shapes, required nullable properties, safe integ
 
 `input_digests()` contains [computed input identities](native-identities.md). Closure evaluation binds policies to the digest of the validated bundle rather than trusting an identity supplied separately by the caller. A correctly shaped policy with a wrong bundle digest, untrusted issuer, stale interval or missing revision floor produces unknown eligibility. It does not make the bundle malformed.
 
-`assess_edge(id)` evaluates a directed edge from the loaded documents. `decisions()` returns complete decisions in the graph's stable order, including preference penalties, for the existing graph search API. Read-only accessors expose topology and the explicit evaluation metadata. These do not authenticate publishers, survey measurements or policy issuers; authentication and persistent revision floors belong to the host.
+`assess_edge(id)` evaluates a directed edge from the loaded documents. `decisions()` returns complete decisions in the graph's stable order, including preference penalties, for the existing graph search API. `assess_path` produces [supplied-path assessments and receipts](native-path-receipts.md). Read-only accessors expose topology and the explicit evaluation metadata. These do not authenticate publishers, survey measurements or policy issuers; authentication and persistent revision floors belong to the host.
 
 ## Input bounds and compatibility
 

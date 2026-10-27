@@ -35,7 +35,7 @@ The synthetic data demonstrates software behavior. It does not establish physica
 
 The Rust toolchain is pinned in `rust-toolchain.toml`. Run `cargo test --workspace --locked` for native tests and `cargo clippy --workspace --all-targets --locked -- -D warnings` for lint checks. `npm run test:native` builds the JSON-lines search CLI and checks it against TypeScript-evaluated mobility fixtures on Linux and Windows in CI. The [CLI protocol](docs/native-search-protocol.md) accepts already evaluated edges; its snapshot labels are supplied by the caller.
 
-Native [edge eligibility](docs/native-eligibility.md) combines physical requirements with access rules, closures and entrance registration. The [document loader](docs/native-loading.md) validates complete bundle/profile/context JSON and computes their identities before evaluating edges. Native path receipts, legacy routing parity, Android screens, Go services, geographic ingestion and production synchronization are later work.
+Native [edge eligibility](docs/native-eligibility.md) combines physical requirements with access rules, closures and entrance registration. The [document loader](docs/native-loading.md) validates complete bundle/profile/context JSON and computes their identities before evaluating edges or issuing [supplied-path receipts](docs/native-path-receipts.md). Connecting that API to the CLI, legacy routing parity, Android screens, Go services, geographic ingestion and production synchronization are later work.
 
 ## Updating baselines
 

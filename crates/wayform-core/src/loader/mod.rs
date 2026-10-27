@@ -1,5 +1,11 @@
 mod json;
+mod path;
 mod wire;
+
+pub use path::{
+    AssessmentStatus, MAX_PATH_EDGES, PathAssessment, PathError, PathReason, PathReceipt,
+    PolicyRevision,
+};
 
 use std::collections::{HashMap, HashSet};
 use std::fmt;

@@ -1,5 +1,5 @@
 use serde_json::{Value, json};
-use wayform_core::{Document, LoadError, MAX_DOCUMENT_BYTES, MobilitySnapshot};
+use wayform_core::{Document, LoadError, MAX_DOCUMENT_BYTES, MobilitySnapshot, canonical_json};
 
 fn corpus() -> Value {
     serde_json::from_str(include_str!(
@@ -81,6 +81,16 @@ fn full_document_acceptance_matches_typescript() {
                 case["expected"]["assessment"]["evidenceIds"]
             );
             assert_eq!(snapshot.decisions().unwrap().len(), 1);
+            assert_eq!(
+                canonical_json(
+                    &serde_json::to_value(snapshot.assess_path("a", "b", &["ab".into()]).unwrap())
+                        .unwrap()
+                )
+                .unwrap(),
+                canonical_json(&case["expected"]["assessment"]).unwrap(),
+                "{}",
+                case["id"]
+            );
         }
     }
 }

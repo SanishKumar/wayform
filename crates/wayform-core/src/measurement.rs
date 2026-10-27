@@ -5,7 +5,7 @@ use crate::graph::compare_ids;
 use crate::validation::MAX_SAFE_INTEGER;
 use crate::{EvidenceError, EvidenceIssue, EvidenceSnapshot, Suitability};
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, serde::Deserialize)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, serde::Deserialize, serde::Serialize)]
 #[serde(rename_all = "camelCase")]
 pub enum MeasurementAttribute {
     ClearWidthMeters,
