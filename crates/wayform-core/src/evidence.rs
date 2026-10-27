@@ -126,6 +126,7 @@ fn evaluate(record: &EvidenceRecord, policy: &EvidencePolicy, now: i64) -> Optio
 /// Acceptance is a policy decision, not authentication of an actor or a survey.
 #[derive(Clone, Debug)]
 pub struct EvidenceSnapshot {
+    evaluated_at_ms: i64,
     issues: HashMap<String, Option<EvidenceIssue>>,
 }
 
@@ -158,7 +159,14 @@ impl EvidenceSnapshot {
                 return Err(EvidenceError::DuplicateId(record.id.clone()));
             }
         }
-        Ok(Self { issues })
+        Ok(Self {
+            evaluated_at_ms,
+            issues,
+        })
+    }
+
+    pub fn evaluated_at_ms(&self) -> i64 {
+        self.evaluated_at_ms
     }
 
     /// An unknown reference is invalid input, never an accepted observation.

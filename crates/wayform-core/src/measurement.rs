@@ -5,7 +5,7 @@ use crate::graph::compare_ids;
 use crate::validation::MAX_SAFE_INTEGER;
 use crate::{EvidenceError, EvidenceIssue, EvidenceSnapshot, Suitability};
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MeasurementAttribute {
     ClearWidthMeters,
     SlopePercent,
@@ -13,6 +13,19 @@ pub enum MeasurementAttribute {
     StepCount,
     Surface,
     DoorOperation,
+}
+
+impl MeasurementAttribute {
+    pub fn name(self) -> &'static str {
+        match self {
+            Self::ClearWidthMeters => "clearWidthMeters",
+            Self::SlopePercent => "slopePercent",
+            Self::CrossSlopePercent => "crossSlopePercent",
+            Self::StepCount => "stepCount",
+            Self::Surface => "surface",
+            Self::DoorOperation => "doorOperation",
+        }
+    }
 }
 
 #[derive(Clone, Debug)]
@@ -40,7 +53,7 @@ impl MeasurementRequirement {
         }
     }
 
-    fn valid(&self) -> bool {
+    pub(crate) fn valid(&self) -> bool {
         let nonnegative = |number: f64| number.is_finite() && number >= 0.0;
         match self {
             Self::MinimumWidth(value) | Self::MaximumCrossSlope(value) => nonnegative(*value),
@@ -160,7 +173,7 @@ impl fmt::Display for MeasurementError {
 
 impl std::error::Error for MeasurementError {}
 
-fn valid_observation(
+pub(crate) fn valid_observation(
     observation: &MeasurementObservation,
     attribute: MeasurementAttribute,
 ) -> bool {

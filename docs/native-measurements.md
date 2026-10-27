@@ -26,4 +26,4 @@ The result contains suitability, reason codes and evidence IDs for that one requ
 
 `npm run check` verifies that committed expectations still match TypeScript. `cargo test --workspace --locked` evaluates the same cases in Rust in both collection orders. Separate native tests cover malformed inputs and tightening width requirements across 451 numeric intervals. Expectations are recorded explicitly with `node --import tsx scripts/record-measurement-examples.ts --record`; review any changed result before accepting it.
 
-These checks establish component agreement for the supplied synthetic cases. Native full-bundle validation, raw JSON input parity, complete edge decisions and canonical receipts remain separate migration gates.
+These checks establish component agreement for the supplied synthetic cases. The [combined edge evaluator](native-eligibility.md) uses these components with access, closure and registration rules. Native full-bundle validation, raw JSON input parity and canonical receipts remain separate migration gates.
