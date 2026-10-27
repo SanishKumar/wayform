@@ -5,6 +5,7 @@
 mod eligibility;
 mod evidence;
 mod graph;
+mod identity;
 mod measurement;
 mod policy;
 mod registration;
@@ -20,6 +21,7 @@ pub use evidence::{
     ReviewStatus,
 };
 pub use graph::{Edge, Graph, GraphError, MAX_EDGES, MAX_NODES};
+pub use identity::{IdentityError, InputDigests, bundle_digest, canonical_json, input_digests};
 pub use measurement::{
     MeasurementAssessment, MeasurementAttribute, MeasurementError, MeasurementObservation,
     MeasurementReason, MeasurementReasonCode, MeasurementRequirement, MeasurementValue,

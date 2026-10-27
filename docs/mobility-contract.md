@@ -82,7 +82,9 @@ Receipts retain the contract version, bundle identity, profile, evaluation time,
 
 For input identity, unordered top-level bundle collections are sorted by ID; set-valued category/edge lists and policy collections are sorted; control pairs are sorted by their canonical JSON. Coordinates and ordered path arrays retain order. Object keys use UTF-16 lexical ordering and numbers use ECMAScript JSON serialization; the digest is SHA-256 of UTF-8 compact JSON. This is a draft identity procedure, not a claim of a complete cryptographic publication protocol. Native serialization must match the portable examples before these receipts become a stable cross-language format.
 
-The ten `examples/decisions-v0.1.0-draft.1.json` scenarios contain fictional facts and expected full decisions. New-contract tests additionally exercise directed reverse slopes, parallel arcs, boundary errors, policy revision floors, contradictory evidence and malformed inputs.
+Array-index property names (`0` through `4294967294`) are enumerated numerically by `JSON.stringify` even after lexical insertion; other keys remain in UTF-16 order. This matters for numeric requirement IDs in revision-floor objects. Native consumers must reproduce this behavior rather than substitute a different canonical JSON standard.
+
+The ten `examples/decisions-v0.1.0-draft.1.json` scenarios contain fictional facts and expected full decisions. New-contract tests additionally exercise directed reverse slopes, parallel arcs, boundary errors, policy revision floors, contradictory evidence and malformed inputs. [Native identity checks](native-identities.md) cover additional numeric and Unicode serialization cases.
 
 ## Remaining design work
 

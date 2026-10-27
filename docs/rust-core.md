@@ -93,4 +93,4 @@ After conformance, expose typed records and immutable graph handles through UniF
 
 ## Open decisions
 
-The current contract identity procedure uses ECMAScript numeric serialization; native canonicalization must be verified against the stored examples, including future Unicode/number edge cases, before treating it as a stable publication format. Replacing it with a standardized canonicalization requires a contract revision. Trusted-clock behavior, signatures, evidence supersession and full physical mobility geometry remain separate work.
+The current contract identity procedure uses ECMAScript numeric serialization. [Native identity checks](native-identities.md) now cover the stored receipts plus numeric, Unicode and property-order cases. This remains a draft-specific format; replacing it with a standardized canonicalization requires a contract revision. Trusted-clock behavior, signatures, evidence supersession and full physical mobility geometry remain separate work.
