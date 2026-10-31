@@ -12,9 +12,10 @@ fn query(id: &str) -> Value {
 }
 
 fn request() -> Value {
+    let nodes = ["a", "b", "c", "d"].map(|id| json!({"id": id, "x": 0, "y": 0, "floor": "g"}));
     json!({
         "protocolVersion": "0.1.0", "sourceCommit": LEGACY_SOURCE_COMMIT, "requestId": "batch",
-        "nodes": ["a", "b", "c", "d"].map(|id| json!({"id": id, "x": 0, "y": 0, "floor": "g"})),
+        "nodes": nodes,
         "edges": [
             {"id": "ab", "from": "a", "to": "b", "distance": 2, "accessible": false, "restricted": false},
             {"id": "bd", "from": "b", "to": "d", "distance": 2, "accessible": true, "restricted": false},
