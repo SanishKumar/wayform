@@ -1,0 +1,3293 @@
+{
+  "formatVersion": 1,
+  "sourceCommit": "305c70bd418d7fd2b6f0ebf7a2ecd0ddcb9b9b7f",
+  "groups": [
+    {
+      "id": "synthetic",
+      "package": {
+        "buildingId": "fixture",
+        "packageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "edges": [
+          {
+            "id": "edge-",
+            "sourceId": "lift"
+          },
+          {
+            "id": "edge-𐀀",
+            "sourceId": "lift"
+          },
+          {
+            "id": "door-edge",
+            "sourceId": "door"
+          }
+        ]
+      },
+      "cases": [
+        {
+          "id": "current-source-and-edge-utf16-order",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "ops",
+            "buildingId": "fixture",
+            "packageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              {
+                "id": "",
+                "target": {
+                  "type": "source",
+                  "id": "lift"
+                },
+                "reason": "Synthetic lift outage"
+              },
+              {
+                "id": "𐀀",
+                "target": {
+                  "type": "edge",
+                  "id": "door-edge"
+                },
+                "reason": "Synthetic door closure"
+              }
+            ]
+          },
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": true,
+            "overlayId": "ops",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [
+              "𐀀",
+              ""
+            ],
+            "closedEdgeIds": [
+              "door-edge",
+              "edge-𐀀",
+              "edge-"
+            ],
+            "issues": []
+          }
+        },
+        {
+          "id": "inclusive-start",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "ops",
+            "buildingId": "fixture",
+            "packageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              {
+                "id": "",
+                "target": {
+                  "type": "source",
+                  "id": "lift"
+                },
+                "reason": "Synthetic lift outage"
+              },
+              {
+                "id": "𐀀",
+                "target": {
+                  "type": "edge",
+                  "id": "door-edge"
+                },
+                "reason": "Synthetic door closure"
+              }
+            ]
+          },
+          "evaluatedAt": "2026-07-22T08:00:00.000Z",
+          "expected": {
+            "valid": true,
+            "overlayId": "ops",
+            "evaluatedAt": "2026-07-22T08:00:00.000Z",
+            "activeClosureIds": [
+              "𐀀",
+              ""
+            ],
+            "closedEdgeIds": [
+              "door-edge",
+              "edge-𐀀",
+              "edge-"
+            ],
+            "issues": []
+          }
+        },
+        {
+          "id": "before-start",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "ops",
+            "buildingId": "fixture",
+            "packageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              {
+                "id": "",
+                "target": {
+                  "type": "source",
+                  "id": "lift"
+                },
+                "reason": "Synthetic lift outage"
+              },
+              {
+                "id": "𐀀",
+                "target": {
+                  "type": "edge",
+                  "id": "door-edge"
+                },
+                "reason": "Synthetic door closure"
+              }
+            ]
+          },
+          "evaluatedAt": "2026-07-22T07:59:59.999Z",
+          "expected": {
+            "valid": false,
+            "overlayId": "ops",
+            "evaluatedAt": "2026-07-22T07:59:59.999Z",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "overlay-not-active",
+                "message": "Operational overlay is not active at the requested evaluation time."
+              }
+            ]
+          }
+        },
+        {
+          "id": "before-expiry",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "ops",
+            "buildingId": "fixture",
+            "packageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              {
+                "id": "",
+                "target": {
+                  "type": "source",
+                  "id": "lift"
+                },
+                "reason": "Synthetic lift outage"
+              },
+              {
+                "id": "𐀀",
+                "target": {
+                  "type": "edge",
+                  "id": "door-edge"
+                },
+                "reason": "Synthetic door closure"
+              }
+            ]
+          },
+          "evaluatedAt": "2026-07-22T23:59:59.999Z",
+          "expected": {
+            "valid": true,
+            "overlayId": "ops",
+            "evaluatedAt": "2026-07-22T23:59:59.999Z",
+            "activeClosureIds": [
+              "𐀀",
+              ""
+            ],
+            "closedEdgeIds": [
+              "door-edge",
+              "edge-𐀀",
+              "edge-"
+            ],
+            "issues": []
+          }
+        },
+        {
+          "id": "exclusive-expiry",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "ops",
+            "buildingId": "fixture",
+            "packageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              {
+                "id": "",
+                "target": {
+                  "type": "source",
+                  "id": "lift"
+                },
+                "reason": "Synthetic lift outage"
+              },
+              {
+                "id": "𐀀",
+                "target": {
+                  "type": "edge",
+                  "id": "door-edge"
+                },
+                "reason": "Synthetic door closure"
+              }
+            ]
+          },
+          "evaluatedAt": "2026-07-23T00:00:00.000Z",
+          "expected": {
+            "valid": false,
+            "overlayId": "ops",
+            "evaluatedAt": "2026-07-23T00:00:00.000Z",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "overlay-expired",
+                "message": "Operational overlay has expired and cannot be applied."
+              }
+            ]
+          }
+        },
+        {
+          "id": "after-expiry",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "ops",
+            "buildingId": "fixture",
+            "packageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              {
+                "id": "",
+                "target": {
+                  "type": "source",
+                  "id": "lift"
+                },
+                "reason": "Synthetic lift outage"
+              },
+              {
+                "id": "𐀀",
+                "target": {
+                  "type": "edge",
+                  "id": "door-edge"
+                },
+                "reason": "Synthetic door closure"
+              }
+            ]
+          },
+          "evaluatedAt": "2026-07-23T00:00:00.001Z",
+          "expected": {
+            "valid": false,
+            "overlayId": "ops",
+            "evaluatedAt": "2026-07-23T00:00:00.001Z",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "overlay-expired",
+                "message": "Operational overlay has expired and cannot be applied."
+              }
+            ]
+          }
+        },
+        {
+          "id": "missing-clock",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "ops",
+            "buildingId": "fixture",
+            "packageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              {
+                "id": "",
+                "target": {
+                  "type": "source",
+                  "id": "lift"
+                },
+                "reason": "Synthetic lift outage"
+              },
+              {
+                "id": "𐀀",
+                "target": {
+                  "type": "edge",
+                  "id": "door-edge"
+                },
+                "reason": "Synthetic door closure"
+              }
+            ]
+          },
+          "evaluatedAt": "",
+          "expected": {
+            "valid": false,
+            "overlayId": "ops",
+            "evaluatedAt": "",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "invalid-time",
+                "message": "Overlay timestamps must be valid and validUntil must be after validFrom."
+              }
+            ]
+          }
+        },
+        {
+          "id": "invalid-clock",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "ops",
+            "buildingId": "fixture",
+            "packageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              {
+                "id": "",
+                "target": {
+                  "type": "source",
+                  "id": "lift"
+                },
+                "reason": "Synthetic lift outage"
+              },
+              {
+                "id": "𐀀",
+                "target": {
+                  "type": "edge",
+                  "id": "door-edge"
+                },
+                "reason": "Synthetic door closure"
+              }
+            ]
+          },
+          "evaluatedAt": "not-a-time",
+          "expected": {
+            "valid": false,
+            "overlayId": "ops",
+            "evaluatedAt": "not-a-time",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "invalid-time",
+                "message": "Overlay timestamps must be valid and validUntil must be after validFrom."
+              }
+            ]
+          }
+        },
+        {
+          "id": "empty-closures",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "ops",
+            "buildingId": "fixture",
+            "packageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": []
+          },
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": true,
+            "overlayId": "ops",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": []
+          }
+        },
+        {
+          "id": "source-only",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "ops",
+            "buildingId": "fixture",
+            "packageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              {
+                "id": "",
+                "target": {
+                  "type": "source",
+                  "id": "lift"
+                },
+                "reason": "Synthetic lift outage"
+              }
+            ]
+          },
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": true,
+            "overlayId": "ops",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [
+              ""
+            ],
+            "closedEdgeIds": [
+              "edge-𐀀",
+              "edge-"
+            ],
+            "issues": []
+          }
+        },
+        {
+          "id": "edge-only",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "ops",
+            "buildingId": "fixture",
+            "packageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              {
+                "id": "𐀀",
+                "target": {
+                  "type": "edge",
+                  "id": "door-edge"
+                },
+                "reason": "Synthetic door closure"
+              }
+            ]
+          },
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": true,
+            "overlayId": "ops",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [
+              "𐀀"
+            ],
+            "closedEdgeIds": [
+              "door-edge"
+            ],
+            "issues": []
+          }
+        },
+        {
+          "id": "overlapping-targets",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "ops",
+            "buildingId": "fixture",
+            "packageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              {
+                "id": "",
+                "target": {
+                  "type": "source",
+                  "id": "lift"
+                },
+                "reason": "Synthetic lift outage"
+              },
+              {
+                "id": "𐀀",
+                "target": {
+                  "type": "edge",
+                  "id": "door-edge"
+                },
+                "reason": "Synthetic door closure"
+              },
+              {
+                "id": "overlap",
+                "target": {
+                  "type": "edge",
+                  "id": "edge-"
+                },
+                "reason": "Same closure"
+              }
+            ]
+          },
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": true,
+            "overlayId": "ops",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [
+              "overlap",
+              "𐀀",
+              ""
+            ],
+            "closedEdgeIds": [
+              "door-edge",
+              "edge-𐀀",
+              "edge-"
+            ],
+            "issues": []
+          }
+        },
+        {
+          "id": "unsupported-version",
+          "overlay": {
+            "schemaVersion": "future",
+            "id": "ops",
+            "buildingId": "fixture",
+            "packageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              {
+                "id": "",
+                "target": {
+                  "type": "source",
+                  "id": "lift"
+                },
+                "reason": "Synthetic lift outage"
+              },
+              {
+                "id": "𐀀",
+                "target": {
+                  "type": "edge",
+                  "id": "door-edge"
+                },
+                "reason": "Synthetic door closure"
+              }
+            ]
+          },
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": false,
+            "overlayId": "ops",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "invalid-schema-version",
+                "message": "Unsupported operational overlay version: future."
+              }
+            ]
+          }
+        },
+        {
+          "id": "building-mismatch",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "ops",
+            "buildingId": "other",
+            "packageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              {
+                "id": "",
+                "target": {
+                  "type": "source",
+                  "id": "lift"
+                },
+                "reason": "Synthetic lift outage"
+              },
+              {
+                "id": "𐀀",
+                "target": {
+                  "type": "edge",
+                  "id": "door-edge"
+                },
+                "reason": "Synthetic door closure"
+              }
+            ]
+          },
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": false,
+            "overlayId": "ops",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "building-mismatch",
+                "message": "Overlay building other does not match fixture."
+              }
+            ]
+          }
+        },
+        {
+          "id": "package-mismatch",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "ops",
+            "buildingId": "fixture",
+            "packageHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              {
+                "id": "",
+                "target": {
+                  "type": "source",
+                  "id": "lift"
+                },
+                "reason": "Synthetic lift outage"
+              },
+              {
+                "id": "𐀀",
+                "target": {
+                  "type": "edge",
+                  "id": "door-edge"
+                },
+                "reason": "Synthetic door closure"
+              }
+            ]
+          },
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": false,
+            "overlayId": "ops",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "package-mismatch",
+                "message": "Overlay package hash does not match the active building package."
+              }
+            ]
+          }
+        },
+        {
+          "id": "empty-overlay-id",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "",
+            "buildingId": "fixture",
+            "packageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              {
+                "id": "",
+                "target": {
+                  "type": "source",
+                  "id": "lift"
+                },
+                "reason": "Synthetic lift outage"
+              },
+              {
+                "id": "𐀀",
+                "target": {
+                  "type": "edge",
+                  "id": "door-edge"
+                },
+                "reason": "Synthetic door closure"
+              }
+            ]
+          },
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": true,
+            "overlayId": "",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [
+              "𐀀",
+              ""
+            ],
+            "closedEdgeIds": [
+              "door-edge",
+              "edge-𐀀",
+              "edge-"
+            ],
+            "issues": []
+          }
+        },
+        {
+          "id": "invalid-from",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "ops",
+            "buildingId": "fixture",
+            "packageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "validFrom": "not-a-time",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              {
+                "id": "",
+                "target": {
+                  "type": "source",
+                  "id": "lift"
+                },
+                "reason": "Synthetic lift outage"
+              },
+              {
+                "id": "𐀀",
+                "target": {
+                  "type": "edge",
+                  "id": "door-edge"
+                },
+                "reason": "Synthetic door closure"
+              }
+            ]
+          },
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": false,
+            "overlayId": "ops",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "invalid-time",
+                "message": "Overlay timestamps must be valid and validUntil must be after validFrom."
+              }
+            ]
+          }
+        },
+        {
+          "id": "invalid-until",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "ops",
+            "buildingId": "fixture",
+            "packageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-99T00:00:00.000Z",
+            "closures": [
+              {
+                "id": "",
+                "target": {
+                  "type": "source",
+                  "id": "lift"
+                },
+                "reason": "Synthetic lift outage"
+              },
+              {
+                "id": "𐀀",
+                "target": {
+                  "type": "edge",
+                  "id": "door-edge"
+                },
+                "reason": "Synthetic door closure"
+              }
+            ]
+          },
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": false,
+            "overlayId": "ops",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "invalid-time",
+                "message": "Overlay timestamps must be valid and validUntil must be after validFrom."
+              }
+            ]
+          }
+        },
+        {
+          "id": "empty-time",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "ops",
+            "buildingId": "fixture",
+            "packageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "",
+            "closures": [
+              {
+                "id": "",
+                "target": {
+                  "type": "source",
+                  "id": "lift"
+                },
+                "reason": "Synthetic lift outage"
+              },
+              {
+                "id": "𐀀",
+                "target": {
+                  "type": "edge",
+                  "id": "door-edge"
+                },
+                "reason": "Synthetic door closure"
+              }
+            ]
+          },
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": false,
+            "overlayId": "ops",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "invalid-time",
+                "message": "Overlay timestamps must be valid and validUntil must be after validFrom."
+              }
+            ]
+          }
+        },
+        {
+          "id": "empty-interval",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "ops",
+            "buildingId": "fixture",
+            "packageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-22T08:00:00.000Z",
+            "closures": [
+              {
+                "id": "",
+                "target": {
+                  "type": "source",
+                  "id": "lift"
+                },
+                "reason": "Synthetic lift outage"
+              },
+              {
+                "id": "𐀀",
+                "target": {
+                  "type": "edge",
+                  "id": "door-edge"
+                },
+                "reason": "Synthetic door closure"
+              }
+            ]
+          },
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": false,
+            "overlayId": "ops",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "invalid-time",
+                "message": "Overlay timestamps must be valid and validUntil must be after validFrom."
+              }
+            ]
+          }
+        },
+        {
+          "id": "reversed-interval",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "ops",
+            "buildingId": "fixture",
+            "packageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-21T08:00:00.000Z",
+            "closures": [
+              {
+                "id": "",
+                "target": {
+                  "type": "source",
+                  "id": "lift"
+                },
+                "reason": "Synthetic lift outage"
+              },
+              {
+                "id": "𐀀",
+                "target": {
+                  "type": "edge",
+                  "id": "door-edge"
+                },
+                "reason": "Synthetic door closure"
+              }
+            ]
+          },
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": false,
+            "overlayId": "ops",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "invalid-time",
+                "message": "Overlay timestamps must be valid and validUntil must be after validFrom."
+              }
+            ]
+          }
+        },
+        {
+          "id": "unknown-edge",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "ops",
+            "buildingId": "fixture",
+            "packageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              {
+                "id": "",
+                "target": {
+                  "type": "source",
+                  "id": "lift"
+                },
+                "reason": "Synthetic lift outage"
+              },
+              {
+                "id": "𐀀",
+                "target": {
+                  "type": "edge",
+                  "id": "door-edge"
+                },
+                "reason": "Synthetic door closure"
+              },
+              {
+                "id": "missing",
+                "target": {
+                  "type": "edge",
+                  "id": "absent"
+                },
+                "reason": "Unknown fixture target"
+              }
+            ]
+          },
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": false,
+            "overlayId": "ops",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "unknown-target",
+                "closureId": "missing",
+                "message": "Closure target does not exist in the active package: absent."
+              }
+            ]
+          }
+        },
+        {
+          "id": "unknown-source",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "ops",
+            "buildingId": "fixture",
+            "packageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              {
+                "id": "",
+                "target": {
+                  "type": "source",
+                  "id": "lift"
+                },
+                "reason": "Synthetic lift outage"
+              },
+              {
+                "id": "𐀀",
+                "target": {
+                  "type": "edge",
+                  "id": "door-edge"
+                },
+                "reason": "Synthetic door closure"
+              },
+              {
+                "id": "missing",
+                "target": {
+                  "type": "source",
+                  "id": "absent"
+                },
+                "reason": "Unknown fixture target"
+              }
+            ]
+          },
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": false,
+            "overlayId": "ops",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "unknown-target",
+                "closureId": "missing",
+                "message": "Closure target does not exist in the active package: absent."
+              }
+            ]
+          }
+        },
+        {
+          "id": "duplicate-closure",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "ops",
+            "buildingId": "fixture",
+            "packageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              {
+                "id": "",
+                "target": {
+                  "type": "source",
+                  "id": "lift"
+                },
+                "reason": "Synthetic lift outage"
+              },
+              {
+                "id": "𐀀",
+                "target": {
+                  "type": "edge",
+                  "id": "door-edge"
+                },
+                "reason": "Synthetic door closure"
+              },
+              {
+                "id": "",
+                "target": {
+                  "type": "source",
+                  "id": "lift"
+                },
+                "reason": "Synthetic lift outage"
+              }
+            ]
+          },
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": false,
+            "overlayId": "ops",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "duplicate-closure",
+                "closureId": "",
+                "message": "Duplicate closure ID: ."
+              }
+            ]
+          }
+        },
+        {
+          "id": "duplicate-skips-invalid-target",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "ops",
+            "buildingId": "fixture",
+            "packageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              {
+                "id": "",
+                "target": {
+                  "type": "source",
+                  "id": "lift"
+                },
+                "reason": "Synthetic lift outage"
+              },
+              {
+                "id": "𐀀",
+                "target": {
+                  "type": "edge",
+                  "id": "door-edge"
+                },
+                "reason": "Synthetic door closure"
+              },
+              {
+                "id": "",
+                "target": {
+                  "type": "edge",
+                  "id": "absent"
+                },
+                "reason": "Synthetic lift outage"
+              }
+            ]
+          },
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": false,
+            "overlayId": "ops",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "duplicate-closure",
+                "closureId": "",
+                "message": "Duplicate closure ID: ."
+              }
+            ]
+          }
+        },
+        {
+          "id": "ordered-multiple-issues",
+          "overlay": {
+            "schemaVersion": "future",
+            "id": "ops",
+            "buildingId": "other",
+            "packageHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              {
+                "id": "",
+                "target": {
+                  "type": "source",
+                  "id": "lift"
+                },
+                "reason": "Synthetic lift outage"
+              },
+              {
+                "id": "",
+                "target": {
+                  "type": "source",
+                  "id": "lift"
+                },
+                "reason": "Synthetic lift outage"
+              },
+              {
+                "id": "missing",
+                "target": {
+                  "type": "source",
+                  "id": "absent"
+                },
+                "reason": "Fixture"
+              }
+            ]
+          },
+          "evaluatedAt": "2026-07-23T00:00:00.000Z",
+          "expected": {
+            "valid": false,
+            "overlayId": "ops",
+            "evaluatedAt": "2026-07-23T00:00:00.000Z",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "invalid-schema-version",
+                "message": "Unsupported operational overlay version: future."
+              },
+              {
+                "code": "building-mismatch",
+                "message": "Overlay building other does not match fixture."
+              },
+              {
+                "code": "package-mismatch",
+                "message": "Overlay package hash does not match the active building package."
+              },
+              {
+                "code": "overlay-expired",
+                "message": "Operational overlay has expired and cannot be applied."
+              },
+              {
+                "code": "duplicate-closure",
+                "closureId": "",
+                "message": "Duplicate closure ID: ."
+              },
+              {
+                "code": "unknown-target",
+                "closureId": "missing",
+                "message": "Closure target does not exist in the active package: absent."
+              }
+            ]
+          }
+        },
+        {
+          "id": "extra-fields-retained-as-legacy-input",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "ops",
+            "buildingId": "fixture",
+            "packageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              {
+                "id": "",
+                "target": {
+                  "type": "source",
+                  "id": "lift",
+                  "extension": 123
+                },
+                "reason": "Synthetic lift outage",
+                "extension": null
+              },
+              {
+                "id": "𐀀",
+                "target": {
+                  "type": "edge",
+                  "id": "door-edge",
+                  "extension": 123
+                },
+                "reason": "Synthetic door closure",
+                "extension": null
+              }
+            ],
+            "extension": true
+          },
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": true,
+            "overlayId": "ops",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [
+              "𐀀",
+              ""
+            ],
+            "closedEdgeIds": [
+              "door-edge",
+              "edge-𐀀",
+              "edge-"
+            ],
+            "issues": []
+          }
+        },
+        {
+          "id": "null-overlay",
+          "overlay": null,
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": false,
+            "overlayId": "<invalid>",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "invalid-shape",
+                "message": "Operational overlay does not match the required runtime shape."
+              }
+            ]
+          }
+        },
+        {
+          "id": "array-overlay",
+          "overlay": [],
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": false,
+            "overlayId": "<invalid>",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "invalid-shape",
+                "message": "Operational overlay does not match the required runtime shape."
+              }
+            ]
+          }
+        },
+        {
+          "id": "positional-overlay-array",
+          "overlay": [
+            "0.1.0",
+            "ops",
+            "fixture",
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "2026-07-22T08:00:00.000Z",
+            "2026-07-23T00:00:00.000Z",
+            [
+              {
+                "id": "",
+                "target": {
+                  "type": "source",
+                  "id": "lift"
+                },
+                "reason": "Synthetic lift outage"
+              },
+              {
+                "id": "𐀀",
+                "target": {
+                  "type": "edge",
+                  "id": "door-edge"
+                },
+                "reason": "Synthetic door closure"
+              }
+            ]
+          ],
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": false,
+            "overlayId": "<invalid>",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "invalid-shape",
+                "message": "Operational overlay does not match the required runtime shape."
+              }
+            ]
+          }
+        },
+        {
+          "id": "malformed-with-id",
+          "overlay": {
+            "id": "still-identifiable",
+            "closures": null
+          },
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": false,
+            "overlayId": "still-identifiable",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "invalid-shape",
+                "message": "Operational overlay does not match the required runtime shape."
+              }
+            ]
+          }
+        },
+        {
+          "id": "non-string-id",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": 123,
+            "buildingId": "fixture",
+            "packageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              {
+                "id": "",
+                "target": {
+                  "type": "source",
+                  "id": "lift"
+                },
+                "reason": "Synthetic lift outage"
+              },
+              {
+                "id": "𐀀",
+                "target": {
+                  "type": "edge",
+                  "id": "door-edge"
+                },
+                "reason": "Synthetic door closure"
+              }
+            ]
+          },
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": false,
+            "overlayId": "<invalid>",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "invalid-shape",
+                "message": "Operational overlay does not match the required runtime shape."
+              }
+            ]
+          }
+        },
+        {
+          "id": "non-array-closures",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "ops",
+            "buildingId": "fixture",
+            "packageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": {}
+          },
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": false,
+            "overlayId": "ops",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "invalid-shape",
+                "message": "Operational overlay does not match the required runtime shape."
+              }
+            ]
+          }
+        },
+        {
+          "id": "null-closure",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "ops",
+            "buildingId": "fixture",
+            "packageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              null
+            ]
+          },
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": false,
+            "overlayId": "ops",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "invalid-shape",
+                "message": "Operational overlay does not match the required runtime shape."
+              }
+            ]
+          }
+        },
+        {
+          "id": "positional-closure-array",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "ops",
+            "buildingId": "fixture",
+            "packageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              [
+                "closure",
+                {
+                  "type": "source",
+                  "id": "lift"
+                },
+                "Fixture"
+              ]
+            ]
+          },
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": false,
+            "overlayId": "ops",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "invalid-shape",
+                "message": "Operational overlay does not match the required runtime shape."
+              }
+            ]
+          }
+        },
+        {
+          "id": "missing-schemaVersion",
+          "overlay": {
+            "id": "ops",
+            "buildingId": "fixture",
+            "packageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              {
+                "id": "",
+                "target": {
+                  "type": "source",
+                  "id": "lift"
+                },
+                "reason": "Synthetic lift outage"
+              },
+              {
+                "id": "𐀀",
+                "target": {
+                  "type": "edge",
+                  "id": "door-edge"
+                },
+                "reason": "Synthetic door closure"
+              }
+            ]
+          },
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": false,
+            "overlayId": "ops",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "invalid-shape",
+                "message": "Operational overlay does not match the required runtime shape."
+              }
+            ]
+          }
+        },
+        {
+          "id": "missing-id",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "buildingId": "fixture",
+            "packageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              {
+                "id": "",
+                "target": {
+                  "type": "source",
+                  "id": "lift"
+                },
+                "reason": "Synthetic lift outage"
+              },
+              {
+                "id": "𐀀",
+                "target": {
+                  "type": "edge",
+                  "id": "door-edge"
+                },
+                "reason": "Synthetic door closure"
+              }
+            ]
+          },
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": false,
+            "overlayId": "<invalid>",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "invalid-shape",
+                "message": "Operational overlay does not match the required runtime shape."
+              }
+            ]
+          }
+        },
+        {
+          "id": "missing-buildingId",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "ops",
+            "packageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              {
+                "id": "",
+                "target": {
+                  "type": "source",
+                  "id": "lift"
+                },
+                "reason": "Synthetic lift outage"
+              },
+              {
+                "id": "𐀀",
+                "target": {
+                  "type": "edge",
+                  "id": "door-edge"
+                },
+                "reason": "Synthetic door closure"
+              }
+            ]
+          },
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": false,
+            "overlayId": "ops",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "invalid-shape",
+                "message": "Operational overlay does not match the required runtime shape."
+              }
+            ]
+          }
+        },
+        {
+          "id": "missing-packageHash",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "ops",
+            "buildingId": "fixture",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              {
+                "id": "",
+                "target": {
+                  "type": "source",
+                  "id": "lift"
+                },
+                "reason": "Synthetic lift outage"
+              },
+              {
+                "id": "𐀀",
+                "target": {
+                  "type": "edge",
+                  "id": "door-edge"
+                },
+                "reason": "Synthetic door closure"
+              }
+            ]
+          },
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": false,
+            "overlayId": "ops",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "invalid-shape",
+                "message": "Operational overlay does not match the required runtime shape."
+              }
+            ]
+          }
+        },
+        {
+          "id": "missing-validFrom",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "ops",
+            "buildingId": "fixture",
+            "packageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              {
+                "id": "",
+                "target": {
+                  "type": "source",
+                  "id": "lift"
+                },
+                "reason": "Synthetic lift outage"
+              },
+              {
+                "id": "𐀀",
+                "target": {
+                  "type": "edge",
+                  "id": "door-edge"
+                },
+                "reason": "Synthetic door closure"
+              }
+            ]
+          },
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": false,
+            "overlayId": "ops",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "invalid-shape",
+                "message": "Operational overlay does not match the required runtime shape."
+              }
+            ]
+          }
+        },
+        {
+          "id": "missing-validUntil",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "ops",
+            "buildingId": "fixture",
+            "packageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "closures": [
+              {
+                "id": "",
+                "target": {
+                  "type": "source",
+                  "id": "lift"
+                },
+                "reason": "Synthetic lift outage"
+              },
+              {
+                "id": "𐀀",
+                "target": {
+                  "type": "edge",
+                  "id": "door-edge"
+                },
+                "reason": "Synthetic door closure"
+              }
+            ]
+          },
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": false,
+            "overlayId": "ops",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "invalid-shape",
+                "message": "Operational overlay does not match the required runtime shape."
+              }
+            ]
+          }
+        },
+        {
+          "id": "missing-closures",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "ops",
+            "buildingId": "fixture",
+            "packageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z"
+          },
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": false,
+            "overlayId": "ops",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "invalid-shape",
+                "message": "Operational overlay does not match the required runtime shape."
+              }
+            ]
+          }
+        },
+        {
+          "id": "empty-closure-id",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "ops",
+            "buildingId": "fixture",
+            "packageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              {
+                "id": "",
+                "target": {
+                  "type": "source",
+                  "id": "lift"
+                },
+                "reason": "Synthetic lift outage"
+              }
+            ]
+          },
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": false,
+            "overlayId": "ops",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "invalid-shape",
+                "message": "Operational overlay does not match the required runtime shape."
+              }
+            ]
+          }
+        },
+        {
+          "id": "empty-reason",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "ops",
+            "buildingId": "fixture",
+            "packageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              {
+                "id": "",
+                "target": {
+                  "type": "source",
+                  "id": "lift"
+                },
+                "reason": ""
+              }
+            ]
+          },
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": false,
+            "overlayId": "ops",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "invalid-shape",
+                "message": "Operational overlay does not match the required runtime shape."
+              }
+            ]
+          }
+        },
+        {
+          "id": "non-string-reason",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "ops",
+            "buildingId": "fixture",
+            "packageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              {
+                "id": "",
+                "target": {
+                  "type": "source",
+                  "id": "lift"
+                },
+                "reason": 123
+              }
+            ]
+          },
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": false,
+            "overlayId": "ops",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "invalid-shape",
+                "message": "Operational overlay does not match the required runtime shape."
+              }
+            ]
+          }
+        },
+        {
+          "id": "empty-target-id",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "ops",
+            "buildingId": "fixture",
+            "packageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              {
+                "id": "",
+                "target": {
+                  "type": "edge",
+                  "id": ""
+                },
+                "reason": "Synthetic lift outage"
+              }
+            ]
+          },
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": false,
+            "overlayId": "ops",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "invalid-shape",
+                "message": "Operational overlay does not match the required runtime shape."
+              }
+            ]
+          }
+        },
+        {
+          "id": "unknown-target-type",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "ops",
+            "buildingId": "fixture",
+            "packageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              {
+                "id": "",
+                "target": {
+                  "type": "building",
+                  "id": "fixture"
+                },
+                "reason": "Synthetic lift outage"
+              }
+            ]
+          },
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": false,
+            "overlayId": "ops",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "invalid-shape",
+                "message": "Operational overlay does not match the required runtime shape."
+              }
+            ]
+          }
+        },
+        {
+          "id": "object-target-type",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "ops",
+            "buildingId": "fixture",
+            "packageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              {
+                "id": "",
+                "target": {
+                  "type": {
+                    "source": null
+                  },
+                  "id": "lift"
+                },
+                "reason": "Synthetic lift outage"
+              }
+            ]
+          },
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": false,
+            "overlayId": "ops",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "invalid-shape",
+                "message": "Operational overlay does not match the required runtime shape."
+              }
+            ]
+          }
+        },
+        {
+          "id": "numeric-target-type",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "ops",
+            "buildingId": "fixture",
+            "packageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              {
+                "id": "",
+                "target": {
+                  "type": 1,
+                  "id": "lift"
+                },
+                "reason": "Synthetic lift outage"
+              }
+            ]
+          },
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": false,
+            "overlayId": "ops",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "invalid-shape",
+                "message": "Operational overlay does not match the required runtime shape."
+              }
+            ]
+          }
+        },
+        {
+          "id": "positional-target-array",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "ops",
+            "buildingId": "fixture",
+            "packageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              {
+                "id": "",
+                "target": [
+                  "source",
+                  "lift"
+                ],
+                "reason": "Synthetic lift outage"
+              }
+            ]
+          },
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": false,
+            "overlayId": "ops",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "invalid-shape",
+                "message": "Operational overlay does not match the required runtime shape."
+              }
+            ]
+          }
+        },
+        {
+          "id": "null-target",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "ops",
+            "buildingId": "fixture",
+            "packageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              {
+                "id": "",
+                "target": null,
+                "reason": "Synthetic lift outage"
+              }
+            ]
+          },
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": false,
+            "overlayId": "ops",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "invalid-shape",
+                "message": "Operational overlay does not match the required runtime shape."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "asterion-medical-center",
+      "package": {
+        "buildingId": "asterion-medical-center",
+        "packageHash": "9a9c9d37907c78ec1b72bed95658ec248c43d96a891ae4109ac8eebfad144a13",
+        "edges": [
+          {
+            "id": "edge:connector:lift-atrium:g--connector:lift-atrium:l1",
+            "sourceId": "lift-atrium"
+          },
+          {
+            "id": "edge:connector:lift-atrium:g--space:g-atrium",
+            "sourceId": "lift-atrium"
+          },
+          {
+            "id": "edge:connector:lift-atrium:l1--connector:lift-atrium:l2",
+            "sourceId": "lift-atrium"
+          },
+          {
+            "id": "edge:connector:lift-atrium:l1--space:l1-atrium",
+            "sourceId": "lift-atrium"
+          },
+          {
+            "id": "edge:connector:lift-atrium:l2--connector:lift-atrium:l3",
+            "sourceId": "lift-atrium"
+          },
+          {
+            "id": "edge:connector:lift-atrium:l2--space:l2-atrium",
+            "sourceId": "lift-atrium"
+          },
+          {
+            "id": "edge:connector:lift-atrium:l3--space:l3-atrium",
+            "sourceId": "lift-atrium"
+          },
+          {
+            "id": "edge:connector:lift-south:g--connector:lift-south:l1",
+            "sourceId": "lift-south"
+          },
+          {
+            "id": "edge:connector:lift-south:g--space:g-lift-hall",
+            "sourceId": "lift-south"
+          },
+          {
+            "id": "edge:connector:lift-south:l1--connector:lift-south:l2",
+            "sourceId": "lift-south"
+          },
+          {
+            "id": "edge:connector:lift-south:l1--space:l1-lift-hall",
+            "sourceId": "lift-south"
+          },
+          {
+            "id": "edge:connector:lift-south:l2--connector:lift-south:l3",
+            "sourceId": "lift-south"
+          },
+          {
+            "id": "edge:connector:lift-south:l2--space:l2-lift-hall",
+            "sourceId": "lift-south"
+          },
+          {
+            "id": "edge:connector:lift-south:l3--space:l3-lift-hall",
+            "sourceId": "lift-south"
+          },
+          {
+            "id": "edge:connector:stairs-atrium:g--connector:stairs-atrium:l1",
+            "sourceId": "stairs-atrium"
+          },
+          {
+            "id": "edge:connector:stairs-atrium:g--space:g-atrium",
+            "sourceId": "stairs-atrium"
+          },
+          {
+            "id": "edge:connector:stairs-atrium:l1--connector:stairs-atrium:l2",
+            "sourceId": "stairs-atrium"
+          },
+          {
+            "id": "edge:connector:stairs-atrium:l1--space:l1-atrium",
+            "sourceId": "stairs-atrium"
+          },
+          {
+            "id": "edge:connector:stairs-atrium:l2--connector:stairs-atrium:l3",
+            "sourceId": "stairs-atrium"
+          },
+          {
+            "id": "edge:connector:stairs-atrium:l2--space:l2-atrium",
+            "sourceId": "stairs-atrium"
+          },
+          {
+            "id": "edge:connector:stairs-atrium:l3--space:l3-atrium",
+            "sourceId": "stairs-atrium"
+          },
+          {
+            "id": "edge:connector:stairs-south:g--connector:stairs-south:l1",
+            "sourceId": "stairs-south"
+          },
+          {
+            "id": "edge:connector:stairs-south:g--space:g-stair-hall",
+            "sourceId": "stairs-south"
+          },
+          {
+            "id": "edge:connector:stairs-south:l1--connector:stairs-south:l2",
+            "sourceId": "stairs-south"
+          },
+          {
+            "id": "edge:connector:stairs-south:l1--space:l1-stair-hall",
+            "sourceId": "stairs-south"
+          },
+          {
+            "id": "edge:connector:stairs-south:l2--connector:stairs-south:l3",
+            "sourceId": "stairs-south"
+          },
+          {
+            "id": "edge:connector:stairs-south:l2--space:l2-stair-hall",
+            "sourceId": "stairs-south"
+          },
+          {
+            "id": "edge:connector:stairs-south:l3--space:l3-stair-hall",
+            "sourceId": "stairs-south"
+          },
+          {
+            "id": "edge:poi:poi-admin--space:l3-admin-reception",
+            "sourceId": "poi-admin"
+          },
+          {
+            "id": "edge:poi:poi-atrium--space:g-atrium",
+            "sourceId": "poi-atrium"
+          },
+          {
+            "id": "edge:poi:poi-birth-center--space:l2-birth-center",
+            "sourceId": "poi-birth-center"
+          },
+          {
+            "id": "edge:poi:poi-cafe--space:g-cafe",
+            "sourceId": "poi-cafe"
+          },
+          {
+            "id": "edge:poi:poi-cardiac-diagnostics--space:l1-cardiac-diagnostics",
+            "sourceId": "poi-cardiac-diagnostics"
+          },
+          {
+            "id": "edge:poi:poi-cardiology--space:l1-cardiology",
+            "sourceId": "poi-cardiology"
+          },
+          {
+            "id": "edge:poi:poi-child-development--space:l2-child-development",
+            "sourceId": "poi-child-development"
+          },
+          {
+            "id": "edge:poi:poi-conference--space:l3-conference",
+            "sourceId": "poi-conference"
+          },
+          {
+            "id": "edge:poi:poi-consultation--space:l1-consultation",
+            "sourceId": "poi-consultation"
+          },
+          {
+            "id": "edge:poi:poi-data-center--space:l3-data-center",
+            "sourceId": "poi-data-center"
+          },
+          {
+            "id": "edge:poi:poi-day-surgery--space:l1-surgery-reception",
+            "sourceId": "poi-day-surgery"
+          },
+          {
+            "id": "edge:poi:poi-education--space:l3-education",
+            "sourceId": "poi-education"
+          },
+          {
+            "id": "edge:poi:poi-emergency--space:g-emergency-reception",
+            "sourceId": "poi-emergency"
+          },
+          {
+            "id": "edge:poi:poi-family-services--space:l2-family-services",
+            "sourceId": "poi-family-services"
+          },
+          {
+            "id": "edge:poi:poi-imaging--space:g-imaging",
+            "sourceId": "poi-imaging"
+          },
+          {
+            "id": "edge:poi:poi-infusion--space:l1-infusion",
+            "sourceId": "poi-infusion"
+          },
+          {
+            "id": "edge:poi:poi-library--space:l3-library",
+            "sourceId": "poi-library"
+          },
+          {
+            "id": "edge:poi:poi-main-entrance--space:g-arrival",
+            "sourceId": "poi-main-entrance"
+          },
+          {
+            "id": "edge:poi:poi-maternity--space:l2-maternity",
+            "sourceId": "poi-maternity"
+          },
+          {
+            "id": "edge:poi:poi-neonatal-unit--space:l2-neonatal-unit",
+            "sourceId": "poi-neonatal-unit"
+          },
+          {
+            "id": "edge:poi:poi-neuroscience--space:l1-neuroscience",
+            "sourceId": "poi-neuroscience"
+          },
+          {
+            "id": "edge:poi:poi-nicu-family--space:l2-nicu-family",
+            "sourceId": "poi-nicu-family"
+          },
+          {
+            "id": "edge:poi:poi-oncology--space:l1-oncology",
+            "sourceId": "poi-oncology"
+          },
+          {
+            "id": "edge:poi:poi-orthopedics--space:g-orthopedics",
+            "sourceId": "poi-orthopedics"
+          },
+          {
+            "id": "edge:poi:poi-pathology-operations--space:g-pathology",
+            "sourceId": "poi-pathology-operations"
+          },
+          {
+            "id": "edge:poi:poi-pediatrics--space:l2-pediatrics",
+            "sourceId": "poi-pediatrics"
+          },
+          {
+            "id": "edge:poi:poi-pharmacy--space:g-pharmacy",
+            "sourceId": "poi-pharmacy"
+          },
+          {
+            "id": "edge:poi:poi-play-therapy--space:l2-play-therapy",
+            "sourceId": "poi-play-therapy"
+          },
+          {
+            "id": "edge:poi:poi-preop--space:l1-preop",
+            "sourceId": "poi-preop"
+          },
+          {
+            "id": "edge:poi:poi-registration--space:g-registration",
+            "sourceId": "poi-registration"
+          },
+          {
+            "id": "edge:poi:poi-rehabilitation--space:l1-rehabilitation",
+            "sourceId": "poi-rehabilitation"
+          },
+          {
+            "id": "edge:poi:poi-research-gallery--space:l3-research-gallery",
+            "sourceId": "poi-research-gallery"
+          },
+          {
+            "id": "edge:poi:poi-simulation--space:l3-simulation",
+            "sourceId": "poi-simulation"
+          },
+          {
+            "id": "edge:poi:poi-training--space:l3-training",
+            "sourceId": "poi-training"
+          },
+          {
+            "id": "edge:poi:poi-visitor-services--space:g-visitor-services",
+            "sourceId": "poi-visitor-services"
+          },
+          {
+            "id": "edge:poi:poi-womens-imaging--space:l2-womens-imaging",
+            "sourceId": "poi-womens-imaging"
+          },
+          {
+            "id": "edge:portal:p-g-arrival--space:g-arrival",
+            "sourceId": "p-g-arrival"
+          },
+          {
+            "id": "edge:portal:p-g-arrival--waypoint:g-concourse:01",
+            "sourceId": "p-g-arrival"
+          },
+          {
+            "id": "edge:portal:p-g-atrium--space:g-atrium",
+            "sourceId": "p-g-atrium"
+          },
+          {
+            "id": "edge:portal:p-g-atrium--waypoint:g-concourse:05",
+            "sourceId": "p-g-atrium"
+          },
+          {
+            "id": "edge:portal:p-g-cafe--space:g-cafe",
+            "sourceId": "p-g-cafe"
+          },
+          {
+            "id": "edge:portal:p-g-cafe--waypoint:g-concourse:08",
+            "sourceId": "p-g-cafe"
+          },
+          {
+            "id": "edge:portal:p-g-courtyard--space:g-courtyard-lobby",
+            "sourceId": "p-g-courtyard"
+          },
+          {
+            "id": "edge:portal:p-g-courtyard--waypoint:g-concourse:12",
+            "sourceId": "p-g-courtyard"
+          },
+          {
+            "id": "edge:portal:p-g-emergency--space:g-emergency-reception",
+            "sourceId": "p-g-emergency"
+          },
+          {
+            "id": "edge:portal:p-g-emergency--waypoint:g-concourse:02",
+            "sourceId": "p-g-emergency"
+          },
+          {
+            "id": "edge:portal:p-g-imaging--space:g-imaging",
+            "sourceId": "p-g-imaging"
+          },
+          {
+            "id": "edge:portal:p-g-imaging--waypoint:g-concourse:03",
+            "sourceId": "p-g-imaging"
+          },
+          {
+            "id": "edge:portal:p-g-lifts--space:g-lift-hall",
+            "sourceId": "p-g-lifts"
+          },
+          {
+            "id": "edge:portal:p-g-lifts--waypoint:g-concourse:04",
+            "sourceId": "p-g-lifts"
+          },
+          {
+            "id": "edge:portal:p-g-orthopedics--space:g-orthopedics",
+            "sourceId": "p-g-orthopedics"
+          },
+          {
+            "id": "edge:portal:p-g-orthopedics--waypoint:g-concourse:03",
+            "sourceId": "p-g-orthopedics"
+          },
+          {
+            "id": "edge:portal:p-g-pathology--space:g-pathology",
+            "sourceId": "p-g-pathology"
+          },
+          {
+            "id": "edge:portal:p-g-pathology--waypoint:g-concourse:07",
+            "sourceId": "p-g-pathology"
+          },
+          {
+            "id": "edge:portal:p-g-pharmacy--space:g-pharmacy",
+            "sourceId": "p-g-pharmacy"
+          },
+          {
+            "id": "edge:portal:p-g-pharmacy--waypoint:g-concourse:09",
+            "sourceId": "p-g-pharmacy"
+          },
+          {
+            "id": "edge:portal:p-g-registration--space:g-registration",
+            "sourceId": "p-g-registration"
+          },
+          {
+            "id": "edge:portal:p-g-registration--waypoint:g-concourse:02",
+            "sourceId": "p-g-registration"
+          },
+          {
+            "id": "edge:portal:p-g-retail--space:g-retail",
+            "sourceId": "p-g-retail"
+          },
+          {
+            "id": "edge:portal:p-g-retail--waypoint:g-concourse:11",
+            "sourceId": "p-g-retail"
+          },
+          {
+            "id": "edge:portal:p-g-services--space:g-visitor-services",
+            "sourceId": "p-g-services"
+          },
+          {
+            "id": "edge:portal:p-g-services--waypoint:g-concourse:10",
+            "sourceId": "p-g-services"
+          },
+          {
+            "id": "edge:portal:p-g-stairs--space:g-stair-hall",
+            "sourceId": "p-g-stairs"
+          },
+          {
+            "id": "edge:portal:p-g-stairs--waypoint:g-concourse:06",
+            "sourceId": "p-g-stairs"
+          },
+          {
+            "id": "edge:portal:p-l1-atrium--space:l1-atrium",
+            "sourceId": "p-l1-atrium"
+          },
+          {
+            "id": "edge:portal:p-l1-atrium--waypoint:l1-concourse:05",
+            "sourceId": "p-l1-atrium"
+          },
+          {
+            "id": "edge:portal:p-l1-cardiac--space:l1-cardiac-diagnostics",
+            "sourceId": "p-l1-cardiac"
+          },
+          {
+            "id": "edge:portal:p-l1-cardiac--waypoint:l1-concourse:02",
+            "sourceId": "p-l1-cardiac"
+          },
+          {
+            "id": "edge:portal:p-l1-cardiology--space:l1-cardiology",
+            "sourceId": "p-l1-cardiology"
+          },
+          {
+            "id": "edge:portal:p-l1-cardiology--waypoint:l1-concourse:03",
+            "sourceId": "p-l1-cardiology"
+          },
+          {
+            "id": "edge:portal:p-l1-consultation--space:l1-consultation",
+            "sourceId": "p-l1-consultation"
+          },
+          {
+            "id": "edge:portal:p-l1-consultation--waypoint:l1-concourse:10",
+            "sourceId": "p-l1-consultation"
+          },
+          {
+            "id": "edge:portal:p-l1-east--space:l1-east-lounge",
+            "sourceId": "p-l1-east"
+          },
+          {
+            "id": "edge:portal:p-l1-east--waypoint:l1-concourse:12",
+            "sourceId": "p-l1-east"
+          },
+          {
+            "id": "edge:portal:p-l1-infusion--space:l1-infusion",
+            "sourceId": "p-l1-infusion"
+          },
+          {
+            "id": "edge:portal:p-l1-infusion--waypoint:l1-concourse:11",
+            "sourceId": "p-l1-infusion"
+          },
+          {
+            "id": "edge:portal:p-l1-lifts--space:l1-lift-hall",
+            "sourceId": "p-l1-lifts"
+          },
+          {
+            "id": "edge:portal:p-l1-lifts--waypoint:l1-concourse:04",
+            "sourceId": "p-l1-lifts"
+          },
+          {
+            "id": "edge:portal:p-l1-neuroscience--space:l1-neuroscience",
+            "sourceId": "p-l1-neuroscience"
+          },
+          {
+            "id": "edge:portal:p-l1-neuroscience--waypoint:l1-concourse:07",
+            "sourceId": "p-l1-neuroscience"
+          },
+          {
+            "id": "edge:portal:p-l1-oncology--space:l1-oncology",
+            "sourceId": "p-l1-oncology"
+          },
+          {
+            "id": "edge:portal:p-l1-oncology--waypoint:l1-concourse:09",
+            "sourceId": "p-l1-oncology"
+          },
+          {
+            "id": "edge:portal:p-l1-preop--space:l1-preop",
+            "sourceId": "p-l1-preop"
+          },
+          {
+            "id": "edge:portal:p-l1-preop--waypoint:l1-concourse:03",
+            "sourceId": "p-l1-preop"
+          },
+          {
+            "id": "edge:portal:p-l1-rehab--space:l1-rehabilitation",
+            "sourceId": "p-l1-rehab"
+          },
+          {
+            "id": "edge:portal:p-l1-rehab--waypoint:l1-concourse:08",
+            "sourceId": "p-l1-rehab"
+          },
+          {
+            "id": "edge:portal:p-l1-stairs--space:l1-stair-hall",
+            "sourceId": "p-l1-stairs"
+          },
+          {
+            "id": "edge:portal:p-l1-stairs--waypoint:l1-concourse:06",
+            "sourceId": "p-l1-stairs"
+          },
+          {
+            "id": "edge:portal:p-l1-surgery--space:l1-surgery-reception",
+            "sourceId": "p-l1-surgery"
+          },
+          {
+            "id": "edge:portal:p-l1-surgery--waypoint:l1-concourse:02",
+            "sourceId": "p-l1-surgery"
+          },
+          {
+            "id": "edge:portal:p-l1-west--space:l1-west-lobby",
+            "sourceId": "p-l1-west"
+          },
+          {
+            "id": "edge:portal:p-l1-west--waypoint:l1-concourse:01",
+            "sourceId": "p-l1-west"
+          },
+          {
+            "id": "edge:portal:p-l2-atrium--space:l2-atrium",
+            "sourceId": "p-l2-atrium"
+          },
+          {
+            "id": "edge:portal:p-l2-atrium--waypoint:l2-concourse:05",
+            "sourceId": "p-l2-atrium"
+          },
+          {
+            "id": "edge:portal:p-l2-birth-center--space:l2-birth-center",
+            "sourceId": "p-l2-birth-center"
+          },
+          {
+            "id": "edge:portal:p-l2-birth-center--waypoint:l2-concourse:08",
+            "sourceId": "p-l2-birth-center"
+          },
+          {
+            "id": "edge:portal:p-l2-child-development--space:l2-child-development",
+            "sourceId": "p-l2-child-development"
+          },
+          {
+            "id": "edge:portal:p-l2-child-development--waypoint:l2-concourse:02",
+            "sourceId": "p-l2-child-development"
+          },
+          {
+            "id": "edge:portal:p-l2-east--space:l2-east-lounge",
+            "sourceId": "p-l2-east"
+          },
+          {
+            "id": "edge:portal:p-l2-east--waypoint:l2-concourse:12",
+            "sourceId": "p-l2-east"
+          },
+          {
+            "id": "edge:portal:p-l2-family-services--space:l2-family-services",
+            "sourceId": "p-l2-family-services"
+          },
+          {
+            "id": "edge:portal:p-l2-family-services--waypoint:l2-concourse:11",
+            "sourceId": "p-l2-family-services"
+          },
+          {
+            "id": "edge:portal:p-l2-lifts--space:l2-lift-hall",
+            "sourceId": "p-l2-lifts"
+          },
+          {
+            "id": "edge:portal:p-l2-lifts--waypoint:l2-concourse:04",
+            "sourceId": "p-l2-lifts"
+          },
+          {
+            "id": "edge:portal:p-l2-maternity--space:l2-maternity",
+            "sourceId": "p-l2-maternity"
+          },
+          {
+            "id": "edge:portal:p-l2-maternity--waypoint:l2-concourse:07",
+            "sourceId": "p-l2-maternity"
+          },
+          {
+            "id": "edge:portal:p-l2-neonatal--space:l2-neonatal-unit",
+            "sourceId": "p-l2-neonatal"
+          },
+          {
+            "id": "edge:portal:p-l2-neonatal--waypoint:l2-concourse:10",
+            "sourceId": "p-l2-neonatal"
+          },
+          {
+            "id": "edge:portal:p-l2-nicu-family--space:l2-nicu-family",
+            "sourceId": "p-l2-nicu-family"
+          },
+          {
+            "id": "edge:portal:p-l2-nicu-family--waypoint:l2-concourse:03",
+            "sourceId": "p-l2-nicu-family"
+          },
+          {
+            "id": "edge:portal:p-l2-pediatrics--space:l2-pediatrics",
+            "sourceId": "p-l2-pediatrics"
+          },
+          {
+            "id": "edge:portal:p-l2-pediatrics--waypoint:l2-concourse:02",
+            "sourceId": "p-l2-pediatrics"
+          },
+          {
+            "id": "edge:portal:p-l2-play-therapy--space:l2-play-therapy",
+            "sourceId": "p-l2-play-therapy"
+          },
+          {
+            "id": "edge:portal:p-l2-play-therapy--waypoint:l2-concourse:03",
+            "sourceId": "p-l2-play-therapy"
+          },
+          {
+            "id": "edge:portal:p-l2-stairs--space:l2-stair-hall",
+            "sourceId": "p-l2-stairs"
+          },
+          {
+            "id": "edge:portal:p-l2-stairs--waypoint:l2-concourse:06",
+            "sourceId": "p-l2-stairs"
+          },
+          {
+            "id": "edge:portal:p-l2-west--space:l2-west-lobby",
+            "sourceId": "p-l2-west"
+          },
+          {
+            "id": "edge:portal:p-l2-west--waypoint:l2-concourse:01",
+            "sourceId": "p-l2-west"
+          },
+          {
+            "id": "edge:portal:p-l2-womens-imaging--space:l2-womens-imaging",
+            "sourceId": "p-l2-womens-imaging"
+          },
+          {
+            "id": "edge:portal:p-l2-womens-imaging--waypoint:l2-concourse:09",
+            "sourceId": "p-l2-womens-imaging"
+          },
+          {
+            "id": "edge:portal:p-l3-admin--space:l3-admin-reception",
+            "sourceId": "p-l3-admin"
+          },
+          {
+            "id": "edge:portal:p-l3-admin--waypoint:l3-concourse:02",
+            "sourceId": "p-l3-admin"
+          },
+          {
+            "id": "edge:portal:p-l3-atrium--space:l3-atrium",
+            "sourceId": "p-l3-atrium"
+          },
+          {
+            "id": "edge:portal:p-l3-atrium--waypoint:l3-concourse:05",
+            "sourceId": "p-l3-atrium"
+          },
+          {
+            "id": "edge:portal:p-l3-conference--space:l3-conference",
+            "sourceId": "p-l3-conference"
+          },
+          {
+            "id": "edge:portal:p-l3-conference--waypoint:l3-concourse:09",
+            "sourceId": "p-l3-conference"
+          },
+          {
+            "id": "edge:portal:p-l3-data--space:l3-data-center",
+            "sourceId": "p-l3-data"
+          },
+          {
+            "id": "edge:portal:p-l3-data--waypoint:l3-concourse:10",
+            "sourceId": "p-l3-data"
+          },
+          {
+            "id": "edge:portal:p-l3-east--space:l3-roof-lobby",
+            "sourceId": "p-l3-east"
+          },
+          {
+            "id": "edge:portal:p-l3-east--waypoint:l3-concourse:12",
+            "sourceId": "p-l3-east"
+          },
+          {
+            "id": "edge:portal:p-l3-education--space:l3-education",
+            "sourceId": "p-l3-education"
+          },
+          {
+            "id": "edge:portal:p-l3-education--waypoint:l3-concourse:03",
+            "sourceId": "p-l3-education"
+          },
+          {
+            "id": "edge:portal:p-l3-executive--space:l3-executive",
+            "sourceId": "p-l3-executive"
+          },
+          {
+            "id": "edge:portal:p-l3-executive--waypoint:l3-concourse:08",
+            "sourceId": "p-l3-executive"
+          },
+          {
+            "id": "edge:portal:p-l3-library--space:l3-library",
+            "sourceId": "p-l3-library"
+          },
+          {
+            "id": "edge:portal:p-l3-library--waypoint:l3-concourse:11",
+            "sourceId": "p-l3-library"
+          },
+          {
+            "id": "edge:portal:p-l3-lifts--space:l3-lift-hall",
+            "sourceId": "p-l3-lifts"
+          },
+          {
+            "id": "edge:portal:p-l3-lifts--waypoint:l3-concourse:04",
+            "sourceId": "p-l3-lifts"
+          },
+          {
+            "id": "edge:portal:p-l3-research--space:l3-research-gallery",
+            "sourceId": "p-l3-research"
+          },
+          {
+            "id": "edge:portal:p-l3-research--waypoint:l3-concourse:02",
+            "sourceId": "p-l3-research"
+          },
+          {
+            "id": "edge:portal:p-l3-simulation--space:l3-simulation",
+            "sourceId": "p-l3-simulation"
+          },
+          {
+            "id": "edge:portal:p-l3-simulation--waypoint:l3-concourse:07",
+            "sourceId": "p-l3-simulation"
+          },
+          {
+            "id": "edge:portal:p-l3-stairs--space:l3-stair-hall",
+            "sourceId": "p-l3-stairs"
+          },
+          {
+            "id": "edge:portal:p-l3-stairs--waypoint:l3-concourse:06",
+            "sourceId": "p-l3-stairs"
+          },
+          {
+            "id": "edge:portal:p-l3-training--space:l3-training",
+            "sourceId": "p-l3-training"
+          },
+          {
+            "id": "edge:portal:p-l3-training--waypoint:l3-concourse:03",
+            "sourceId": "p-l3-training"
+          },
+          {
+            "id": "edge:portal:p-l3-west--space:l3-west-lobby",
+            "sourceId": "p-l3-west"
+          },
+          {
+            "id": "edge:portal:p-l3-west--waypoint:l3-concourse:01",
+            "sourceId": "p-l3-west"
+          },
+          {
+            "id": "edge:space:g-concourse--waypoint:g-concourse:05",
+            "sourceId": "g-concourse"
+          },
+          {
+            "id": "edge:space:g-concourse--waypoint:g-concourse:06",
+            "sourceId": "g-concourse"
+          },
+          {
+            "id": "edge:space:l1-concourse--waypoint:l1-concourse:05",
+            "sourceId": "l1-concourse"
+          },
+          {
+            "id": "edge:space:l1-concourse--waypoint:l1-concourse:06",
+            "sourceId": "l1-concourse"
+          },
+          {
+            "id": "edge:space:l2-concourse--waypoint:l2-concourse:05",
+            "sourceId": "l2-concourse"
+          },
+          {
+            "id": "edge:space:l2-concourse--waypoint:l2-concourse:06",
+            "sourceId": "l2-concourse"
+          },
+          {
+            "id": "edge:space:l3-concourse--waypoint:l3-concourse:05",
+            "sourceId": "l3-concourse"
+          },
+          {
+            "id": "edge:space:l3-concourse--waypoint:l3-concourse:06",
+            "sourceId": "l3-concourse"
+          },
+          {
+            "id": "edge:waypoint:g-concourse:01--waypoint:g-concourse:02",
+            "sourceId": "g-concourse"
+          },
+          {
+            "id": "edge:waypoint:g-concourse:02--waypoint:g-concourse:03",
+            "sourceId": "g-concourse"
+          },
+          {
+            "id": "edge:waypoint:g-concourse:03--waypoint:g-concourse:04",
+            "sourceId": "g-concourse"
+          },
+          {
+            "id": "edge:waypoint:g-concourse:04--waypoint:g-concourse:05",
+            "sourceId": "g-concourse"
+          },
+          {
+            "id": "edge:waypoint:g-concourse:06--waypoint:g-concourse:07",
+            "sourceId": "g-concourse"
+          },
+          {
+            "id": "edge:waypoint:g-concourse:07--waypoint:g-concourse:08",
+            "sourceId": "g-concourse"
+          },
+          {
+            "id": "edge:waypoint:g-concourse:08--waypoint:g-concourse:09",
+            "sourceId": "g-concourse"
+          },
+          {
+            "id": "edge:waypoint:g-concourse:09--waypoint:g-concourse:10",
+            "sourceId": "g-concourse"
+          },
+          {
+            "id": "edge:waypoint:g-concourse:10--waypoint:g-concourse:11",
+            "sourceId": "g-concourse"
+          },
+          {
+            "id": "edge:waypoint:g-concourse:11--waypoint:g-concourse:12",
+            "sourceId": "g-concourse"
+          },
+          {
+            "id": "edge:waypoint:l1-concourse:01--waypoint:l1-concourse:02",
+            "sourceId": "l1-concourse"
+          },
+          {
+            "id": "edge:waypoint:l1-concourse:02--waypoint:l1-concourse:03",
+            "sourceId": "l1-concourse"
+          },
+          {
+            "id": "edge:waypoint:l1-concourse:03--waypoint:l1-concourse:04",
+            "sourceId": "l1-concourse"
+          },
+          {
+            "id": "edge:waypoint:l1-concourse:04--waypoint:l1-concourse:05",
+            "sourceId": "l1-concourse"
+          },
+          {
+            "id": "edge:waypoint:l1-concourse:06--waypoint:l1-concourse:07",
+            "sourceId": "l1-concourse"
+          },
+          {
+            "id": "edge:waypoint:l1-concourse:07--waypoint:l1-concourse:08",
+            "sourceId": "l1-concourse"
+          },
+          {
+            "id": "edge:waypoint:l1-concourse:08--waypoint:l1-concourse:09",
+            "sourceId": "l1-concourse"
+          },
+          {
+            "id": "edge:waypoint:l1-concourse:09--waypoint:l1-concourse:10",
+            "sourceId": "l1-concourse"
+          },
+          {
+            "id": "edge:waypoint:l1-concourse:10--waypoint:l1-concourse:11",
+            "sourceId": "l1-concourse"
+          },
+          {
+            "id": "edge:waypoint:l1-concourse:11--waypoint:l1-concourse:12",
+            "sourceId": "l1-concourse"
+          },
+          {
+            "id": "edge:waypoint:l2-concourse:01--waypoint:l2-concourse:02",
+            "sourceId": "l2-concourse"
+          },
+          {
+            "id": "edge:waypoint:l2-concourse:02--waypoint:l2-concourse:03",
+            "sourceId": "l2-concourse"
+          },
+          {
+            "id": "edge:waypoint:l2-concourse:03--waypoint:l2-concourse:04",
+            "sourceId": "l2-concourse"
+          },
+          {
+            "id": "edge:waypoint:l2-concourse:04--waypoint:l2-concourse:05",
+            "sourceId": "l2-concourse"
+          },
+          {
+            "id": "edge:waypoint:l2-concourse:06--waypoint:l2-concourse:07",
+            "sourceId": "l2-concourse"
+          },
+          {
+            "id": "edge:waypoint:l2-concourse:07--waypoint:l2-concourse:08",
+            "sourceId": "l2-concourse"
+          },
+          {
+            "id": "edge:waypoint:l2-concourse:08--waypoint:l2-concourse:09",
+            "sourceId": "l2-concourse"
+          },
+          {
+            "id": "edge:waypoint:l2-concourse:09--waypoint:l2-concourse:10",
+            "sourceId": "l2-concourse"
+          },
+          {
+            "id": "edge:waypoint:l2-concourse:10--waypoint:l2-concourse:11",
+            "sourceId": "l2-concourse"
+          },
+          {
+            "id": "edge:waypoint:l2-concourse:11--waypoint:l2-concourse:12",
+            "sourceId": "l2-concourse"
+          },
+          {
+            "id": "edge:waypoint:l3-concourse:01--waypoint:l3-concourse:02",
+            "sourceId": "l3-concourse"
+          },
+          {
+            "id": "edge:waypoint:l3-concourse:02--waypoint:l3-concourse:03",
+            "sourceId": "l3-concourse"
+          },
+          {
+            "id": "edge:waypoint:l3-concourse:03--waypoint:l3-concourse:04",
+            "sourceId": "l3-concourse"
+          },
+          {
+            "id": "edge:waypoint:l3-concourse:04--waypoint:l3-concourse:05",
+            "sourceId": "l3-concourse"
+          },
+          {
+            "id": "edge:waypoint:l3-concourse:06--waypoint:l3-concourse:07",
+            "sourceId": "l3-concourse"
+          },
+          {
+            "id": "edge:waypoint:l3-concourse:07--waypoint:l3-concourse:08",
+            "sourceId": "l3-concourse"
+          },
+          {
+            "id": "edge:waypoint:l3-concourse:08--waypoint:l3-concourse:09",
+            "sourceId": "l3-concourse"
+          },
+          {
+            "id": "edge:waypoint:l3-concourse:09--waypoint:l3-concourse:10",
+            "sourceId": "l3-concourse"
+          },
+          {
+            "id": "edge:waypoint:l3-concourse:10--waypoint:l3-concourse:11",
+            "sourceId": "l3-concourse"
+          },
+          {
+            "id": "edge:waypoint:l3-concourse:11--waypoint:l3-concourse:12",
+            "sourceId": "l3-concourse"
+          }
+        ]
+      },
+      "cases": [
+        {
+          "id": "current-lift-outage",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "asterion-all-public-lifts-closed-2026-07-22",
+            "buildingId": "asterion-medical-center",
+            "packageHash": "9a9c9d37907c78ec1b72bed95658ec248c43d96a891ae4109ac8eebfad144a13",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              {
+                "id": "close-atrium-lift",
+                "target": {
+                  "type": "source",
+                  "id": "lift-atrium"
+                },
+                "reason": "Deterministic demo outage for the panoramic atrium lift."
+              },
+              {
+                "id": "close-south-lift",
+                "target": {
+                  "type": "source",
+                  "id": "lift-south"
+                },
+                "reason": "Deterministic demo outage for the south lift bank."
+              }
+            ]
+          },
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": true,
+            "overlayId": "asterion-all-public-lifts-closed-2026-07-22",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [
+              "close-atrium-lift",
+              "close-south-lift"
+            ],
+            "closedEdgeIds": [
+              "edge:connector:lift-atrium:g--connector:lift-atrium:l1",
+              "edge:connector:lift-atrium:g--space:g-atrium",
+              "edge:connector:lift-atrium:l1--connector:lift-atrium:l2",
+              "edge:connector:lift-atrium:l1--space:l1-atrium",
+              "edge:connector:lift-atrium:l2--connector:lift-atrium:l3",
+              "edge:connector:lift-atrium:l2--space:l2-atrium",
+              "edge:connector:lift-atrium:l3--space:l3-atrium",
+              "edge:connector:lift-south:g--connector:lift-south:l1",
+              "edge:connector:lift-south:g--space:g-lift-hall",
+              "edge:connector:lift-south:l1--connector:lift-south:l2",
+              "edge:connector:lift-south:l1--space:l1-lift-hall",
+              "edge:connector:lift-south:l2--connector:lift-south:l3",
+              "edge:connector:lift-south:l2--space:l2-lift-hall",
+              "edge:connector:lift-south:l3--space:l3-lift-hall"
+            ],
+            "issues": []
+          }
+        },
+        {
+          "id": "valid-from",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "asterion-all-public-lifts-closed-2026-07-22",
+            "buildingId": "asterion-medical-center",
+            "packageHash": "9a9c9d37907c78ec1b72bed95658ec248c43d96a891ae4109ac8eebfad144a13",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              {
+                "id": "close-atrium-lift",
+                "target": {
+                  "type": "source",
+                  "id": "lift-atrium"
+                },
+                "reason": "Deterministic demo outage for the panoramic atrium lift."
+              },
+              {
+                "id": "close-south-lift",
+                "target": {
+                  "type": "source",
+                  "id": "lift-south"
+                },
+                "reason": "Deterministic demo outage for the south lift bank."
+              }
+            ]
+          },
+          "evaluatedAt": "2026-07-22T08:00:00.000Z",
+          "expected": {
+            "valid": true,
+            "overlayId": "asterion-all-public-lifts-closed-2026-07-22",
+            "evaluatedAt": "2026-07-22T08:00:00.000Z",
+            "activeClosureIds": [
+              "close-atrium-lift",
+              "close-south-lift"
+            ],
+            "closedEdgeIds": [
+              "edge:connector:lift-atrium:g--connector:lift-atrium:l1",
+              "edge:connector:lift-atrium:g--space:g-atrium",
+              "edge:connector:lift-atrium:l1--connector:lift-atrium:l2",
+              "edge:connector:lift-atrium:l1--space:l1-atrium",
+              "edge:connector:lift-atrium:l2--connector:lift-atrium:l3",
+              "edge:connector:lift-atrium:l2--space:l2-atrium",
+              "edge:connector:lift-atrium:l3--space:l3-atrium",
+              "edge:connector:lift-south:g--connector:lift-south:l1",
+              "edge:connector:lift-south:g--space:g-lift-hall",
+              "edge:connector:lift-south:l1--connector:lift-south:l2",
+              "edge:connector:lift-south:l1--space:l1-lift-hall",
+              "edge:connector:lift-south:l2--connector:lift-south:l3",
+              "edge:connector:lift-south:l2--space:l2-lift-hall",
+              "edge:connector:lift-south:l3--space:l3-lift-hall"
+            ],
+            "issues": []
+          }
+        },
+        {
+          "id": "expired",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "asterion-all-public-lifts-closed-2026-07-22",
+            "buildingId": "asterion-medical-center",
+            "packageHash": "9a9c9d37907c78ec1b72bed95658ec248c43d96a891ae4109ac8eebfad144a13",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              {
+                "id": "close-atrium-lift",
+                "target": {
+                  "type": "source",
+                  "id": "lift-atrium"
+                },
+                "reason": "Deterministic demo outage for the panoramic atrium lift."
+              },
+              {
+                "id": "close-south-lift",
+                "target": {
+                  "type": "source",
+                  "id": "lift-south"
+                },
+                "reason": "Deterministic demo outage for the south lift bank."
+              }
+            ]
+          },
+          "evaluatedAt": "2026-07-23T00:00:00.000Z",
+          "expected": {
+            "valid": false,
+            "overlayId": "asterion-all-public-lifts-closed-2026-07-22",
+            "evaluatedAt": "2026-07-23T00:00:00.000Z",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "overlay-expired",
+                "message": "Operational overlay has expired and cannot be applied."
+              }
+            ]
+          }
+        },
+        {
+          "id": "not-yet-active",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "asterion-all-public-lifts-closed-2026-07-22",
+            "buildingId": "asterion-medical-center",
+            "packageHash": "9a9c9d37907c78ec1b72bed95658ec248c43d96a891ae4109ac8eebfad144a13",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              {
+                "id": "close-atrium-lift",
+                "target": {
+                  "type": "source",
+                  "id": "lift-atrium"
+                },
+                "reason": "Deterministic demo outage for the panoramic atrium lift."
+              },
+              {
+                "id": "close-south-lift",
+                "target": {
+                  "type": "source",
+                  "id": "lift-south"
+                },
+                "reason": "Deterministic demo outage for the south lift bank."
+              }
+            ]
+          },
+          "evaluatedAt": "2026-07-22T07:59:59.999Z",
+          "expected": {
+            "valid": false,
+            "overlayId": "asterion-all-public-lifts-closed-2026-07-22",
+            "evaluatedAt": "2026-07-22T07:59:59.999Z",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "overlay-not-active",
+                "message": "Operational overlay is not active at the requested evaluation time."
+              }
+            ]
+          }
+        },
+        {
+          "id": "missing-clock",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "asterion-all-public-lifts-closed-2026-07-22",
+            "buildingId": "asterion-medical-center",
+            "packageHash": "9a9c9d37907c78ec1b72bed95658ec248c43d96a891ae4109ac8eebfad144a13",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              {
+                "id": "close-atrium-lift",
+                "target": {
+                  "type": "source",
+                  "id": "lift-atrium"
+                },
+                "reason": "Deterministic demo outage for the panoramic atrium lift."
+              },
+              {
+                "id": "close-south-lift",
+                "target": {
+                  "type": "source",
+                  "id": "lift-south"
+                },
+                "reason": "Deterministic demo outage for the south lift bank."
+              }
+            ]
+          },
+          "evaluatedAt": "",
+          "expected": {
+            "valid": false,
+            "overlayId": "asterion-all-public-lifts-closed-2026-07-22",
+            "evaluatedAt": "",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "invalid-time",
+                "message": "Overlay timestamps must be valid and validUntil must be after validFrom."
+              }
+            ]
+          }
+        },
+        {
+          "id": "wrong-package",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "asterion-all-public-lifts-closed-2026-07-22",
+            "buildingId": "asterion-medical-center",
+            "packageHash": "0000000000000000000000000000000000000000000000000000000000000000",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              {
+                "id": "close-atrium-lift",
+                "target": {
+                  "type": "source",
+                  "id": "lift-atrium"
+                },
+                "reason": "Deterministic demo outage for the panoramic atrium lift."
+              },
+              {
+                "id": "close-south-lift",
+                "target": {
+                  "type": "source",
+                  "id": "lift-south"
+                },
+                "reason": "Deterministic demo outage for the south lift bank."
+              }
+            ]
+          },
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": false,
+            "overlayId": "asterion-all-public-lifts-closed-2026-07-22",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "package-mismatch",
+                "message": "Overlay package hash does not match the active building package."
+              }
+            ]
+          }
+        },
+        {
+          "id": "unknown-target",
+          "overlay": {
+            "schemaVersion": "0.1.0",
+            "id": "asterion-all-public-lifts-closed-2026-07-22",
+            "buildingId": "asterion-medical-center",
+            "packageHash": "9a9c9d37907c78ec1b72bed95658ec248c43d96a891ae4109ac8eebfad144a13",
+            "validFrom": "2026-07-22T08:00:00.000Z",
+            "validUntil": "2026-07-23T00:00:00.000Z",
+            "closures": [
+              {
+                "id": "unknown",
+                "target": {
+                  "type": "edge",
+                  "id": "missing"
+                },
+                "reason": "fixture"
+              }
+            ]
+          },
+          "evaluatedAt": "2026-07-22T12:00:00.000Z",
+          "expected": {
+            "valid": false,
+            "overlayId": "asterion-all-public-lifts-closed-2026-07-22",
+            "evaluatedAt": "2026-07-22T12:00:00.000Z",
+            "activeClosureIds": [],
+            "closedEdgeIds": [],
+            "issues": [
+              {
+                "code": "unknown-target",
+                "closureId": "unknown",
+                "message": "Closure target does not exist in the active package: missing."
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

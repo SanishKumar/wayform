@@ -7,6 +7,7 @@ mod evidence;
 mod graph;
 mod identity;
 mod legacy;
+mod legacy_policy;
 mod loader;
 mod measurement;
 mod policy;
@@ -27,6 +28,10 @@ pub use identity::{IdentityError, InputDigests, bundle_digest, canonical_json, i
 pub use legacy::{
     LEGACY_SOURCE_COMMIT, LegacyEdge, LegacyFloor, LegacyGraph, LegacyNode, LegacyRouteOptions,
     LegacySearchError, LegacySearchOutcome,
+};
+pub use legacy_policy::{
+    LegacyOverlayIssue, LegacyOverlayResolution, LegacyPolicyEdge, LegacyPolicyError,
+    LegacyPolicyIndex, LegacyPolicyPackage,
 };
 pub use loader::{
     AssessmentStatus, Document, LoadError, MAX_DOCUMENT_BYTES, MAX_PATH_EDGES, MOBILITY_VERSION,

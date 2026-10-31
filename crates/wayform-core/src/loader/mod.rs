@@ -17,7 +17,7 @@ use serde::de::DeserializeOwned;
 use serde_json::Value;
 
 use crate::measurement::valid_observation;
-use crate::validation::valid_digest;
+use crate::validation::{timestamp, valid_digest};
 use crate::{
     BundleIdentity, Edge, EdgeAssessment, EdgeDecision, EdgeFacts, EdgeRequirements,
     EligibilityError, EntranceRegistration, EvidencePolicy, EvidenceRecord, EvidenceSnapshot,
@@ -69,7 +69,7 @@ fn decode<T: DeserializeOwned>(value: &Value, document: Document) -> Result<T, L
     serde_json::from_value(value.clone()).map_err(|error| LoadError::contract(document, error))
 }
 fn time(value: &str, document: Document) -> Result<i64, LoadError> {
-    json::timestamp(value).ok_or_else(|| LoadError::contract(document, "invalid UTC timestamp"))
+    timestamp(value).ok_or_else(|| LoadError::contract(document, "invalid UTC timestamp"))
 }
 fn unique<'a>(values: impl IntoIterator<Item = &'a str>) -> bool {
     let mut seen = HashSet::new();

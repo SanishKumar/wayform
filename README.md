@@ -37,7 +37,9 @@ The Rust toolchain is pinned in `rust-toolchain.toml`. Run `cargo test --workspa
 
 Native [edge eligibility](docs/native-eligibility.md) combines physical requirements with access rules, closures and entrance registration. The [document loader](docs/native-loading.md) validates complete bundle/profile/context JSON and computes their identities before evaluating edges or issuing [supplied-path receipts](docs/native-path-receipts.md). The `wayform-mobility` [document protocol](docs/native-mobility-protocol.md) exposes supplied-path assessment and suitable-route selection over JSON lines. Complete legacy output parity, Android screens, Go services, geographic ingestion and production synchronization are later work.
 
-An isolated [legacy search component and batch CLI](docs/native-legacy-search.md) preserve VoiceGIS's undirected adjacency and queue tie behavior. `test:native` compares exact node paths and distances for all 7,238 pinned journeys, two resolved lift-outage queries and 26 component cases. Package verification, overlay resolution, directions, graphics and legacy receipts remain in TypeScript; full native legacy output parity remains incomplete.
+An isolated [legacy search component and batch CLI](docs/native-legacy-search.md) preserve VoiceGIS's undirected adjacency and queue tie behavior. `test:native` compares exact node paths and distances for all 7,238 pinned journeys, two resolved lift-outage queries and 26 component cases. Its driver still uses TypeScript for package verification and closure resolution. Native directions, graphics and legacy receipts remain incomplete.
+
+A separate [native legacy overlay resolver](docs/native-legacy-policies.md) now checks closure targets, package binding and expiry against a host-verified package projection. Its full-resolution fixtures preserve legacy issue ordering and UTF-16 sorting. Integration into the search CLI and the running-journey lease remain separate work.
 
 ## Updating baselines
 
