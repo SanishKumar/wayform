@@ -78,9 +78,59 @@ pub(crate) fn timestamp(value: &str) -> Option<i64> {
     Some(((days * 24 + hour) * 60 + minute) * 60_000 + second * 1000 + millisecond)
 }
 
+/// Canonical UTC formatting for the same four-digit year range as timestamp().
+pub(crate) fn utc_from_millis(value: i64) -> Option<String> {
+    if !valid_time(value) {
+        return None;
+    }
+    let before_year =
+        |year: i64| 365 * year + (year + 3) / 4 - (year + 99) / 100 + (year + 399) / 400;
+    let days = value.div_euclid(86_400_000) + before_year(1970);
+    let (mut year, mut upper) = (0, 10_000);
+    while upper - year > 1 {
+        let middle = (year + upper) / 2;
+        if before_year(middle) <= days {
+            year = middle;
+        } else {
+            upper = middle;
+        }
+    }
+    let leap = year % 4 == 0 && (year % 100 != 0 || year % 400 == 0);
+    let months = [
+        31,
+        if leap { 29 } else { 28 },
+        31,
+        30,
+        31,
+        30,
+        31,
+        31,
+        30,
+        31,
+        30,
+        31,
+    ];
+    let mut day = days - before_year(year);
+    let mut month = 0;
+    while day >= months[month] {
+        day -= months[month];
+        month += 1;
+    }
+    let time = value.rem_euclid(86_400_000);
+    Some(format!(
+        "{year:04}-{:02}-{:02}T{:02}:{:02}:{:02}.{:03}Z",
+        month + 1,
+        day + 1,
+        time / 3_600_000,
+        (time / 60_000) % 60,
+        (time / 1000) % 60,
+        time % 1000
+    ))
+}
+
 #[cfg(test)]
 mod tests {
-    use super::timestamp;
+    use super::{timestamp, utc_from_millis};
     #[test]
     fn utc_format_calendar_and_extremes() {
         for (text, expected) in [
@@ -91,6 +141,7 @@ mod tests {
             ("9999-12-31T23:59:59.999Z", 253_402_300_799_999),
         ] {
             assert_eq!(timestamp(text), Some(expected), "{text}");
+            assert_eq!(utc_from_millis(expected).as_deref(), Some(text));
         }
         for text in [
             "1900-02-29T00:00:00.000Z",
@@ -106,5 +157,22 @@ mod tests {
         }
         assert!(timestamp("0000-02-29T00:00:00.000Z").is_some());
         assert!(timestamp("2000-02-29T00:00:00.000Z").is_some());
+    }
+
+    #[test]
+    fn calendar_formatting_round_trips_century_and_leap_boundaries() {
+        for year in [0, 1, 4, 100, 400, 1600, 1900, 1970, 2000, 2026, 2400, 9999] {
+            for month in 1..=12 {
+                for day in 1..=31 {
+                    let text = format!("{year:04}-{month:02}-{day:02}T23:59:59.999Z");
+                    if let Some(value) = timestamp(&text) {
+                        assert_eq!(utc_from_millis(value), Some(text));
+                    }
+                }
+            }
+        }
+        for value in [i64::MIN, -62_167_219_200_001, 253_402_300_800_000, i64::MAX] {
+            assert_eq!(utc_from_millis(value), None);
+        }
     }
 }

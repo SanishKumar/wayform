@@ -39,7 +39,7 @@ Native [edge eligibility](docs/native-eligibility.md) combines physical requirem
 
 An isolated [legacy search component and batch CLI](docs/native-legacy-search.md) preserve VoiceGIS's undirected adjacency and queue tie behavior. `test:native` compares exact node paths and distances for all 7,238 pinned journeys under both protocol versions, plus resolved-closure, search and policy-routing cases: 14,630 queries in total. Its driver still uses TypeScript for package verification. Native directions, graphics and legacy receipts remain incomplete.
 
-The [native legacy overlay resolver](docs/native-legacy-policies.md) checks closure targets, package binding and expiry against a host-verified package projection. Protocol `0.2.0` validates these policies before routing, blocks invalid overlays and requires explicit policy absence. Its comparisons preserve legacy issue ordering and UTF-16 sorting. The running-journey expiry lease remains separate work.
+The [native legacy overlay resolver](docs/native-legacy-policies.md) checks closure targets, package binding and expiry against a host-verified package projection. Protocol `0.2.0` validates these policies before routing, blocks invalid overlays and requires explicit policy absence. Its comparisons preserve legacy issue ordering and UTF-16 sorting. A [native expiry lease](docs/native-legacy-leases.md) now latches wall/monotonic expiry and clock failures, with 105 reference traces. Hosts must retain and check it during guidance; the batch CLI remains stateless.
 
 ## Updating baselines
 
