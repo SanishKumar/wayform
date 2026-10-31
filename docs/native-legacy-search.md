@@ -94,7 +94,7 @@ An overlay resolves **before** endpoint handling or path search. Invalid shape, 
 
 With `mode: "none"`, routing uses no operational closures and omits `overlayResolution`. This is an explicit caller decision, not confirmation that a venue is open. A host must not use it as fallback after an invalid/expired policy or disappearance of an expected feed. Missing/null policy records, missing clocks or missing overlay fields reject the entire batch as malformed. An explicitly supplied null overlay instead resolves as invalid shape; an empty clock string resolves as invalid time. A rejected query does not affect subsequent queries.
 
-The host still verifies package bytes and source mappings, authenticates policy inputs, supplies a trustworthy clock and manages expiry during a journey. The CLI evaluates the supplied snapshot only; it does not create a lease or issue a complete legacy route receipt.
+The host still verifies package bytes and source mappings, authenticates policy inputs, supplies a trustworthy clock and manages expiry during a journey. The [native lease API](native-legacy-leases.md) provides a stateful expiry check for that integration. The CLI evaluates the supplied snapshot only; it does not create a lease or issue a complete legacy route receipt.
 
 ### Bounds and error codes
 

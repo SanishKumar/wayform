@@ -16,7 +16,7 @@ The `wayform-search` binary exposes evaluated-graph search through a bounded [JS
 
 The isolated [legacy search component and CLI](native-legacy-search.md) now cover exact node-path and distance selection across the 7,238 pinned journeys under both protocol versions, plus resolved closures and focused search/policy cases. The driver still uses the TypeScript harness for package loading; full native legacy output remains incomplete.
 
-The [native overlay resolver](native-legacy-policies.md) exposes the legacy policy decision with an explicit canonical-UTC parsing boundary. CLI protocol `0.2.0` applies it before search, including before stationary and unknown endpoint handling. The in-journey expiry lease has not yet migrated.
+The [native overlay resolver](native-legacy-policies.md) exposes the legacy policy decision with an explicit canonical-UTC parsing boundary. CLI protocol `0.2.0` applies it before search, including before stationary and unknown endpoint handling. The [native expiry lease](native-legacy-leases.md) now retains clock history and permanent failure state; a host navigation session must own and check it throughout guidance. The batch CLI does not retain live journey state.
 
 1. **Legacy compatibility mode** accepts the pinned VoiceGIS package/profile/overlay contract. It reproduces the existing undirected routing, tie behavior, instruction generation, graphic clearance and receipts. It never claims the new evidence semantics.
 2. **Mobility draft mode** accepts `0.1.0-draft.1` bundle/profile/context documents. It uses directed edge IDs, hard requirements, evidence and policy freshness. It must not convert legacy true flags into physical measurements.

@@ -18,7 +18,7 @@ Issue codes, messages and ordering follow the pinned resolver: version, building
 - Inputs are already parsed JSON values. This API does not define raw JSON duplicate-key handling or a byte-framing protocol. Hosts must bound parsing/input size before calling it.
 - At most 500,000 closure records are accepted. A resolution allows one million closure visits plus expanded edge matches; repeated large source targets consume that budget even if the resulting edge IDs deduplicate. Exceeding either bound returns an error without partial results.
 
-The index does not supply a trusted clock, authenticate a closure feed, retain a revision floor, refresh data or enforce a running journey's expiry lease. Callers must re-evaluate before using a route as time or policy changes. Native lease migration is a separate boundary.
+The index does not supply a trusted clock, authenticate a closure feed, retain a revision floor or refresh data. The separate [native expiry lease](native-legacy-leases.md) retains clock history and latches expiry for a host-owned journey. Callers must check it before guidance and invalidate affected routes when the policy or package changes. The batch CLI still evaluates individual snapshots.
 
 ## Reproduction
 

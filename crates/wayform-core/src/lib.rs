@@ -8,6 +8,7 @@ mod graph;
 mod identity;
 mod json;
 mod legacy;
+mod legacy_lease;
 mod legacy_policy;
 mod loader;
 mod measurement;
@@ -31,6 +32,7 @@ pub use legacy::{
     LEGACY_SOURCE_COMMIT, LegacyEdge, LegacyFloor, LegacyGraph, LegacyNode, LegacyRouteOptions,
     LegacySearchError, LegacySearchOutcome,
 };
+pub use legacy_lease::{LegacyFreshnessStatus, LegacyOperationalFreshness, LegacyOperationalLease};
 pub use legacy_policy::{
     LegacyOverlayIssue, LegacyOverlayResolution, LegacyPolicyEdge, LegacyPolicyError,
     LegacyPolicyIndex, LegacyPolicyPackage,

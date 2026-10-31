@@ -94,6 +94,51 @@ struct Target {
     id: String,
 }
 
+fn parse_overlay(value: &Value) -> Option<Overlay> {
+    // Derived struct deserializers also accept positional arrays. The legacy
+    // contract requires actual objects at every record boundary.
+    let object_shape = value.is_object()
+        && value
+            .get("closures")
+            .and_then(Value::as_array)
+            .is_some_and(|closures| {
+                closures.iter().all(|closure| {
+                    closure.is_object() && closure.get("target").is_some_and(Value::is_object)
+                })
+            });
+    object_shape
+        .then(|| Overlay::deserialize(value).ok())
+        .flatten()
+        .filter(|overlay| {
+            overlay.closures.iter().all(|closure| {
+                !closure.id.is_empty()
+                    && !closure.target.id.is_empty()
+                    && !closure.reason.is_empty()
+                    && matches!(closure.target.kind.as_str(), "edge" | "source")
+            })
+        })
+}
+
+pub(crate) fn overlay_time_bounds(
+    value: &Value,
+) -> Result<(Option<i64>, Option<i64>), LegacyPolicyError> {
+    if value
+        .get("closures")
+        .and_then(Value::as_array)
+        .is_some_and(|items| items.len() > MAX_EDGES)
+    {
+        return Err(LegacyPolicyError::WorkLimitExceeded);
+    }
+    Ok(parse_overlay(value)
+        .map(|overlay| {
+            (
+                timestamp(&overlay.valid_from),
+                timestamp(&overlay.valid_until),
+            )
+        })
+        .unwrap_or((None, None)))
+}
+
 fn issue(
     code: &'static str,
     message: impl Into<String>,
@@ -169,28 +214,7 @@ impl LegacyPolicyIndex {
             closed_edge_ids: Vec::new(),
             issues: Vec::new(),
         };
-        // Serde structs may also decode positional arrays. The legacy shape
-        // requires actual objects at every record boundary.
-        let object_shape = value.is_object()
-            && value
-                .get("closures")
-                .and_then(Value::as_array)
-                .is_some_and(|closures| {
-                    closures.iter().all(|closure| {
-                        closure.is_object() && closure.get("target").is_some_and(Value::is_object)
-                    })
-                });
-        let overlay = object_shape
-            .then(|| Overlay::deserialize(value).ok())
-            .flatten()
-            .filter(|overlay| {
-                overlay.closures.iter().all(|closure| {
-                    !closure.id.is_empty()
-                        && !closure.target.id.is_empty()
-                        && !closure.reason.is_empty()
-                        && matches!(closure.target.kind.as_str(), "edge" | "source")
-                })
-            });
+        let overlay = parse_overlay(value);
         let Some(overlay) = overlay else {
             result.issues.push(issue(
                 "invalid-shape",
