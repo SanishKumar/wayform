@@ -24,4 +24,46 @@ Graph limits are 100,000 nodes and 500,000 edges. Closure IDs must exist; duplic
 
 Twenty-six small synthetic cases compare selected paths, distances and heuristic scales with the pinned TypeScript core. Cases cover equal priorities and reordered edges, stale queue entries, floors, closures, restrictions, legacy step-free flags, parallel edges, stationary paths, failures and very large/small coordinates. Native tests also exercise malformed inputs and explicit numeric errors.
 
-Run `npm run check` and `cargo test --workspace --locked`. Expectations are only recorded with `node --import tsx scripts/record-legacy-search-examples.ts --record`. This file is a new component baseline; the original 7,238 full-result fingerprints remain unchanged. Full-corpus native search comparison and remaining legacy output parity are subsequent gates.
+The native CLI driver verifies all 35 upstream source blobs and loads the four verified packages. It recomputes each of the 7,238 full TypeScript results, checks its unchanged recorded fingerprint, and compares the native node path and distance with that result's search projection. It also checks two lift-outage queries using closure IDs resolved by TypeScript and the 26 component cases: 7,266 queries in 30 batches. The closure cases include a standard-profile detour and a step-free no-route result.
+
+Run `npm run check`, `cargo test --workspace --locked`, and `npm run test:native`. The latter builds the binaries and runs the cross-language comparisons. `WAYFORM_LEGACY_SEARCH_BIN` can select an already built executable; otherwise the driver uses `CARGO_TARGET_DIR` (default `target`) and its debug executable. It imposes a 60-second process timeout for this corpus, not a product latency guarantee.
+
+Component expectations are only recorded with `node --import tsx scripts/record-legacy-search-examples.ts --record`. The original 7,238 full-result fingerprints remain unchanged. Native full-result parity remains incomplete: these comparisons do not establish native package validation, overlay resolution, directions, graphics or receipts.
+
+## Batch JSON-lines protocol
+
+`wayform-legacy-search` accepts one projected graph and a nonempty ordered list of queries per line. Batching avoids repeating a venue graph for every journey. All fields below are required; unknown and duplicate object fields are rejected.
+
+```json
+{
+  "protocolVersion": "0.1.0",
+  "sourceCommit": "305c70bd418d7fd2b6f0ebf7a2ecd0ddcb9b9b7f",
+  "requestId": "example",
+  "nodes": [
+    { "id": "a", "x": 0, "y": 0, "floor": "ground" },
+    { "id": "b", "x": 1, "y": 0, "floor": "ground" }
+  ],
+  "edges": [
+    { "id": "ab", "from": "a", "to": "b", "distance": 1, "accessible": true, "restricted": false }
+  ],
+  "queries": [
+    { "queryId": "outbound", "startId": "a", "destinationId": "b", "options": { "accessibleOnly": false, "allowRestricted": false, "closedEdgeIds": [] } }
+  ]
+}
+```
+
+This formatted example must be serialized on one line. A completed response contains `protocolVersion`, `sourceCommit`, `requestId`, `outcome: "completed"` and ordered `results`. Each result contains its `queryId` and one of:
+
+- `outcome: "routed"`, `pathIds` and `totalDistance`;
+- `outcome: "unknown-endpoint"` or `outcome: "no-route"`;
+- `outcome: "rejected"` and `error: { code, message }` for a query-specific validation, numeric or work-limit error.
+
+Queries do not mutate the graph or one another's options. A bad closure ID rejects only its query. Invalid envelopes, invalid graphs and excessive response sizes reject the whole batch with `outcome: "rejected"` and `error`, without partial results. An accepted request ID is echoed on these failures. Malformed JSON, invalid request IDs and oversized frames return `requestId: null`. Subsequent frames are still processed.
+
+`sourceCommit` selects the supported reference behavior; it is **not** proof that the supplied graph came from that commit or a verified package. The host remains responsible for package verification, profile mapping and operational overlay validation before projecting the graph. The response identifies the supported implementation even on rejected requests. This protocol carries no mobility evidence or original route receipts.
+
+### Bounds and error codes
+
+Request IDs require 1–256 UTF-8 bytes. Query IDs require 1–512 UTF-8 bytes and must be unique within a batch. A batch contains at most 10,000 queries. Input frames and serialized completed responses are each limited to 16 MiB, excluding the final newline. Response accounting includes JSON escaping; oversized results discard the whole batch. Messages are capped at 512 Unicode scalar values. LF, CRLF and a final frame without a newline are accepted; invalid UTF-8 is rejected.
+
+Envelope/batch errors use `invalid-request`, `invalid-request-id`, `unsupported-protocol`, `unsupported-source`, `invalid-batch`, `frame-too-large`, `response-too-large` or `encoding-failed`. Graph and query errors use `invalid-graph`, `invalid-closure`, `unrepresentable-cost` or `work-limit-exceeded`. Hosts should use codes, not parse messages. The graph/search bounds above still apply. The work limit is per query, not a whole-batch CPU deadline; hosts must apply their own timeout and batch-size policy for untrusted workloads.

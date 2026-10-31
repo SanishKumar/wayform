@@ -10,6 +10,7 @@ use serde::{Deserialize, Serialize};
 use crate::{MAX_EDGES, MAX_NODES};
 
 const MAX_SEARCH_WORK: usize = 1_000_000;
+pub const LEGACY_SOURCE_COMMIT: &str = "305c70bd418d7fd2b6f0ebf7a2ecd0ddcb9b9b7f";
 
 #[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 #[serde(untagged)]
