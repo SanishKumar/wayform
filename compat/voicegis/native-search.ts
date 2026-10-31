@@ -1,5 +1,10 @@
 import assert from 'node:assert/strict';
+import type { CompiledBuildingPackage } from './upstream/packages/map-compiler/src/compiler';
 import { calculateRoute, type GraphEdge, type GraphNode, type RouteOptions, type RouteResult } from './upstream/src/engine/routingCore';
+
+export function projectLegacyPolicyPackage(pkg: CompiledBuildingPackage) {
+  return { buildingId: pkg.building.id, packageHash: pkg.manifest.contentHash, edges: pkg.routing.edges.map(({ id, sourceId }) => ({ id, sourceId })) };
+}
 
 export function projectLegacyGraph(nodes: GraphNode[], edges: GraphEdge[]) {
   return {

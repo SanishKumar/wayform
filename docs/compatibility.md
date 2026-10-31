@@ -58,4 +58,4 @@ A future source refresh must separately review the source lock, dependency lock,
 
 The full original browser, localization, authoring and device test suites are outside this extracted harness. Passing it is not a claim that all VoiceGIS behavior has been migrated.
 
-The [native legacy search component](native-legacy-search.md) now has a separate, explicitly scoped baseline for selected node paths, distances and heuristic scales. It preserves legacy tie behavior without changing the immutable upstream subset or replacing the original full-result fingerprints. Instructions, package verification, overlay resolution, route graphics and receipts still require separate native parity work.
+The [native legacy search component](native-legacy-search.md) preserves selected node paths, distances and heuristic scales without changing the immutable upstream subset or replacing the original full-result fingerprints. Its policy protocol also resolves overlays before routing, with the documented canonical-UTC boundary. Instructions, package verification, route graphics, receipts and running-journey leases still require separate native parity work.

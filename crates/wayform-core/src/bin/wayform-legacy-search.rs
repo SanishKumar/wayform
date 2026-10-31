@@ -1,37 +1,18 @@
+mod legacy_protocol;
 mod support;
 
 use std::collections::HashSet;
 use std::io;
 
-use serde::{Deserialize, Serialize};
+use legacy_protocol::{POLICY_VERSION, Policy, Query, Request, SEARCH_VERSION};
+use serde::Serialize;
 use wayform_core::{
-    LEGACY_SOURCE_COMMIT, LegacyEdge, LegacyGraph, LegacyNode, LegacyRouteOptions,
-    LegacySearchError, LegacySearchOutcome,
+    LEGACY_SOURCE_COMMIT, LegacyGraph, LegacyOverlayResolution, LegacyPolicyError,
+    LegacyPolicyIndex, LegacySearchError, LegacySearchOutcome, parse_bounded_json,
 };
 
-const PROTOCOL_VERSION: &str = "0.1.0";
 const MAX_QUERIES: usize = 10_000;
 const MAX_RESPONSE_BYTES: usize = 16 * 1024 * 1024;
-
-#[derive(Deserialize)]
-#[serde(rename_all = "camelCase", deny_unknown_fields)]
-struct Request {
-    protocol_version: String,
-    source_commit: String,
-    request_id: String,
-    nodes: Vec<LegacyNode>,
-    edges: Vec<LegacyEdge>,
-    queries: Vec<Query>,
-}
-
-#[derive(Deserialize)]
-#[serde(rename_all = "camelCase", deny_unknown_fields)]
-struct Query {
-    query_id: String,
-    start_id: String,
-    destination_id: String,
-    options: LegacyRouteOptions,
-}
 
 #[derive(Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -54,6 +35,8 @@ enum BatchResult {
 #[serde(rename_all = "camelCase")]
 struct QueryResponse {
     query_id: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    overlay_resolution: Option<LegacyOverlayResolution>,
     #[serde(flatten)]
     result: QueryResult,
 }
@@ -87,9 +70,9 @@ fn rejected(code: &'static str, message: impl ToString) -> BatchResult {
     }
 }
 
-fn response(request_id: Option<String>, result: BatchResult) -> Response {
+fn response(version: &'static str, request_id: Option<String>, result: BatchResult) -> Response {
     Response {
-        protocol_version: PROTOCOL_VERSION,
+        protocol_version: version,
         source_commit: LEGACY_SOURCE_COMMIT,
         request_id,
         result,
@@ -106,9 +89,6 @@ fn error_code(error: &LegacySearchError) -> &'static str {
 }
 
 fn execute(request: Request) -> BatchResult {
-    if request.protocol_version != PROTOCOL_VERSION {
-        return rejected("unsupported-protocol", "expected protocolVersion 0.1.0");
-    }
     if request.source_commit != LEGACY_SOURCE_COMMIT {
         return rejected("unsupported-source", "unsupported reference source commit");
     }
@@ -128,6 +108,7 @@ fn execute(request: Request) -> BatchResult {
     }
     // Account for the actual serialized envelope, including escaped request IDs.
     let empty = response(
+        request.version,
         Some(request.request_id),
         BatchResult::Completed {
             results: Vec::new(),
@@ -137,23 +118,33 @@ fn execute(request: Request) -> BatchResult {
         Ok(bytes) => bytes.len(),
         Err(error) => return rejected("encoding-failed", error),
     };
+    let policy_index = if let Some(package) = request.package {
+        let graph_ids: HashSet<_> = request.edges.iter().map(|edge| edge.id.as_str()).collect();
+        if package.edges.len() != graph_ids.len()
+            || package
+                .edges
+                .iter()
+                .any(|edge| !graph_ids.contains(edge.id.as_str()))
+        {
+            return rejected(
+                "invalid-policy-package",
+                "policy and search edge inventories must match exactly",
+            );
+        }
+        match LegacyPolicyIndex::new(package) {
+            Ok(index) => Some(index),
+            Err(error) => return rejected("invalid-policy-package", error),
+        }
+    } else {
+        None
+    };
     let graph = match LegacyGraph::new(request.nodes, request.edges) {
         Ok(graph) => graph,
         Err(error) => return rejected(error_code(&error), error),
     };
     let mut results = Vec::with_capacity(request.queries.len());
     for query in request.queries {
-        let result = match graph.route(&query.start_id, &query.destination_id, &query.options) {
-            Ok(value) => QueryResult::Search(value),
-            Err(error) => QueryResult::Rejected {
-                outcome: "rejected",
-                error: failure(error_code(&error), error),
-            },
-        };
-        let item = QueryResponse {
-            query_id: query.query_id,
-            result,
-        };
+        let item = execute_query(&graph, policy_index.as_ref(), query);
         let size = match serde_json::to_vec(&item) {
             Ok(bytes) => bytes.len(),
             Err(error) => return rejected("encoding-failed", error),
@@ -170,13 +161,104 @@ fn execute(request: Request) -> BatchResult {
     BatchResult::Completed { results }
 }
 
+fn query_rejection(code: &'static str, message: impl ToString) -> QueryResult {
+    QueryResult::Rejected {
+        outcome: "rejected",
+        error: failure(code, message),
+    }
+}
+
+fn execute_query(
+    graph: &LegacyGraph,
+    index: Option<&LegacyPolicyIndex>,
+    mut query: Query,
+) -> QueryResponse {
+    let mut item = QueryResponse {
+        query_id: query.query_id,
+        overlay_resolution: None,
+        result: query_rejection(
+            "invalid-policy-package",
+            "overlay requires a policy package",
+        ),
+    };
+    if let Policy::Overlay {
+        overlay,
+        evaluated_at,
+    } = query.policy
+    {
+        let Some(index) = index else {
+            return item;
+        };
+        match index.resolve(&overlay, &evaluated_at) {
+            Ok(resolution) => {
+                let valid = resolution.valid;
+                query.options.closed_edge_ids = resolution.closed_edge_ids.clone();
+                item.overlay_resolution = Some(resolution);
+                if !valid {
+                    item.result = query_rejection(
+                        "invalid-overlay",
+                        "operational overlay rejected; search was not run",
+                    );
+                    return item;
+                }
+            }
+            Err(error) => {
+                let code = match error {
+                    LegacyPolicyError::WorkLimitExceeded => "work-limit-exceeded",
+                    LegacyPolicyError::InvalidPackage => "invalid-policy-package",
+                };
+                item.result = query_rejection(code, error);
+                return item;
+            }
+        }
+    }
+    item.result = match graph.route(&query.start_id, &query.destination_id, &query.options) {
+        Ok(value) => QueryResult::Search(value),
+        Err(error) => query_rejection(error_code(&error), error),
+    };
+    item
+}
+
 fn process(bytes: &[u8]) -> Response {
-    let request: Request = match serde_json::from_slice(bytes) {
+    let value = match parse_bounded_json(bytes) {
+        Ok(value) => value,
+        Err(error) => return response(SEARCH_VERSION, None, rejected("invalid-request", error)),
+    };
+    let version = match value
+        .get("protocolVersion")
+        .and_then(|value| value.as_str())
+    {
+        Some(SEARCH_VERSION) => SEARCH_VERSION,
+        Some(POLICY_VERSION) => POLICY_VERSION,
+        Some(_) => {
+            return response(
+                SEARCH_VERSION,
+                value
+                    .get("requestId")
+                    .and_then(|id| id.as_str())
+                    .filter(|id| !id.is_empty() && id.len() <= 256)
+                    .map(str::to_owned),
+                rejected(
+                    "unsupported-protocol",
+                    "expected protocolVersion 0.1.0 or 0.2.0",
+                ),
+            );
+        }
+        None => {
+            return response(
+                SEARCH_VERSION,
+                None,
+                rejected("invalid-request", "protocolVersion must be a string"),
+            );
+        }
+    };
+    let request = match legacy_protocol::parse(value, version) {
         Ok(request) => request,
-        Err(error) => return response(None, rejected("invalid-request", error)),
+        Err(error) => return response(version, None, rejected("invalid-request", error)),
     };
     if request.request_id.is_empty() || request.request_id.len() > 256 {
         return response(
+            version,
             None,
             rejected(
                 "invalid-request-id",
@@ -185,11 +267,15 @@ fn process(bytes: &[u8]) -> Response {
         );
     }
     let request_id = request.request_id.clone();
-    response(Some(request_id), execute(request))
+    response(version, Some(request_id), execute(request))
 }
 
 fn main() -> io::Result<()> {
     support::serve(process, || {
-        response(None, rejected("frame-too-large", "input exceeds 16 MiB"))
+        response(
+            SEARCH_VERSION,
+            None,
+            rejected("frame-too-large", "input exceeds 16 MiB"),
+        )
     })
 }

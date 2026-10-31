@@ -1,10 +1,7 @@
 import { PINNED_COMMIT, loadVenue, readJson } from '../compat/voicegis/harness';
+import { projectLegacyPolicyPackage } from '../compat/voicegis/native-search';
 import type { CompiledBuildingPackage } from '../compat/voicegis/upstream/packages/map-compiler/src/compiler';
 import { resolveOperationalOverlay, type OperationalOverlay } from '../compat/voicegis/upstream/src/engine/operationalOverlay';
-
-function projectPackage(pkg: CompiledBuildingPackage) {
-  return { buildingId: pkg.building.id, packageHash: pkg.manifest.contentHash, edges: pkg.routing.edges.map(({ id, sourceId }) => ({ id, sourceId })) };
-}
 
 export async function buildLegacyOverlayCases() {
   // The resolver reads only these package fields. This synthetic projection is
@@ -98,7 +95,7 @@ export async function buildLegacyOverlayCases() {
     { id: 'unknown-target', overlay: { ...overlay, closures: [{ id: 'unknown', target: { type: 'edge', id: 'missing' }, reason: 'fixture' }] }, evaluatedAt: now },
   ];
   return { formatVersion: 1, sourceCommit: PINNED_COMMIT, groups: [
-    { id: 'synthetic', package: projectPackage(synthetic), cases: evaluated(synthetic, cases) },
-    { id: 'asterion-medical-center', package: projectPackage(pkg), cases: evaluated(pkg, pinned) },
+    { id: 'synthetic', package: projectLegacyPolicyPackage(synthetic), cases: evaluated(synthetic, cases) },
+    { id: 'asterion-medical-center', package: projectLegacyPolicyPackage(pkg), cases: evaluated(pkg, pinned) },
   ] };
 }

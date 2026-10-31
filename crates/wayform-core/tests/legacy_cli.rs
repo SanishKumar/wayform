@@ -265,3 +265,289 @@ fn oversized_and_non_utf8_input_frames_recover() {
     assert!(responses[1]["requestId"].is_null());
     assert_eq!(responses[2]["outcome"], "completed");
 }
+
+fn overlay() -> Value {
+    json!({
+        "schemaVersion": "0.1.0", "id": "outage", "buildingId": "fixture", "packageHash": "a".repeat(64),
+        "validFrom": "2026-07-22T08:00:00.000Z", "validUntil": "2026-07-23T00:00:00.000Z",
+        "closures": [{"id": "close-lift", "target": {"type": "source", "id": "lift"}, "reason": "Fixture"}]
+    })
+}
+
+fn policy_query(id: &str, active: bool) -> Value {
+    let mut input = query(id);
+    input["options"]
+        .as_object_mut()
+        .unwrap()
+        .remove("closedEdgeIds");
+    input["policy"] = if active {
+        json!({"mode": "overlay", "overlay": overlay(), "evaluatedAt": "2026-07-22T12:00:00.000Z"})
+    } else {
+        json!({"mode": "none"})
+    };
+    input
+}
+
+fn policy_request() -> Value {
+    let mut input = request();
+    input["protocolVersion"] = json!("0.2.0");
+    input["edges"][0]["accessible"] = json!(true);
+    input["edges"][2]["restricted"] = json!(false);
+    input["edges"][2]["accessible"] = json!(false);
+    input["package"] = json!({
+        "buildingId": "fixture", "packageHash": "a".repeat(64),
+        "edges": [
+            {"id": "ab", "sourceId": "lift"}, {"id": "bd", "sourceId": "lift"},
+            {"id": "ac", "sourceId": "stairs"}, {"id": "cd", "sourceId": "stairs"}
+        ]
+    });
+    input["queries"] = json!([policy_query("none", false)]);
+    input
+}
+
+#[test]
+fn native_policy_routing_blocks_invalid_overlays_before_search_and_recovers() {
+    let mut input = policy_request();
+    let mut queries = vec![
+        policy_query("none", false),
+        policy_query("detour", true),
+        policy_query("step-free", true),
+    ];
+    queries[2]["options"]["accessibleOnly"] = json!(true);
+    for (id, destination) in [
+        ("expired", "d"),
+        ("stationary-expired", "a"),
+        ("unknown-expired", "missing"),
+    ] {
+        let mut item = policy_query(id, true);
+        item["destinationId"] = json!(destination);
+        item["policy"]["evaluatedAt"] = json!("2026-07-23T00:00:00.000Z");
+        queries.push(item);
+    }
+    let mut mismatch = policy_query("package-mismatch", true);
+    mismatch["policy"]["overlay"]["packageHash"] = json!("b".repeat(64));
+    queries.push(mismatch);
+    let mut null = policy_query("null-overlay", true);
+    null["policy"]["overlay"] = Value::Null;
+    queries.push(null);
+    let mut no_clock = policy_query("empty-clock", true);
+    no_clock["policy"]["evaluatedAt"] = json!("");
+    queries.push(no_clock);
+    queries.push(policy_query("after", false));
+    input["queries"] = json!(queries);
+    let responses = run(format!("{input}\n{}", request()).into_bytes());
+    assert_eq!(responses.len(), 2);
+    assert_eq!(responses[0]["protocolVersion"], "0.2.0");
+    assert_eq!(responses[0]["outcome"], "completed");
+    let results = responses[0]["results"].as_array().unwrap();
+    assert_eq!(results.len(), 10);
+    for index in [0, 9] {
+        assert_eq!(results[index]["pathIds"], json!(["a", "b", "d"]));
+        assert!(results[index].get("overlayResolution").is_none());
+    }
+    assert_eq!(results[1]["pathIds"], json!(["a", "c", "d"]));
+    assert_eq!(results[1]["totalDistance"], 6.0);
+    assert_eq!(
+        results[1]["overlayResolution"]["closedEdgeIds"],
+        json!(["ab", "bd"])
+    );
+    assert_eq!(results[2]["outcome"], "no-route");
+    assert_eq!(results[2]["overlayResolution"]["valid"], true);
+    for (offset, code) in [
+        "overlay-expired",
+        "overlay-expired",
+        "overlay-expired",
+        "package-mismatch",
+        "invalid-shape",
+        "invalid-time",
+    ]
+    .iter()
+    .enumerate()
+    {
+        let result = &results[offset + 3];
+        assert_eq!(result["outcome"], "rejected");
+        assert_eq!(result["error"]["code"], "invalid-overlay");
+        assert_eq!(result["overlayResolution"]["valid"], false);
+        assert_eq!(result["overlayResolution"]["issues"][0]["code"], *code);
+        assert!(result.get("pathIds").is_none());
+        assert!(result.get("totalDistance").is_none());
+    }
+    assert_eq!(responses[1]["protocolVersion"], "0.1.0");
+    assert_eq!(responses[1]["outcome"], "completed");
+}
+
+#[test]
+fn protocol_versions_cannot_omit_or_override_policy_inputs() {
+    let valid = policy_request();
+    let mut inputs = Vec::new();
+    let mut add = |input: Value, code: &str| inputs.push((input.to_string(), code.to_owned()));
+    let mut missing_package = valid.clone();
+    missing_package.as_object_mut().unwrap().remove("package");
+    add(missing_package, "invalid-request");
+    let mut missing_policy = valid.clone();
+    missing_policy["queries"][0]
+        .as_object_mut()
+        .unwrap()
+        .remove("policy");
+    add(missing_policy, "invalid-request");
+    for policy in [
+        Value::Null,
+        json!("none"),
+        json!({"mode": "none", "overlay": overlay()}),
+        json!({"mode": "overlay", "evaluatedAt": "2026-07-22T12:00:00.000Z"}),
+        json!({"mode": "overlay", "overlay": overlay()}),
+        json!({"mode": "invented"}),
+    ] {
+        let mut input = valid.clone();
+        input["queries"][0]["policy"] = policy;
+        add(input, "invalid-request");
+    }
+    let mut supplied_closures = valid.clone();
+    supplied_closures["queries"][0]["options"]["closedEdgeIds"] = json!([]);
+    add(supplied_closures, "invalid-request");
+    let mut old_version_policy = request();
+    old_version_policy["queries"][0]["policy"] = json!({"mode": "none"});
+    add(old_version_policy, "invalid-request");
+    for kind in [
+        "missing-edge",
+        "extra-edge",
+        "duplicate-edge",
+        "empty-source",
+        "bad-hash",
+    ] {
+        let mut input = valid.clone();
+        match kind {
+            "missing-edge" => {
+                input["package"]["edges"].as_array_mut().unwrap().pop();
+            }
+            "extra-edge" => input["package"]["edges"]
+                .as_array_mut()
+                .unwrap()
+                .push(json!({"id": "other", "sourceId": "lift"})),
+            "duplicate-edge" => input["package"]["edges"][1]["id"] = json!("ab"),
+            "empty-source" => input["package"]["edges"][0]["sourceId"] = json!(""),
+            _ => input["package"]["packageHash"] = json!("unverified"),
+        }
+        add(input, "invalid-policy-package");
+    }
+    let mut overlay_input = valid.clone();
+    overlay_input["queries"] = json!([policy_query("overlay", true)]);
+    inputs.push((
+        overlay_input.to_string().replacen(
+            "\"validUntil\":",
+            "\"validUntil\":\"2099-01-01T00:00:00.000Z\",\"validUntil\":",
+            1,
+        ),
+        "invalid-request".into(),
+    ));
+    inputs.push((
+        overlay_input.to_string().replacen(
+            "\"reason\":",
+            "\"rea\\u0073on\":\"duplicate\",\"reason\":",
+            1,
+        ),
+        "invalid-request".into(),
+    ));
+    let encoded = inputs
+        .iter()
+        .map(|(line, _)| line.as_str())
+        .chain(std::iter::once(""))
+        .collect::<Vec<_>>()
+        .join("\n")
+        + &valid.to_string();
+    let responses = run(encoded.into_bytes());
+    assert_eq!(responses.len(), inputs.len() + 1);
+    for (response, (_, code)) in responses.iter().zip(&inputs) {
+        assert_eq!(response["outcome"], "rejected");
+        assert_eq!(response["error"]["code"], *code);
+        assert!(response.get("results").is_none());
+    }
+    assert_eq!(responses.last().unwrap()["outcome"], "completed");
+}
+
+#[test]
+fn positional_arrays_cannot_replace_protocol_records() {
+    let mut inputs = Vec::new();
+    for base in [request(), policy_request()] {
+        for kind in ["node", "edge", "query", "options"] {
+            let mut input = base.clone();
+            match kind {
+                "node" => input["nodes"][0] = json!(["a", 0, 0, "g"]),
+                "edge" => input["edges"][0] = json!(["ab", "a", "b", 2, false, false]),
+                "query" => {
+                    input["queries"][0] =
+                        json!(["default", "a", "d", base["queries"][0]["options"]])
+                }
+                _ => {
+                    input["queries"][0]["options"] = if base["protocolVersion"] == "0.1.0" {
+                        json!([false, false, []])
+                    } else {
+                        json!([false, false])
+                    }
+                }
+            }
+            inputs.push(input);
+        }
+    }
+    let mut package = policy_request();
+    package["package"] = json!(["fixture", "a".repeat(64), package["package"]["edges"]]);
+    inputs.push(package);
+    let mut edge = policy_request();
+    edge["package"]["edges"][0] = json!(["ab", "lift"]);
+    inputs.push(edge);
+    let mut policy = policy_request();
+    policy["queries"][0]["policy"] = json!(["none"]);
+    inputs.push(policy);
+    let responses = run(inputs
+        .iter()
+        .map(Value::to_string)
+        .collect::<Vec<_>>()
+        .join("\n")
+        .into_bytes());
+    assert_eq!(responses.len(), inputs.len());
+    for response in responses {
+        assert_eq!(response["error"]["code"], "invalid-request");
+        assert!(response.get("results").is_none());
+    }
+}
+
+#[test]
+fn policy_resource_exhaustion_is_not_an_empty_closure_set() {
+    let mut input = policy_request();
+    let mut excessive = policy_query("excessive", true);
+    excessive["policy"]["overlay"]["closures"] =
+        Value::Array(vec![Value::Null; wayform_core::MAX_EDGES + 1]);
+    input["queries"] = json!([excessive, policy_query("later", false)]);
+    let responses = run(input.to_string().into_bytes());
+    let results = responses[0]["results"].as_array().unwrap();
+    assert_eq!(results[0]["outcome"], "rejected");
+    assert_eq!(results[0]["error"]["code"], "work-limit-exceeded");
+    assert!(results[0].get("pathIds").is_none());
+    assert!(results[0].get("overlayResolution").is_none());
+    assert_eq!(results[1]["outcome"], "routed");
+}
+
+#[test]
+fn policy_resolution_output_counts_toward_the_batch_byte_limit() {
+    let mut input = policy_request();
+    let ids: Vec<_> = (0..200)
+        .map(|i| format!("{i}-{}", "x".repeat(1024)))
+        .collect();
+    input["edges"] = json!(ids.iter().map(|id| json!({"id": id, "from": "a", "to": "d", "distance": 1, "accessible": true, "restricted": false})).collect::<Vec<_>>());
+    input["package"]["edges"] = json!(
+        ids.iter()
+            .map(|id| json!({"id": id, "sourceId": "lift"}))
+            .collect::<Vec<_>>()
+    );
+    input["queries"] = json!(
+        (0..100)
+            .map(|i| policy_query(&i.to_string(), true))
+            .collect::<Vec<_>>()
+    );
+    let encoded = input.to_string();
+    assert!(encoded.len() < 16 * 1024 * 1024);
+    let responses = run(format!("{encoded}\n{}", policy_request()).into_bytes());
+    assert_eq!(responses[0]["error"]["code"], "response-too-large");
+    assert!(responses[0].get("results").is_none());
+    assert_eq!(responses[1]["outcome"], "completed");
+}

@@ -6,6 +6,7 @@ mod eligibility;
 mod evidence;
 mod graph;
 mod identity;
+mod json;
 mod legacy;
 mod legacy_policy;
 mod loader;
@@ -25,6 +26,7 @@ pub use evidence::{
 };
 pub use graph::{Edge, Graph, GraphError, MAX_EDGES, MAX_NODES};
 pub use identity::{IdentityError, InputDigests, bundle_digest, canonical_json, input_digests};
+pub use json::{JsonError, parse_bounded_json};
 pub use legacy::{
     LEGACY_SOURCE_COMMIT, LegacyEdge, LegacyFloor, LegacyGraph, LegacyNode, LegacyRouteOptions,
     LegacySearchError, LegacySearchOutcome,
