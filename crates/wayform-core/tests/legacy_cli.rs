@@ -394,6 +394,8 @@ fn protocol_versions_cannot_omit_or_override_policy_inputs() {
         Value::Null,
         json!("none"),
         json!({"mode": "none", "overlay": overlay()}),
+        json!({"mode": "none", "evaluatedAt": "2026-07-22T12:00:00.000Z"}),
+        json!({"mode": "none", "closedEdgeIds": []}),
         json!({"mode": "overlay", "evaluatedAt": "2026-07-22T12:00:00.000Z"}),
         json!({"mode": "overlay", "overlay": overlay()}),
         json!({"mode": "invented"}),
@@ -457,9 +459,9 @@ fn protocol_versions_cannot_omit_or_override_policy_inputs() {
         + &valid.to_string();
     let responses = run(encoded.into_bytes());
     assert_eq!(responses.len(), inputs.len() + 1);
-    for (response, (_, code)) in responses.iter().zip(&inputs) {
-        assert_eq!(response["outcome"], "rejected");
-        assert_eq!(response["error"]["code"], *code);
+    for (index, (response, (_, code))) in responses.iter().zip(&inputs).enumerate() {
+        assert_eq!(response["outcome"], "rejected", "case {index}: {response}");
+        assert_eq!(response["error"]["code"], *code, "case {index}: {response}");
         assert!(response.get("results").is_none());
     }
     assert_eq!(responses.last().unwrap()["outcome"], "completed");

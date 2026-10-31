@@ -134,8 +134,20 @@ pub fn parse(value: Value, version: &'static str) -> Result<Request, String> {
         || !value["queries"].as_array().is_some_and(|queries| {
             queries.iter().all(|query| {
                 let policy = &query["policy"];
-                policy.is_object()
-                    && (policy["mode"] != "overlay" || policy.get("overlay").is_some())
+                // Internally tagged unit variants can ignore payload fields.
+                // Explicit absence must not discard an attached overlay.
+                let Some(fields) = policy.as_object() else {
+                    return false;
+                };
+                match policy.get("mode").and_then(Value::as_str) {
+                    Some("none") => fields.len() == 1,
+                    Some("overlay") => {
+                        fields.len() == 3
+                            && fields.contains_key("overlay")
+                            && fields.contains_key("evaluatedAt")
+                    }
+                    _ => false,
+                }
             })
         })
     {
