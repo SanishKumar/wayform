@@ -1,4 +1,5 @@
 mod identity;
+mod runtime;
 mod validation;
 
 use crate::{
@@ -11,6 +12,7 @@ use std::fmt;
 use std::sync::Arc;
 
 pub use identity::legacy_package_content_hash;
+pub use runtime::{LegacyPoi, LegacyRuntime, LegacyRuntimeEdge, LegacyRuntimeNode};
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum LegacyPackageError {
@@ -41,6 +43,7 @@ pub struct LegacyVenuePackage {
     nodes: Vec<LegacyNode>,
     edges: Vec<LegacyEdge>,
     graph: LegacyGraph,
+    runtime: LegacyRuntime,
 }
 
 impl LegacyVenuePackage {
@@ -77,16 +80,21 @@ impl LegacyVenuePackage {
             .collect();
         let graph =
             LegacyGraph::new(nodes.clone(), edges.clone()).map_err(LegacyPackageError::Search)?;
+        let runtime = LegacyRuntime::from_validated(&value);
         Ok(Self {
             value,
             nodes,
             edges,
             graph,
+            runtime,
         })
     }
 
     pub fn document(&self) -> &Value {
         &self.value
+    }
+    pub fn runtime(&self) -> &LegacyRuntime {
+        &self.runtime
     }
     pub fn building_id(&self) -> &str {
         self.value["building"]["id"].as_str().unwrap()

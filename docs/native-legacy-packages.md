@@ -22,6 +22,12 @@ Tests load every pinned package and compare eight representative route paths/dis
 
 Integrity verifies internal content consistency, not who published the map, whether it was surveyed, geometric traversability or live operating conditions. Full compiler-semantic and route-graphic checks are not replaced by the loader.
 
+## Visitor metadata
+
+`runtime()` exposes immutable visitor nodes, edge labels, public destinations and the default entry point derived from the verified package. Floor/space names, aliases, campus building labels and legacy accessibility flags match the pinned runtime. Four recorded hashes cover the complete node/edge projections, with separate public-destination inventories. Re-record these with `node --import tsx scripts/record-legacy-runtime.ts --record`. The source attribution and pinned snapshot remain unchanged.
+
+Legacy metadata uses the original undirected, last-edge-wins pair lookup. It must not be used as the new directed mobility model. Unknown category icons use the first Unicode character; unlike JavaScript's UTF-16 slice, a non-BMP initial remains a whole character. This deliberate display difference does not affect the four pinned venues. Public visibility and authored accessibility flags do not establish physical suitability.
+
 ## Complete-package batch protocol
 
 `wayform-legacy-search` protocol `0.3.0` accepts `venuePackage` instead of the earlier `nodes`, `edges` and policy `package` projections. The envelope still requires `sourceCommit`, `requestId` and `queries`. Queries retain protocol `0.2.0`'s explicit policy and two access flags. Graph/closure inventories are derived only after the complete package passes native verification. Projection overrides and caller-supplied closed-edge lists are rejected.

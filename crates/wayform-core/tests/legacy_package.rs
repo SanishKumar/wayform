@@ -1,7 +1,8 @@
 use serde_json::{Value, json};
+use sha2::{Digest, Sha256};
 use wayform_core::{
     IdentityError, LegacyPackageError, LegacyRouteOptions, LegacySearchOutcome, LegacyVenuePackage,
-    legacy_package_content_hash, parse_bounded_json,
+    canonical_json, legacy_package_content_hash, parse_bounded_json,
 };
 
 const PACKAGES: [&[u8]; 4] = [
@@ -86,6 +87,57 @@ fn unsupported_keys_and_excessive_identity_work_are_rejected() {
 
 fn rehash(value: &mut Value) {
     value["manifest"]["contentHash"] = json!(legacy_package_content_hash(value).unwrap());
+}
+
+#[test]
+fn visitor_metadata_matches_all_reference_nodes_edges_and_destinations() {
+    let cases: Value = serde_json::from_str(include_str!(
+        "../../../compat/voicegis/expected/runtime.json"
+    ))
+    .unwrap();
+    for (bytes, case) in PACKAGES.into_iter().zip(cases.as_array().unwrap()) {
+        let venue = LegacyVenuePackage::from_json(bytes).unwrap();
+        let runtime = venue.runtime();
+        let value = serde_json::to_value(runtime).unwrap();
+        let hash: String = Sha256::digest(canonical_json(&value).unwrap().as_bytes())
+            .iter()
+            .map(|byte| format!("{byte:02x}"))
+            .collect();
+        assert_eq!(hash, case["sha256"].as_str().unwrap(), "{}", case["venue"]);
+        assert_eq!(
+            runtime.nodes().len(),
+            case["nodes"].as_u64().unwrap() as usize
+        );
+        assert_eq!(
+            runtime.edges().len(),
+            case["edges"].as_u64().unwrap() as usize
+        );
+        assert_eq!(
+            json!(
+                runtime
+                    .public_destinations()
+                    .map(|node| &node.id)
+                    .collect::<Vec<_>>()
+            ),
+            case["publicDestinations"]
+        );
+        assert!(
+            runtime
+                .node(runtime.default_start_node_id())
+                .unwrap()
+                .poi
+                .as_ref()
+                .unwrap()
+                .public
+        );
+        assert!(runtime.node("missing").is_none());
+        assert!(runtime.edge_between("missing", "also-missing").is_none());
+        for edge in runtime.edges() {
+            let forward = runtime.edge_between(&edge.from, &edge.to).unwrap();
+            let backward = runtime.edge_between(&edge.to, &edge.from).unwrap();
+            assert_eq!(forward.id, backward.id);
+        }
+    }
 }
 
 #[test]
