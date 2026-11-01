@@ -2,6 +2,7 @@ mod clearance;
 mod directions;
 mod identity;
 mod landmarks;
+mod route;
 mod runtime;
 mod validation;
 
@@ -17,6 +18,7 @@ use std::sync::Arc;
 pub use clearance::{LegacyClearanceIssue, LegacyDisplayClearance};
 pub use directions::{LegacyDirections, LegacyRouteStep};
 pub use identity::legacy_package_content_hash;
+pub use route::{LegacyCompiledOptions, LegacyRouteError};
 pub use runtime::{LegacyPoi, LegacyRuntime, LegacyRuntimeEdge, LegacyRuntimeNode};
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -178,6 +180,17 @@ impl LegacyVenuePackage {
             .map(|id| self.runtime.node(id).unwrap().clone())
             .collect();
         clearance::assess(self, &path, options).map(Some)
+    }
+
+    /// Complete snapshot result: policy resolution, path, landmark directions,
+    /// graphic assessment and the legacy receipt. Live freshness is separate.
+    pub fn calculate_route(
+        &self,
+        start: &str,
+        destination: &str,
+        options: &LegacyCompiledOptions,
+    ) -> Result<Value, LegacyRouteError> {
+        route::calculate(self, start, destination, options)
     }
 
     pub fn policy_package(&self) -> LegacyPolicyPackage {
