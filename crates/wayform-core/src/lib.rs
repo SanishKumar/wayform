@@ -10,6 +10,7 @@ mod json;
 mod legacy;
 mod legacy_lease;
 mod legacy_policy;
+mod legacy_session;
 mod loader;
 mod measurement;
 mod policy;
@@ -36,6 +37,10 @@ pub use legacy_lease::{LegacyFreshnessStatus, LegacyOperationalFreshness, Legacy
 pub use legacy_policy::{
     LegacyOverlayIssue, LegacyOverlayResolution, LegacyPolicyEdge, LegacyPolicyError,
     LegacyPolicyIndex, LegacyPolicyPackage,
+};
+pub use legacy_session::{
+    LegacyRouteSession, LegacySessionError, LegacySessionInvalidation, LegacySessionRead,
+    LegacySessionRequest, LegacySessionVenue,
 };
 pub use loader::{
     AssessmentStatus, Document, LoadError, MAX_DOCUMENT_BYTES, MAX_PATH_EDGES, MOBILITY_VERSION,

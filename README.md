@@ -41,6 +41,8 @@ An isolated [legacy search component and batch CLI](docs/native-legacy-search.md
 
 The [native legacy overlay resolver](docs/native-legacy-policies.md) checks closure targets, package binding and expiry against a host-verified package projection. Protocol `0.2.0` validates these policies before routing, blocks invalid overlays and requires explicit policy absence. Its comparisons preserve legacy issue ordering and UTF-16 sorting. A [native expiry lease](docs/native-legacy-leases.md) now latches wall/monotonic expiry and clock failures, with 105 reference traces. Hosts must retain and check it during guidance; the batch CLI remains stateless.
 
+The [native route session](docs/native-legacy-sessions.md) now owns a planned path and its lease together. Every path read checks freshness; policy removal or other host-reported changes can permanently withdraw the route. Application clock sampling, display/speech cancellation and mobile bindings remain to be integrated.
+
 ## Updating baselines
 
 `npm run compat:record` explicitly regenerates expected legacy results. Review every change against the pinned source and documented compatibility decisions; never use regeneration to silence a regression. `npm run schema:write` exports schemas from their TypeScript definitions. Contract examples are explicitly recorded with `node --import tsx scripts/record-contract-examples.ts --record`.

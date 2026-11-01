@@ -22,7 +22,7 @@ Create the lease from the same verified package projection and overlay used for 
 
 Changed or removed policy data requires the host to invalidate affected guidance and obtain/revalidate its replacement. The lease cannot observe external mutations or a missing feed because it intentionally owns a snapshot. Package verification, source/route binding, authentication, revision floors, trusted clock sources, persistence across application restarts and user recovery remain host responsibilities. A local lease is not proof that a lift is working or a route is physically passable.
 
-This change supplies the Rust library component and conformance traces. The batch routing CLI remains stateless and does not create live journey handles. Android/Swift bindings and a navigation session that combines route ownership, policy changes and lease checks are separate integration work.
+A [native route session](native-legacy-sessions.md) now combines route ownership and lease checks, with explicit permanent invalidation for host-reported changes. It derives routing closures from the same lease and exposes a path only through a freshness-checked read. The batch routing CLI remains stateless. Android/Swift bindings and a running application guidance loop are separate integration work.
 
 ## Native boundaries and errors
 

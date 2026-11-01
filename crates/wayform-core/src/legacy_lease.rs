@@ -53,6 +53,13 @@ pub struct LegacyOperationalLease {
 }
 
 impl LegacyOperationalLease {
+    // Only session construction uses this, after read() reports Current. Keeping
+    // it private to the crate prevents a cached resolution becoming a public
+    // alternative to the clock checks.
+    pub(crate) fn resolution(&self) -> Option<&LegacyOverlayResolution> {
+        self.resolution.as_ref()?.as_ref().ok()
+    }
+
     pub fn new(
         index: Arc<LegacyPolicyIndex>,
         overlay: Value,
