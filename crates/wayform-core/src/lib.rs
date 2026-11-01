@@ -9,6 +9,7 @@ mod identity;
 mod json;
 mod legacy;
 mod legacy_lease;
+mod legacy_package;
 mod legacy_policy;
 mod legacy_session;
 mod loader;
@@ -34,6 +35,7 @@ pub use legacy::{
     LegacySearchError, LegacySearchOutcome,
 };
 pub use legacy_lease::{LegacyFreshnessStatus, LegacyOperationalFreshness, LegacyOperationalLease};
+pub use legacy_package::legacy_package_content_hash;
 pub use legacy_policy::{
     LegacyOverlayIssue, LegacyOverlayResolution, LegacyPolicyEdge, LegacyPolicyError,
     LegacyPolicyIndex, LegacyPolicyPackage,

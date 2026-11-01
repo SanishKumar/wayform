@@ -1,0 +1,63 @@
+[
+  {
+    "id": "identity-0",
+    "value": {
+      "z": [],
+      "a": {},
+      "manifest": {
+        "contentHash": "ignored"
+      }
+    },
+    "hash": "735597436ca75f5974075ef916a7e8bc0fc6a8e7e55160b1331201aae54ceffe"
+  },
+  {
+    "id": "identity-1",
+    "value": {
+      "aB": 1,
+      "ab": 2,
+      "Ab": 3,
+      "AB": 4,
+      "a10": 5,
+      "a2": 6,
+      "alpha": 7,
+      "Alpha": 8
+    },
+    "hash": "f1483ecb535ccf6254ab43f872d331fe3fd4bcbdffe90cb776d2e77e0ae7057c"
+  },
+  {
+    "id": "identity-2",
+    "value": {
+      "label": "入口 · Café 😀\n\t\"\\",
+      "values": [
+        0,
+        0,
+        1e-7,
+        0.000001,
+        100000000000000000000,
+        1e+21,
+        5e-324,
+        1.7976931348623157e+308
+      ]
+    },
+    "hash": "803b4387ff219b7507122ace23952e2b4fb32c5646f1200f79cea911f09a7769"
+  },
+  {
+    "id": "identity-3",
+    "value": {
+      "nested": {
+        "manifest": {
+          "value": true
+        },
+        "array": [
+          null,
+          false,
+          {
+            "z": 3.5,
+            "a": "end"
+          }
+        ]
+      }
+    },
+    "hash": "7c05e3cdef4c254c240918925b51f58e8f30fb931ff9a7d769640670fa0c2839"
+  }
+]
