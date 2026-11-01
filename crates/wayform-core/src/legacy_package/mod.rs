@@ -1,3 +1,4 @@
+mod directions;
 mod identity;
 mod runtime;
 mod validation;
@@ -11,6 +12,7 @@ use serde_json::Value;
 use std::fmt;
 use std::sync::Arc;
 
+pub use directions::{LegacyDirections, LegacyRouteStep};
 pub use identity::legacy_package_content_hash;
 pub use runtime::{LegacyPoi, LegacyRuntime, LegacyRuntimeEdge, LegacyRuntimeNode};
 
@@ -115,6 +117,27 @@ impl LegacyVenuePackage {
         options: &LegacyRouteOptions,
     ) -> Result<LegacySearchOutcome, LegacySearchError> {
         self.graph.route(start, destination, options)
+    }
+
+    /// Snapshot instructions, without graphic clearance or a live policy lease.
+    /// A mobile session must gate guidance on its current policy and location.
+    pub fn route_directions(
+        &self,
+        start: &str,
+        destination: &str,
+        options: &LegacyRouteOptions,
+    ) -> Result<Option<LegacyDirections>, LegacySearchError> {
+        let LegacySearchOutcome::Routed { path_ids, .. } =
+            self.route(start, destination, options)?
+        else {
+            return Ok(None);
+        };
+        let path: Vec<_> = path_ids
+            .iter()
+            .map(|id| self.runtime.node(id).unwrap().clone())
+            .collect();
+        let steps = directions::generate(&self.runtime, &path)?;
+        Ok(Some(LegacyDirections { path, steps }))
     }
 
     pub fn policy_package(&self) -> LegacyPolicyPackage {

@@ -36,8 +36,8 @@ pub use legacy::{
 };
 pub use legacy_lease::{LegacyFreshnessStatus, LegacyOperationalFreshness, LegacyOperationalLease};
 pub use legacy_package::{
-    LegacyPackageError, LegacyPoi, LegacyRuntime, LegacyRuntimeEdge, LegacyRuntimeNode,
-    LegacyVenuePackage, legacy_package_content_hash,
+    LegacyDirections, LegacyPackageError, LegacyPoi, LegacyRouteStep, LegacyRuntime,
+    LegacyRuntimeEdge, LegacyRuntimeNode, LegacyVenuePackage, legacy_package_content_hash,
 };
 pub use legacy_policy::{
     LegacyOverlayIssue, LegacyOverlayResolution, LegacyPolicyEdge, LegacyPolicyError,
