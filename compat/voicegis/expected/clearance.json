@@ -1,0 +1,396 @@
+{
+  "corpus": [
+    {
+      "venue": "reference-medical-centre",
+      "journeys": 242,
+      "sha256": "aa38dbc339aae06af5574bd2117118b47794320470491306fac753a2b2ea963a"
+    },
+    {
+      "venue": "asterion-medical-center",
+      "journeys": 2496,
+      "sha256": "0fcf193cf9c040061c5ec6c324e53d5aad3bf0076cfc83b1b6fce16761e29ae1"
+    },
+    {
+      "venue": "harbor-exchange",
+      "journeys": 200,
+      "sha256": "cea3009b6bd3325864e9a06e37da4a4dc467fa84a9b2113faeea4be6bd2b60fc"
+    },
+    {
+      "venue": "meridian-park-campus",
+      "journeys": 4300,
+      "sha256": "9dcdc00d7cf5d72f36c21b1bf06e9a1d89ae0c6877c4fa754b44bd8338605ac6"
+    }
+  ],
+  "negative": [
+    {
+      "id": "destination-excluded",
+      "path": [
+        "pois",
+        5,
+        "accessible"
+      ],
+      "value": false,
+      "venue": "asterion-medical-center",
+      "startId": "poi:poi-main-entrance",
+      "destinationId": "poi:poi-cardiology",
+      "expected": {
+        "basis": "authored-geometry",
+        "packageHash": "8d56258713c7f0f2db2dde498f110b7b5af9904f55cd590080b86ae2afe77230",
+        "profile": "wheelchair",
+        "allowRestricted": false,
+        "widthMeters": 0.7,
+        "status": "withheld",
+        "centerlineValid": false,
+        "issues": [
+          {
+            "code": "space-policy",
+            "sourceId": "poi-cardiology"
+          }
+        ]
+      }
+    },
+    {
+      "id": "room-restricted",
+      "path": [
+        "spaces",
+        17,
+        "public"
+      ],
+      "value": false,
+      "venue": "asterion-medical-center",
+      "startId": "poi:poi-main-entrance",
+      "destinationId": "poi:poi-cardiology",
+      "expected": {
+        "basis": "authored-geometry",
+        "packageHash": "015f5d3131909173a42141523e7f434e16312ec7a06ffad9b485e7ad35f251a7",
+        "profile": "wheelchair",
+        "allowRestricted": false,
+        "widthMeters": 0.7,
+        "status": "withheld",
+        "centerlineValid": false,
+        "issues": [
+          {
+            "code": "space-policy",
+            "sourceId": "l1-cardiology"
+          }
+        ]
+      }
+    },
+    {
+      "id": "room-excluded",
+      "path": [
+        "spaces",
+        17,
+        "accessible"
+      ],
+      "value": false,
+      "venue": "asterion-medical-center",
+      "startId": "poi:poi-main-entrance",
+      "destinationId": "poi:poi-cardiology",
+      "expected": {
+        "basis": "authored-geometry",
+        "packageHash": "941291b18739ae8d56f965e2c0a1d349f92be42d3a0702917acb3a272adf223e",
+        "profile": "wheelchair",
+        "allowRestricted": false,
+        "widthMeters": 0.7,
+        "status": "withheld",
+        "centerlineValid": false,
+        "issues": [
+          {
+            "code": "space-policy",
+            "sourceId": "l1-cardiology"
+          }
+        ]
+      }
+    },
+    {
+      "id": "room-outside",
+      "path": [
+        "spaces",
+        17,
+        "polygon"
+      ],
+      "value": [
+        [
+          1000,
+          1000
+        ],
+        [
+          1010,
+          1000
+        ],
+        [
+          1010,
+          1010
+        ],
+        [
+          1000,
+          1010
+        ]
+      ],
+      "venue": "asterion-medical-center",
+      "startId": "poi:poi-main-entrance",
+      "destinationId": "poi:poi-cardiology",
+      "expected": {
+        "basis": "authored-geometry",
+        "packageHash": "ccd259ddde1c48fb6dbeb03ecfbd95a0c676742847d8a66707aa6db8983a9e3d",
+        "profile": "wheelchair",
+        "allowRestricted": false,
+        "widthMeters": 0.7,
+        "status": "withheld",
+        "centerlineValid": false,
+        "issues": [
+          {
+            "code": "invalid-path",
+            "sourceId": "poi:poi-cardiology"
+          },
+          {
+            "code": "centerline-outside",
+            "sourceId": "edge:portal:p-l1-cardiology--space:l1-cardiology"
+          },
+          {
+            "code": "centerline-outside",
+            "sourceId": "edge:poi:poi-cardiology--space:l1-cardiology"
+          },
+          {
+            "code": "portal-geometry",
+            "sourceId": "p-l1-cardiology"
+          },
+          {
+            "code": "insufficient-clearance",
+            "sourceId": "edge:portal:p-l1-cardiology--waypoint:l1-concourse:03"
+          },
+          {
+            "code": "insufficient-clearance",
+            "sourceId": "edge:portal:p-l1-cardiology--space:l1-cardiology"
+          }
+        ]
+      }
+    },
+    {
+      "id": "narrow-door",
+      "path": [
+        "portals",
+        0,
+        "width"
+      ],
+      "value": 0.1,
+      "venue": "asterion-medical-center",
+      "startId": "poi:poi-main-entrance",
+      "destinationId": "poi:poi-cardiology",
+      "expected": {
+        "basis": "authored-geometry",
+        "packageHash": "8752b4bdd0a478ccf8eb28b2d8d285213db8fe49fe71cf426dfffc0f441dac0a",
+        "profile": "wheelchair",
+        "allowRestricted": false,
+        "widthMeters": 0.7,
+        "status": "withheld",
+        "centerlineValid": true,
+        "issues": [
+          {
+            "code": "insufficient-clearance",
+            "sourceId": "edge:portal:p-g-arrival--space:g-arrival"
+          },
+          {
+            "code": "insufficient-clearance",
+            "sourceId": "edge:portal:p-g-arrival--waypoint:g-concourse:01"
+          },
+          {
+            "code": "insufficient-clearance",
+            "sourceId": "edge:waypoint:g-concourse:01--waypoint:g-concourse:02"
+          }
+        ]
+      }
+    },
+    {
+      "id": "opening-beyond-wall",
+      "path": [
+        "portals",
+        0,
+        "width"
+      ],
+      "value": 10000,
+      "venue": "asterion-medical-center",
+      "startId": "poi:poi-main-entrance",
+      "destinationId": "poi:poi-cardiology",
+      "expected": {
+        "basis": "authored-geometry",
+        "packageHash": "5b74eef7fcce96fd45201e23a9840ff0ddf9b130e49ea11502fcfee9820e7945",
+        "profile": "wheelchair",
+        "allowRestricted": false,
+        "widthMeters": 0.7,
+        "status": "withheld",
+        "centerlineValid": true,
+        "issues": [
+          {
+            "code": "portal-geometry",
+            "sourceId": "p-g-arrival"
+          },
+          {
+            "code": "insufficient-clearance",
+            "sourceId": "edge:portal:p-g-arrival--space:g-arrival"
+          },
+          {
+            "code": "insufficient-clearance",
+            "sourceId": "edge:portal:p-g-arrival--waypoint:g-concourse:01"
+          },
+          {
+            "code": "insufficient-clearance",
+            "sourceId": "edge:waypoint:g-concourse:01--waypoint:g-concourse:02"
+          }
+        ]
+      }
+    },
+    {
+      "id": "portal-restricted",
+      "path": [
+        "portals",
+        0,
+        "restricted"
+      ],
+      "value": true,
+      "venue": "asterion-medical-center",
+      "startId": "poi:poi-main-entrance",
+      "destinationId": "poi:poi-cardiology",
+      "expected": {
+        "basis": "authored-geometry",
+        "packageHash": "7ca2eeb3c1b5f4e4bca985b063008dce1af99a922b1ae140ca5afe7d66ae6272",
+        "profile": "wheelchair",
+        "allowRestricted": false,
+        "widthMeters": 0.7,
+        "status": "withheld",
+        "centerlineValid": false,
+        "issues": [
+          {
+            "code": "portal-policy",
+            "sourceId": "p-g-arrival"
+          }
+        ]
+      }
+    },
+    {
+      "id": "portal-excluded",
+      "path": [
+        "portals",
+        0,
+        "accessible"
+      ],
+      "value": false,
+      "venue": "asterion-medical-center",
+      "startId": "poi:poi-main-entrance",
+      "destinationId": "poi:poi-cardiology",
+      "expected": {
+        "basis": "authored-geometry",
+        "packageHash": "82e0b5fa78cbe4c350d86df4f4e918bcae312d5af31f4230bcac485f3c7aca0d",
+        "profile": "wheelchair",
+        "allowRestricted": false,
+        "widthMeters": 0.7,
+        "status": "withheld",
+        "centerlineValid": false,
+        "issues": [
+          {
+            "code": "portal-policy",
+            "sourceId": "p-g-arrival"
+          }
+        ]
+      }
+    },
+    {
+      "id": "portal-shifted",
+      "path": [
+        "portals",
+        0,
+        "position",
+        0
+      ],
+      "value": 8.2,
+      "venue": "asterion-medical-center",
+      "startId": "poi:poi-main-entrance",
+      "destinationId": "poi:poi-cardiology",
+      "expected": {
+        "basis": "authored-geometry",
+        "packageHash": "84e3b0f0118e837f4f37c81d17377978d6d84a62d0a0c8d8763f2a678e076053",
+        "profile": "wheelchair",
+        "allowRestricted": false,
+        "widthMeters": 0.7,
+        "status": "withheld",
+        "centerlineValid": false,
+        "issues": [
+          {
+            "code": "invalid-path",
+            "sourceId": "portal:p-g-arrival"
+          },
+          {
+            "code": "insufficient-clearance",
+            "sourceId": "edge:portal:p-g-arrival--space:g-arrival"
+          },
+          {
+            "code": "insufficient-clearance",
+            "sourceId": "edge:portal:p-g-arrival--waypoint:g-concourse:01"
+          },
+          {
+            "code": "insufficient-clearance",
+            "sourceId": "edge:waypoint:g-concourse:01--waypoint:g-concourse:02"
+          }
+        ]
+      }
+    },
+    {
+      "id": "connector-shifted",
+      "path": [
+        "verticalConnectors",
+        1,
+        "stops",
+        0,
+        "position",
+        0
+      ],
+      "value": 31.2,
+      "venue": "asterion-medical-center",
+      "startId": "poi:poi-main-entrance",
+      "destinationId": "poi:poi-cardiology",
+      "expected": {
+        "basis": "authored-geometry",
+        "packageHash": "a1f832149cb5efe0f42d8d15e5012b4b8a0a65646d1d4955740a404bc8fafc58",
+        "profile": "wheelchair",
+        "allowRestricted": false,
+        "widthMeters": 0.7,
+        "status": "withheld",
+        "centerlineValid": false,
+        "issues": [
+          {
+            "code": "invalid-path",
+            "sourceId": "edge:connector:lift-south:g--connector:lift-south:l1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "connector-restricted",
+      "path": [
+        "verticalConnectors",
+        1,
+        "restricted"
+      ],
+      "value": true,
+      "venue": "asterion-medical-center",
+      "startId": "poi:poi-main-entrance",
+      "destinationId": "poi:poi-cardiology",
+      "expected": {
+        "basis": "authored-geometry",
+        "packageHash": "203556072d50f4adb33a125dfc7bfc42ec8a38bc20b1ca33fa6799840e42ddbf",
+        "profile": "wheelchair",
+        "allowRestricted": false,
+        "widthMeters": 0.7,
+        "status": "withheld",
+        "centerlineValid": false,
+        "issues": [
+          {
+            "code": "space-policy",
+            "sourceId": "lift-south"
+          }
+        ]
+      }
+    }
+  ]
+}

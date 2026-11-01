@@ -1,3 +1,4 @@
+mod clearance;
 mod directions;
 mod identity;
 mod landmarks;
@@ -13,6 +14,7 @@ use serde_json::Value;
 use std::fmt;
 use std::sync::Arc;
 
+pub use clearance::{LegacyClearanceIssue, LegacyDisplayClearance};
 pub use directions::{LegacyDirections, LegacyRouteStep};
 pub use identity::legacy_package_content_hash;
 pub use runtime::{LegacyPoi, LegacyRuntime, LegacyRuntimeEdge, LegacyRuntimeNode};
@@ -156,6 +158,26 @@ impl LegacyVenuePackage {
         };
         landmarks::describe(&mut result, &self.landmarks)?;
         Ok(Some(result))
+    }
+
+    /// Assess the authored graphic envelope for a snapshot path. This is not
+    /// a physical accessibility assessment or a continuously valid route.
+    pub fn route_display_clearance(
+        &self,
+        start: &str,
+        destination: &str,
+        options: &LegacyRouteOptions,
+    ) -> Result<Option<LegacyDisplayClearance>, LegacySearchError> {
+        let LegacySearchOutcome::Routed { path_ids, .. } =
+            self.route(start, destination, options)?
+        else {
+            return Ok(None);
+        };
+        let path: Vec<_> = path_ids
+            .iter()
+            .map(|id| self.runtime.node(id).unwrap().clone())
+            .collect();
+        clearance::assess(self, &path, options).map(Some)
     }
 
     pub fn policy_package(&self) -> LegacyPolicyPackage {
