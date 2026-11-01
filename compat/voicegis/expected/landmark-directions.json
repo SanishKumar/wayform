@@ -1,0 +1,22 @@
+[
+  {
+    "venue": "reference-medical-centre",
+    "journeys": 242,
+    "sha256": "84651edd27544846371b07d5f8779b47f92b107257191761d871a4d07e01fe18"
+  },
+  {
+    "venue": "asterion-medical-center",
+    "journeys": 2496,
+    "sha256": "618fb5f87f3abaeeec9572fc52a1ad60bdb021b7d4f56e8f0341595fe2c3ac5a"
+  },
+  {
+    "venue": "harbor-exchange",
+    "journeys": 200,
+    "sha256": "2f0f01867a628f4d46342e2c17e8d1d6b700683d140817012d830b5e7023ea79"
+  },
+  {
+    "venue": "meridian-park-campus",
+    "journeys": 4300,
+    "sha256": "04777fb17af54143eb6d98621a21a5d4dbcc06997b946dd34ac008a22de82f29"
+  }
+]

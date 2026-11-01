@@ -1,5 +1,6 @@
 mod directions;
 mod identity;
+mod landmarks;
 mod runtime;
 mod validation;
 
@@ -46,6 +47,7 @@ pub struct LegacyVenuePackage {
     edges: Vec<LegacyEdge>,
     graph: LegacyGraph,
     runtime: LegacyRuntime,
+    landmarks: Vec<landmarks::Landmark>,
 }
 
 impl LegacyVenuePackage {
@@ -83,12 +85,14 @@ impl LegacyVenuePackage {
         let graph =
             LegacyGraph::new(nodes.clone(), edges.clone()).map_err(LegacyPackageError::Search)?;
         let runtime = LegacyRuntime::from_validated(&value);
+        let landmarks = landmarks::from_package(&value);
         Ok(Self {
             value,
             nodes,
             edges,
             graph,
             runtime,
+            landmarks,
         })
     }
 
@@ -138,6 +142,20 @@ impl LegacyVenuePackage {
             .collect();
         let steps = directions::generate(&self.runtime, &path)?;
         Ok(Some(LegacyDirections { path, steps }))
+    }
+
+    /// Snapshot directions enriched with nearby authored destinations.
+    pub fn route_landmark_directions(
+        &self,
+        start: &str,
+        destination: &str,
+        options: &LegacyRouteOptions,
+    ) -> Result<Option<LegacyDirections>, LegacySearchError> {
+        let Some(mut result) = self.route_directions(start, destination, options)? else {
+            return Ok(None);
+        };
+        landmarks::describe(&mut result, &self.landmarks)?;
+        Ok(Some(result))
     }
 
     pub fn policy_package(&self) -> LegacyPolicyPackage {
