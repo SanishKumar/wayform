@@ -4,7 +4,7 @@ mod support;
 use std::collections::HashSet;
 use std::io;
 
-use legacy_protocol::{POLICY_VERSION, Policy, Query, Request, SEARCH_VERSION};
+use legacy_protocol::{POLICY_VERSION, Policy, Query, Request, SEARCH_VERSION, VENUE_VERSION};
 use serde::Serialize;
 use wayform_core::{
     LEGACY_SOURCE_COMMIT, LegacyGraph, LegacyOverlayResolution, LegacyPolicyError,
@@ -120,11 +120,12 @@ fn execute(request: Request) -> BatchResult {
     };
     let policy_index = if let Some(package) = request.package {
         let graph_ids: HashSet<_> = request.edges.iter().map(|edge| edge.id.as_str()).collect();
-        if package.edges.len() != graph_ids.len()
-            || package
-                .edges
-                .iter()
-                .any(|edge| !graph_ids.contains(edge.id.as_str()))
+        if request.verified_graph.is_none()
+            && (package.edges.len() != graph_ids.len()
+                || package
+                    .edges
+                    .iter()
+                    .any(|edge| !graph_ids.contains(edge.id.as_str())))
         {
             return rejected(
                 "invalid-policy-package",
@@ -138,7 +139,10 @@ fn execute(request: Request) -> BatchResult {
     } else {
         None
     };
-    let graph = match LegacyGraph::new(request.nodes, request.edges) {
+    let graph = match request
+        .verified_graph
+        .map_or_else(|| LegacyGraph::new(request.nodes, request.edges), Ok)
+    {
         Ok(graph) => graph,
         Err(error) => return rejected(error_code(&error), error),
     };
@@ -230,6 +234,7 @@ fn process(bytes: &[u8]) -> Response {
     {
         Some(SEARCH_VERSION) => SEARCH_VERSION,
         Some(POLICY_VERSION) => POLICY_VERSION,
+        Some(VENUE_VERSION) => VENUE_VERSION,
         Some(_) => {
             return response(
                 SEARCH_VERSION,
@@ -240,7 +245,7 @@ fn process(bytes: &[u8]) -> Response {
                     .map(str::to_owned),
                 rejected(
                     "unsupported-protocol",
-                    "expected protocolVersion 0.1.0 or 0.2.0",
+                    "expected protocolVersion 0.1.0, 0.2.0 or 0.3.0",
                 ),
             );
         }

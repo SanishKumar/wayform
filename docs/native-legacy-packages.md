@@ -20,4 +20,12 @@ The native boundary is deliberately stricter than the original runtime shape ins
 
 Tests load every pinned package and compare eight representative route paths/distances with the original results. Negative cases include altered content, duplicate JSON fields, rehashed malformed records, missing flags, dangling references, invalid coordinates, duplicate IDs/payloads and missing public entry points. A recomputed hash never overrides a validation error.
 
-Integrity verifies internal content consistency, not who published the map, whether it was surveyed, geometric traversability or live operating conditions. Full compiler-semantic and route-graphic checks are not replaced by the loader. The existing batch CLI still accepts projections; its full-corpus driver continues to use the TypeScript verifier until the complete-package protocol is integrated.
+Integrity verifies internal content consistency, not who published the map, whether it was surveyed, geometric traversability or live operating conditions. Full compiler-semantic and route-graphic checks are not replaced by the loader.
+
+## Complete-package batch protocol
+
+`wayform-legacy-search` protocol `0.3.0` accepts `venuePackage` instead of the earlier `nodes`, `edges` and policy `package` projections. The envelope still requires `sourceCommit`, `requestId` and `queries`. Queries retain protocol `0.2.0`'s explicit policy and two access flags. Graph/closure inventories are derived only after the complete package passes native verification. Projection overrides and caller-supplied closed-edge lists are rejected.
+
+Responses have the same per-query search and overlay-resolution fields, with `protocolVersion: "0.3.0"`. Invalid package data rejects the entire batch before query results; invalid overlays remain isolated query failures. The existing 16 MiB framing/output bounds, query limits and stateless behavior apply. This protocol does not add live sessions or native directions.
+
+The conformance driver sends all 7,238 original journey requests through this loader in addition to the two retained projection protocols: 21,868 total queries in 40 batches. Original complete-result fingerprints are checked in TypeScript before comparison; native paths/distances are then compared independently for all three protocols. Focused CLI tests also cover native package-derived closures, rejected expired stationary journeys, tampering, duplicate JSON names and attempted projection overrides.

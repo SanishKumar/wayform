@@ -95,6 +95,11 @@ impl LegacyVenuePackage {
         self.value["manifest"]["contentHash"].as_str().unwrap()
     }
 
+    /// Consume a verified package when only its immutable search graph is needed.
+    pub fn into_search_graph(self) -> LegacyGraph {
+        self.graph
+    }
+
     pub fn route(
         &self,
         start: &str,

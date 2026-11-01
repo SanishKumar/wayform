@@ -14,7 +14,7 @@ The `wayform-search` binary exposes evaluated-graph search through a bounded [JS
 
 ## Preserve two explicit contracts
 
-The isolated [legacy search component and CLI](native-legacy-search.md) now cover exact node-path and distance selection across the 7,238 pinned journeys under both protocol versions, plus resolved closures and focused search/policy cases. The driver still uses the TypeScript harness for package loading; full native legacy output remains incomplete.
+The isolated [legacy search component and CLI](native-legacy-search.md) now cover exact node-path and distance selection across the 7,238 pinned journeys under all three protocol versions, plus resolved closures and focused search/policy cases. Protocol `0.3.0` verifies complete packages in Rust, independently of the TypeScript comparison harness. Full native legacy output remains incomplete.
 
 The [native overlay resolver](native-legacy-policies.md) exposes the legacy policy decision with an explicit canonical-UTC parsing boundary. CLI protocol `0.2.0` applies it before search, including before stationary and unknown endpoint handling. The [native expiry lease](native-legacy-leases.md) retains clock history and permanent failure state. A [native route session](native-legacy-sessions.md) now binds the planned route to that lease and checks freshness before exposing a path, with permanent invalidation for host-reported changes. The host still owns clock sampling and guidance delivery; the batch CLI does not retain live journey state.
 

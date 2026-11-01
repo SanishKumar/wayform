@@ -9,18 +9,20 @@ import { calculateCompiledRoute } from '../compat/voicegis/upstream/src/engine/c
 import { resolveOperationalOverlay, type OperationalOverlay } from '../compat/voicegis/upstream/src/engine/operationalOverlay';
 import { buildLegacySearchCases } from './legacy-search-cases';
 import { buildLegacyPolicyRouteCases, type PolicyBatch } from './legacy-policy-route-cases';
+import type { CompiledBuildingPackage } from '../compat/voicegis/upstream/packages/map-compiler/src/compiler';
 
 type Query = { queryId: string; startId: string; destinationId: string; options: ReturnType<typeof projectLegacyOptions> };
 type Request = ReturnType<typeof projectLegacyGraph> & { protocolVersion: string; sourceCommit: string; requestId: string; queries: Query[] };
 type Expected = ReturnType<typeof projectLegacyResult> & { queryId: string };
 type Batch = { request: Request; expected: Expected[] };
+type VenueBatch = { request: { protocolVersion: string; sourceCommit: string; requestId: string; venuePackage: CompiledBuildingPackage; queries: PolicyBatch['request']['queries'] }; expected: Expected[] };
 type Baseline = { id: string; startId: string; destinationId: string; profile: 'standard' | 'wheelchair'; sha256: string };
 
 assert.equal(verifySourceSnapshot(), 35);
 const baseline = readFileSync(resolve(root, 'expected/route-digests.jsonl'), 'utf8').trim().split('\n').map(line => JSON.parse(line) as Baseline);
 assert.equal(baseline.length, 7_238);
 assert.equal(new Set(baseline.map(item => item.id)).size, baseline.length);
-const batches: (Batch | PolicyBatch)[] = [];
+const batches: (Batch | PolicyBatch | VenueBatch)[] = [];
 const envelope = (requestId: string) => ({ protocolVersion: '0.1.0', sourceCommit: PINNED_COMMIT, requestId });
 let checkedJourneys = 0;
 for (const [venueIndex, venue] of venues.entries()) {
@@ -69,6 +71,15 @@ for (const [venueIndex, venue] of venues.entries()) {
       options: { accessibleOnly: query.options.accessibleOnly, allowRestricted: query.options.allowRestricted }, policy: { mode: 'none' },
     })),
   }, expected: batch.expected.slice(0, rows.length) });
+  // A third pass sends the original complete package to Rust. The native
+  // loader verifies its content before deriving graph and policy inventories.
+  batches.push({ request: {
+    protocolVersion: '0.3.0', sourceCommit: PINNED_COMMIT, requestId: `${venue}/complete-package`, venuePackage: pkg,
+    queries: batch.request.queries.slice(0, rows.length).map(query => ({
+      queryId: query.queryId, startId: query.startId, destinationId: query.destinationId,
+      options: { accessibleOnly: query.options.accessibleOnly, allowRestricted: query.options.allowRestricted }, policy: { mode: 'none' },
+    })),
+  }, expected: batch.expected.slice(0, rows.length) });
 }
 assert.equal(checkedJourneys, baseline.length);
 for (const item of buildLegacySearchCases()) {
@@ -78,9 +89,9 @@ for (const item of buildLegacySearchCases()) {
   });
 }
 batches.push(...await buildLegacyPolicyRouteCases());
-assert.equal(batches.length, 36);
+assert.equal(batches.length, 40);
 const queryCount = batches.reduce((count, batch) => count + batch.request.queries.length, 0);
-assert.equal(queryCount, 14_630);
+assert.equal(queryCount, 21_868);
 
 const executable = process.env.WAYFORM_LEGACY_SEARCH_BIN ?? resolve(process.env.CARGO_TARGET_DIR ?? 'target', 'debug', process.platform === 'win32' ? 'wayform-legacy-search.exe' : 'wayform-legacy-search');
 const run = spawnSync(executable, [], {
@@ -105,4 +116,4 @@ for (const [index, actual] of responses.entries()) {
     assert.deepEqual(result, expected[queryIndex], expected[queryIndex].queryId);
   }
 }
-console.log(`Native legacy conformance: ${checkedJourneys} pinned journeys under both protocols, 2 resolved lift-outage queries, 26 search cases and 126 native policy-routing queries passed (${queryCount} queries, ${batches.length} batches). Package verification, directions and legacy receipts remain in TypeScript.`);
+console.log(`Native legacy conformance: ${checkedJourneys} pinned journeys under all three protocols, 2 resolved lift-outage queries, 26 search cases and 126 native policy-routing queries passed (${queryCount} queries, ${batches.length} batches). The complete-package protocol verifies venues in Rust; directions and legacy receipts remain in TypeScript.`);

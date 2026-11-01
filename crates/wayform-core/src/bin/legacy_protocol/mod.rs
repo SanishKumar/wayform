@@ -1,9 +1,13 @@
 use serde::Deserialize;
 use serde_json::Value;
-use wayform_core::{LegacyEdge, LegacyNode, LegacyPolicyPackage, LegacyRouteOptions};
+use wayform_core::{
+    LegacyEdge, LegacyGraph, LegacyNode, LegacyPolicyPackage, LegacyRouteOptions,
+    LegacyVenuePackage,
+};
 
 pub const SEARCH_VERSION: &str = "0.1.0";
 pub const POLICY_VERSION: &str = "0.2.0";
+pub const VENUE_VERSION: &str = "0.3.0";
 
 pub struct Request {
     pub version: &'static str,
@@ -12,6 +16,7 @@ pub struct Request {
     pub nodes: Vec<LegacyNode>,
     pub edges: Vec<LegacyEdge>,
     pub package: Option<LegacyPolicyPackage>,
+    pub verified_graph: Option<LegacyGraph>,
     pub queries: Vec<Query>,
 }
 
@@ -68,6 +73,16 @@ struct PolicyRequest {
 
 #[derive(Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
+struct VenueRequest {
+    protocol_version: String,
+    source_commit: String,
+    request_id: String,
+    venue_package: Value,
+    queries: Vec<PolicyQuery>,
+}
+
+#[derive(Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 struct PolicyQuery {
     query_id: String,
     start_id: String,
@@ -83,6 +98,22 @@ struct AccessOptions {
     allow_restricted: bool,
 }
 
+impl From<PolicyQuery> for Query {
+    fn from(query: PolicyQuery) -> Self {
+        Self {
+            query_id: query.query_id,
+            start_id: query.start_id,
+            destination_id: query.destination_id,
+            options: LegacyRouteOptions {
+                accessible_only: query.options.accessible_only,
+                allow_restricted: query.options.allow_restricted,
+                closed_edge_ids: Vec::new(),
+            },
+            policy: query.policy,
+        }
+    }
+}
+
 fn object_array(value: &Value, name: &str) -> bool {
     value
         .get(name)
@@ -90,12 +121,12 @@ fn object_array(value: &Value, name: &str) -> bool {
         .is_some_and(|items| items.iter().all(Value::is_object))
 }
 
-// Derived struct deserializers can accept positional arrays. Both versions
+// Derived struct deserializers can accept positional arrays. All versions
 // require JSON objects for protocol records, including query options.
 pub fn parse(value: Value, version: &'static str) -> Result<Request, String> {
     if !value.is_object()
-        || !object_array(&value, "nodes")
-        || !object_array(&value, "edges")
+        || (version != VENUE_VERSION
+            && (!object_array(&value, "nodes") || !object_array(&value, "edges")))
         || !object_array(&value, "queries")
         || !value["queries"]
             .as_array()
@@ -116,6 +147,7 @@ pub fn parse(value: Value, version: &'static str) -> Result<Request, String> {
             nodes: wire.nodes,
             edges: wire.edges,
             package: None,
+            verified_graph: None,
             queries: wire
                 .queries
                 .into_iter()
@@ -129,8 +161,8 @@ pub fn parse(value: Value, version: &'static str) -> Result<Request, String> {
                 .collect(),
         });
     }
-    if !value["package"].is_object()
-        || !object_array(&value["package"], "edges")
+    if (version == POLICY_VERSION
+        && (!value["package"].is_object() || !object_array(&value["package"], "edges")))
         || !value["queries"].as_array().is_some_and(|queries| {
             queries.iter().all(|query| {
                 let policy = &query["policy"];
@@ -153,6 +185,26 @@ pub fn parse(value: Value, version: &'static str) -> Result<Request, String> {
     {
         return Err("policy package and explicit query policy records are required".into());
     }
+    if version == VENUE_VERSION {
+        let wire: VenueRequest =
+            serde_json::from_value(value).map_err(|error| error.to_string())?;
+        if wire.protocol_version != version {
+            return Err("protocol version mismatch".into());
+        }
+        let bytes = serde_json::to_vec(&wire.venue_package).map_err(|error| error.to_string())?;
+        let venue = LegacyVenuePackage::from_json(&bytes).map_err(|error| error.to_string())?;
+        let package = venue.policy_package();
+        return Ok(Request {
+            version,
+            source_commit: wire.source_commit,
+            request_id: wire.request_id,
+            nodes: Vec::new(),
+            edges: Vec::new(),
+            package: Some(package),
+            verified_graph: Some(venue.into_search_graph()),
+            queries: wire.queries.into_iter().map(Query::from).collect(),
+        });
+    }
     let wire: PolicyRequest = serde_json::from_value(value).map_err(|error| error.to_string())?;
     if wire.protocol_version != version {
         return Err("protocol version mismatch".into());
@@ -164,20 +216,7 @@ pub fn parse(value: Value, version: &'static str) -> Result<Request, String> {
         nodes: wire.nodes,
         edges: wire.edges,
         package: Some(wire.package),
-        queries: wire
-            .queries
-            .into_iter()
-            .map(|query| Query {
-                query_id: query.query_id,
-                start_id: query.start_id,
-                destination_id: query.destination_id,
-                options: LegacyRouteOptions {
-                    accessible_only: query.options.accessible_only,
-                    allow_restricted: query.options.allow_restricted,
-                    closed_edge_ids: Vec::new(),
-                },
-                policy: query.policy,
-            })
-            .collect(),
+        verified_graph: None,
+        queries: wire.queries.into_iter().map(Query::from).collect(),
     })
 }

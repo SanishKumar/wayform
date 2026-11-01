@@ -46,6 +46,102 @@ fn run(input: Vec<u8>) -> Vec<Value> {
         .collect()
 }
 
+fn venue_request() -> Value {
+    let venue: Value = serde_json::from_str(include_str!("../../../compat/voicegis/upstream/buildings/asterion-medical-center/compiled/building.package.json")).unwrap();
+    json!({
+        "protocolVersion": "0.3.0", "sourceCommit": LEGACY_SOURCE_COMMIT, "requestId": "verified-venue",
+        "venuePackage": venue,
+        "queries": [{"queryId": "standard", "startId": "poi:poi-main-entrance", "destinationId": "poi:poi-cardiology",
+            "options": {"accessibleOnly": false, "allowRestricted": false}, "policy": {"mode": "none"}}]
+    })
+}
+
+#[test]
+fn complete_packages_drive_search_and_policy_resolution_without_host_projections() {
+    let mut batch = venue_request();
+    let overlay: Value = serde_json::from_str(include_str!("../../../compat/voicegis/upstream/buildings/asterion-medical-center/operations/all-public-lifts-closed.overlay.json")).unwrap();
+    let cases: Value = serde_json::from_str(include_str!(
+        "../../../compat/voicegis/expected/policy-cases.json"
+    ))
+    .unwrap();
+    let mut queries = vec![batch["queries"][0].clone(); 5];
+    for (i, query) in queries.iter_mut().enumerate() {
+        query["queryId"] = json!(format!("q{i}"));
+    }
+    for query in &mut queries[1..] {
+        query["policy"] =
+            json!({"mode":"overlay", "overlay": overlay, "evaluatedAt":"2026-07-22T12:00:00.000Z"});
+    }
+    queries[2]["options"]["accessibleOnly"] = json!(true);
+    queries[3]["destinationId"] = queries[3]["startId"].clone();
+    queries[3]["policy"]["evaluatedAt"] = overlay["validUntil"].clone();
+    queries[4]["destinationId"] = json!("missing");
+    batch["queries"] = json!(queries);
+    let output = run(format!("{batch}\n").into_bytes());
+    assert_eq!(output[0]["protocolVersion"], "0.3.0");
+    assert_eq!(output[0]["outcome"], "completed");
+    let results = output[0]["results"].as_array().unwrap();
+    for (i, key) in [(0, "standard"), (1, "liftOutageStandard")] {
+        assert_eq!(results[i]["pathIds"], cases["cases"][key]["pathIds"]);
+        assert_eq!(
+            results[i]["totalDistance"].as_f64(),
+            cases["cases"][key]["totalDistance"].as_f64()
+        );
+    }
+    assert_eq!(results[2]["outcome"], "no-route");
+    assert_eq!(results[3]["error"]["code"], "invalid-overlay");
+    assert_eq!(results[4]["outcome"], "unknown-endpoint");
+    assert!(
+        results[1]["overlayResolution"]["closedEdgeIds"]
+            .as_array()
+            .unwrap()
+            .len()
+            > 1
+    );
+    assert!(results[0].get("overlayResolution").is_none());
+}
+
+#[test]
+fn complete_package_protocol_rejects_tampering_and_projection_overrides() {
+    let valid = venue_request();
+    let mut requests = Vec::new();
+    let mut changed = valid.clone();
+    changed["venuePackage"]["building"]["name"] = json!("Tampered venue");
+    requests.push(changed);
+    for key in ["nodes", "edges", "package"] {
+        let mut changed = valid.clone();
+        changed[key] = json!([]);
+        requests.push(changed);
+    }
+    let mut changed = valid.clone();
+    changed["queries"][0]["options"]["closedEdgeIds"] = json!([]);
+    requests.push(changed);
+    let mut changed = valid.clone();
+    changed["queries"][0]["policy"]["overlay"] = json!({});
+    requests.push(changed);
+    let mut changed = valid.clone();
+    changed["venuePackage"]["routing"]["edges"][0]
+        .as_object_mut()
+        .unwrap()
+        .remove("accessible");
+    requests.push(changed);
+    let mut lines: Vec<_> = requests.iter().map(Value::to_string).collect();
+    let duplicated = valid.to_string().replacen(
+        "\"hashAlgorithm\":",
+        "\"hashAlgorithm\":\"sha256\",\"hashAlgorithm\":",
+        1,
+    );
+    lines.push(duplicated);
+    lines.push(valid.to_string());
+    let responses = run((lines.join("\n") + "\n").into_bytes());
+    assert_eq!(responses.len(), lines.len());
+    for response in &responses[..responses.len() - 1] {
+        assert_eq!(response["outcome"], "rejected");
+        assert!(response.get("results").is_none());
+    }
+    assert_eq!(responses.last().unwrap()["outcome"], "completed");
+}
+
 #[test]
 fn queries_preserve_order_and_isolate_options_and_failures() {
     let mut batch = request();
