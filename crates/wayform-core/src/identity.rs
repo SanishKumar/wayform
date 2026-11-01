@@ -114,13 +114,17 @@ pub fn canonical_json(value: &Value) -> Result<String, IdentityError> {
 }
 
 fn digest(value: &Value) -> Result<String, IdentityError> {
+    Ok(sha256_hex(canonical_json(value)?.as_bytes()))
+}
+
+pub(crate) fn sha256_hex(bytes: &[u8]) -> String {
     const HEX: &[u8; 16] = b"0123456789abcdef";
     let mut output = String::with_capacity(64);
-    for byte in Sha256::digest(canonical_json(value)?.as_bytes()) {
+    for byte in Sha256::digest(bytes) {
         output.push(char::from(HEX[usize::from(byte >> 4)]));
         output.push(char::from(HEX[usize::from(byte & 15)]));
     }
-    Ok(output)
+    output
 }
 
 fn array<'a>(value: &'a mut Value, field: &str) -> Result<&'a mut Vec<Value>, IdentityError> {

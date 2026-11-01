@@ -5,8 +5,7 @@
 use std::cmp::Ordering;
 
 use serde_json::Value;
-use sha2::{Digest, Sha256};
-
+use crate::identity::sha256_hex;
 use crate::{IdentityError, canonical_json};
 
 const MAX_BYTES: usize = 16 * 1024 * 1024;
@@ -98,5 +97,5 @@ pub fn legacy_package_content_hash(value: &Value) -> Result<String, IdentityErro
     if content.len() > MAX_BYTES {
         return Err(IdentityError::ResourceLimit);
     }
-    Ok(format!("{:x}", Sha256::digest(content.as_bytes())))
+    Ok(sha256_hex(content.as_bytes()))
 }
