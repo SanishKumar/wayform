@@ -4,9 +4,9 @@
 
 use std::cmp::Ordering;
 
-use serde_json::Value;
 use crate::identity::sha256_hex;
 use crate::{IdentityError, canonical_json};
+use serde_json::Value;
 
 const MAX_BYTES: usize = 16 * 1024 * 1024;
 
