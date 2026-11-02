@@ -1,0 +1,1442 @@
+[
+  {
+    "id": "reference-medical-centre/0",
+    "venue": "reference-medical-centre",
+    "payload": "",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "reference-medical-centre/1",
+    "venue": "reference-medical-centre",
+    "payload": " ",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "reference-medical-centre/2",
+    "venue": "reference-medical-centre",
+    "payload": "foreign:venue:anchor",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "reference-medical-centre/3",
+    "venue": "reference-medical-centre",
+    "payload": "reference-sign-ground-junction-v1",
+    "expected": {
+      "ok": false,
+      "reason": "not-a-checkin-code"
+    }
+  },
+  {
+    "id": "reference-medical-centre/4",
+    "venue": "reference-medical-centre",
+    "payload": "﻿\treference-sign-ground-junction-v1　",
+    "expected": {
+      "ok": false,
+      "reason": "not-a-checkin-code"
+    }
+  },
+  {
+    "id": "reference-medical-centre/5",
+    "venue": "reference-medical-centre",
+    "payload": "reference-sign-ground-junction-v1/suffix",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "reference-medical-centre/6",
+    "venue": "reference-medical-centre",
+    "payload": "reference-sign-ground-junction-v1",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "reference-medical-centre/7",
+    "venue": "reference-medical-centre",
+    "payload": "reference-sign-ground-lift-v1",
+    "expected": {
+      "ok": false,
+      "reason": "not-a-checkin-code"
+    }
+  },
+  {
+    "id": "reference-medical-centre/8",
+    "venue": "reference-medical-centre",
+    "payload": "﻿\treference-sign-ground-lift-v1　",
+    "expected": {
+      "ok": false,
+      "reason": "not-a-checkin-code"
+    }
+  },
+  {
+    "id": "reference-medical-centre/9",
+    "venue": "reference-medical-centre",
+    "payload": "reference-sign-ground-lift-v1/suffix",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "reference-medical-centre/10",
+    "venue": "reference-medical-centre",
+    "payload": "reference-sign-ground-lift-v1",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "reference-medical-centre/11",
+    "venue": "reference-medical-centre",
+    "payload": "reference-sign-level-one-lift-v1",
+    "expected": {
+      "ok": false,
+      "reason": "not-a-checkin-code"
+    }
+  },
+  {
+    "id": "reference-medical-centre/12",
+    "venue": "reference-medical-centre",
+    "payload": "﻿\treference-sign-level-one-lift-v1　",
+    "expected": {
+      "ok": false,
+      "reason": "not-a-checkin-code"
+    }
+  },
+  {
+    "id": "reference-medical-centre/13",
+    "venue": "reference-medical-centre",
+    "payload": "reference-sign-level-one-lift-v1/suffix",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "reference-medical-centre/14",
+    "venue": "reference-medical-centre",
+    "payload": "reference-sign-level-one-lift-v1",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "reference-medical-centre/15",
+    "venue": "reference-medical-centre",
+    "payload": "voicegis://reference-medical-centre/anchor-main-entry",
+    "expected": {
+      "ok": true,
+      "anchor": {
+        "floorId": "g",
+        "headingDegrees": 90,
+        "id": "anchor-main-entry",
+        "kind": "qr",
+        "payload": "voicegis://reference-medical-centre/anchor-main-entry",
+        "position": [
+          1,
+          9
+        ],
+        "spaceId": "g-entrance"
+      },
+      "nodeId": "space:g-entrance",
+      "distanceMeters": 1.5
+    }
+  },
+  {
+    "id": "reference-medical-centre/16",
+    "venue": "reference-medical-centre",
+    "payload": "﻿\tvoicegis://reference-medical-centre/anchor-main-entry　",
+    "expected": {
+      "ok": true,
+      "anchor": {
+        "floorId": "g",
+        "headingDegrees": 90,
+        "id": "anchor-main-entry",
+        "kind": "qr",
+        "payload": "voicegis://reference-medical-centre/anchor-main-entry",
+        "position": [
+          1,
+          9
+        ],
+        "spaceId": "g-entrance"
+      },
+      "nodeId": "space:g-entrance",
+      "distanceMeters": 1.5
+    }
+  },
+  {
+    "id": "reference-medical-centre/17",
+    "venue": "reference-medical-centre",
+    "payload": "voicegis://reference-medical-centre/anchor-main-entry/suffix",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "reference-medical-centre/18",
+    "venue": "reference-medical-centre",
+    "payload": "voicegis://reference-medical-centre/anchor-main-entry",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "asterion-medical-center/0",
+    "venue": "asterion-medical-center",
+    "payload": "",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "asterion-medical-center/1",
+    "venue": "asterion-medical-center",
+    "payload": " ",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "asterion-medical-center/2",
+    "venue": "asterion-medical-center",
+    "payload": "foreign:venue:anchor",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "asterion-medical-center/3",
+    "venue": "asterion-medical-center",
+    "payload": "voicegis://asterion/g/east",
+    "expected": {
+      "ok": true,
+      "anchor": {
+        "floorId": "g",
+        "headingDegrees": 270,
+        "id": "anchor-g-east",
+        "kind": "qr",
+        "payload": "voicegis://asterion/g/east",
+        "position": [
+          60,
+          24
+        ],
+        "spaceId": "g-concourse"
+      },
+      "nodeId": "waypoint:g-concourse:11",
+      "distanceMeters": 1
+    }
+  },
+  {
+    "id": "asterion-medical-center/4",
+    "venue": "asterion-medical-center",
+    "payload": "﻿\tvoicegis://asterion/g/east　",
+    "expected": {
+      "ok": true,
+      "anchor": {
+        "floorId": "g",
+        "headingDegrees": 270,
+        "id": "anchor-g-east",
+        "kind": "qr",
+        "payload": "voicegis://asterion/g/east",
+        "position": [
+          60,
+          24
+        ],
+        "spaceId": "g-concourse"
+      },
+      "nodeId": "waypoint:g-concourse:11",
+      "distanceMeters": 1
+    }
+  },
+  {
+    "id": "asterion-medical-center/5",
+    "venue": "asterion-medical-center",
+    "payload": "voicegis://asterion/g/east/suffix",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "asterion-medical-center/6",
+    "venue": "asterion-medical-center",
+    "payload": "voicegis://asterion/g/east",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "asterion-medical-center/7",
+    "venue": "asterion-medical-center",
+    "payload": "voicegis://asterion/g/entry",
+    "expected": {
+      "ok": false,
+      "reason": "not-a-checkin-code"
+    }
+  },
+  {
+    "id": "asterion-medical-center/8",
+    "venue": "asterion-medical-center",
+    "payload": "﻿\tvoicegis://asterion/g/entry　",
+    "expected": {
+      "ok": false,
+      "reason": "not-a-checkin-code"
+    }
+  },
+  {
+    "id": "asterion-medical-center/9",
+    "venue": "asterion-medical-center",
+    "payload": "voicegis://asterion/g/entry/suffix",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "asterion-medical-center/10",
+    "venue": "asterion-medical-center",
+    "payload": "voicegis://asterion/g/entry",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "asterion-medical-center/11",
+    "venue": "asterion-medical-center",
+    "payload": "voicegis://asterion/g/west",
+    "expected": {
+      "ok": true,
+      "anchor": {
+        "floorId": "g",
+        "headingDegrees": 90,
+        "id": "anchor-g-west",
+        "kind": "qr",
+        "payload": "voicegis://asterion/g/west",
+        "position": [
+          12,
+          24
+        ],
+        "spaceId": "g-concourse"
+      },
+      "nodeId": "waypoint:g-concourse:02",
+      "distanceMeters": 1
+    }
+  },
+  {
+    "id": "asterion-medical-center/12",
+    "venue": "asterion-medical-center",
+    "payload": "﻿\tvoicegis://asterion/g/west　",
+    "expected": {
+      "ok": true,
+      "anchor": {
+        "floorId": "g",
+        "headingDegrees": 90,
+        "id": "anchor-g-west",
+        "kind": "qr",
+        "payload": "voicegis://asterion/g/west",
+        "position": [
+          12,
+          24
+        ],
+        "spaceId": "g-concourse"
+      },
+      "nodeId": "waypoint:g-concourse:02",
+      "distanceMeters": 1
+    }
+  },
+  {
+    "id": "asterion-medical-center/13",
+    "venue": "asterion-medical-center",
+    "payload": "voicegis://asterion/g/west/suffix",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "asterion-medical-center/14",
+    "venue": "asterion-medical-center",
+    "payload": "voicegis://asterion/g/west",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "asterion-medical-center/15",
+    "venue": "asterion-medical-center",
+    "payload": "voicegis://asterion/l1/east",
+    "expected": {
+      "ok": true,
+      "anchor": {
+        "floorId": "l1",
+        "headingDegrees": 270,
+        "id": "anchor-l1-east",
+        "kind": "qr",
+        "payload": "voicegis://asterion/l1/east",
+        "position": [
+          60,
+          24
+        ],
+        "spaceId": "l1-concourse"
+      },
+      "nodeId": "waypoint:l1-concourse:11",
+      "distanceMeters": 1
+    }
+  },
+  {
+    "id": "asterion-medical-center/16",
+    "venue": "asterion-medical-center",
+    "payload": "﻿\tvoicegis://asterion/l1/east　",
+    "expected": {
+      "ok": true,
+      "anchor": {
+        "floorId": "l1",
+        "headingDegrees": 270,
+        "id": "anchor-l1-east",
+        "kind": "qr",
+        "payload": "voicegis://asterion/l1/east",
+        "position": [
+          60,
+          24
+        ],
+        "spaceId": "l1-concourse"
+      },
+      "nodeId": "waypoint:l1-concourse:11",
+      "distanceMeters": 1
+    }
+  },
+  {
+    "id": "asterion-medical-center/17",
+    "venue": "asterion-medical-center",
+    "payload": "voicegis://asterion/l1/east/suffix",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "asterion-medical-center/18",
+    "venue": "asterion-medical-center",
+    "payload": "voicegis://asterion/l1/east",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "asterion-medical-center/19",
+    "venue": "asterion-medical-center",
+    "payload": "voicegis://asterion/l1/west",
+    "expected": {
+      "ok": true,
+      "anchor": {
+        "floorId": "l1",
+        "headingDegrees": 90,
+        "id": "anchor-l1-west",
+        "kind": "qr",
+        "payload": "voicegis://asterion/l1/west",
+        "position": [
+          12,
+          24
+        ],
+        "spaceId": "l1-concourse"
+      },
+      "nodeId": "waypoint:l1-concourse:02",
+      "distanceMeters": 1
+    }
+  },
+  {
+    "id": "asterion-medical-center/20",
+    "venue": "asterion-medical-center",
+    "payload": "﻿\tvoicegis://asterion/l1/west　",
+    "expected": {
+      "ok": true,
+      "anchor": {
+        "floorId": "l1",
+        "headingDegrees": 90,
+        "id": "anchor-l1-west",
+        "kind": "qr",
+        "payload": "voicegis://asterion/l1/west",
+        "position": [
+          12,
+          24
+        ],
+        "spaceId": "l1-concourse"
+      },
+      "nodeId": "waypoint:l1-concourse:02",
+      "distanceMeters": 1
+    }
+  },
+  {
+    "id": "asterion-medical-center/21",
+    "venue": "asterion-medical-center",
+    "payload": "voicegis://asterion/l1/west/suffix",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "asterion-medical-center/22",
+    "venue": "asterion-medical-center",
+    "payload": "voicegis://asterion/l1/west",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "asterion-medical-center/23",
+    "venue": "asterion-medical-center",
+    "payload": "voicegis://asterion/l2/east",
+    "expected": {
+      "ok": true,
+      "anchor": {
+        "floorId": "l2",
+        "headingDegrees": 270,
+        "id": "anchor-l2-east",
+        "kind": "qr",
+        "payload": "voicegis://asterion/l2/east",
+        "position": [
+          60,
+          24
+        ],
+        "spaceId": "l2-concourse"
+      },
+      "nodeId": "waypoint:l2-concourse:11",
+      "distanceMeters": 1
+    }
+  },
+  {
+    "id": "asterion-medical-center/24",
+    "venue": "asterion-medical-center",
+    "payload": "﻿\tvoicegis://asterion/l2/east　",
+    "expected": {
+      "ok": true,
+      "anchor": {
+        "floorId": "l2",
+        "headingDegrees": 270,
+        "id": "anchor-l2-east",
+        "kind": "qr",
+        "payload": "voicegis://asterion/l2/east",
+        "position": [
+          60,
+          24
+        ],
+        "spaceId": "l2-concourse"
+      },
+      "nodeId": "waypoint:l2-concourse:11",
+      "distanceMeters": 1
+    }
+  },
+  {
+    "id": "asterion-medical-center/25",
+    "venue": "asterion-medical-center",
+    "payload": "voicegis://asterion/l2/east/suffix",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "asterion-medical-center/26",
+    "venue": "asterion-medical-center",
+    "payload": "voicegis://asterion/l2/east",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "asterion-medical-center/27",
+    "venue": "asterion-medical-center",
+    "payload": "voicegis://asterion/l2/west",
+    "expected": {
+      "ok": true,
+      "anchor": {
+        "floorId": "l2",
+        "headingDegrees": 90,
+        "id": "anchor-l2-west",
+        "kind": "qr",
+        "payload": "voicegis://asterion/l2/west",
+        "position": [
+          12,
+          24
+        ],
+        "spaceId": "l2-concourse"
+      },
+      "nodeId": "waypoint:l2-concourse:02",
+      "distanceMeters": 1
+    }
+  },
+  {
+    "id": "asterion-medical-center/28",
+    "venue": "asterion-medical-center",
+    "payload": "﻿\tvoicegis://asterion/l2/west　",
+    "expected": {
+      "ok": true,
+      "anchor": {
+        "floorId": "l2",
+        "headingDegrees": 90,
+        "id": "anchor-l2-west",
+        "kind": "qr",
+        "payload": "voicegis://asterion/l2/west",
+        "position": [
+          12,
+          24
+        ],
+        "spaceId": "l2-concourse"
+      },
+      "nodeId": "waypoint:l2-concourse:02",
+      "distanceMeters": 1
+    }
+  },
+  {
+    "id": "asterion-medical-center/29",
+    "venue": "asterion-medical-center",
+    "payload": "voicegis://asterion/l2/west/suffix",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "asterion-medical-center/30",
+    "venue": "asterion-medical-center",
+    "payload": "voicegis://asterion/l2/west",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "asterion-medical-center/31",
+    "venue": "asterion-medical-center",
+    "payload": "voicegis://asterion/l3/east",
+    "expected": {
+      "ok": true,
+      "anchor": {
+        "floorId": "l3",
+        "headingDegrees": 270,
+        "id": "anchor-l3-east",
+        "kind": "qr",
+        "payload": "voicegis://asterion/l3/east",
+        "position": [
+          60,
+          24
+        ],
+        "spaceId": "l3-concourse"
+      },
+      "nodeId": "waypoint:l3-concourse:11",
+      "distanceMeters": 1
+    }
+  },
+  {
+    "id": "asterion-medical-center/32",
+    "venue": "asterion-medical-center",
+    "payload": "﻿\tvoicegis://asterion/l3/east　",
+    "expected": {
+      "ok": true,
+      "anchor": {
+        "floorId": "l3",
+        "headingDegrees": 270,
+        "id": "anchor-l3-east",
+        "kind": "qr",
+        "payload": "voicegis://asterion/l3/east",
+        "position": [
+          60,
+          24
+        ],
+        "spaceId": "l3-concourse"
+      },
+      "nodeId": "waypoint:l3-concourse:11",
+      "distanceMeters": 1
+    }
+  },
+  {
+    "id": "asterion-medical-center/33",
+    "venue": "asterion-medical-center",
+    "payload": "voicegis://asterion/l3/east/suffix",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "asterion-medical-center/34",
+    "venue": "asterion-medical-center",
+    "payload": "voicegis://asterion/l3/east",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "asterion-medical-center/35",
+    "venue": "asterion-medical-center",
+    "payload": "voicegis://asterion/l3/west",
+    "expected": {
+      "ok": true,
+      "anchor": {
+        "floorId": "l3",
+        "headingDegrees": 90,
+        "id": "anchor-l3-west",
+        "kind": "qr",
+        "payload": "voicegis://asterion/l3/west",
+        "position": [
+          12,
+          24
+        ],
+        "spaceId": "l3-concourse"
+      },
+      "nodeId": "waypoint:l3-concourse:02",
+      "distanceMeters": 1
+    }
+  },
+  {
+    "id": "asterion-medical-center/36",
+    "venue": "asterion-medical-center",
+    "payload": "﻿\tvoicegis://asterion/l3/west　",
+    "expected": {
+      "ok": true,
+      "anchor": {
+        "floorId": "l3",
+        "headingDegrees": 90,
+        "id": "anchor-l3-west",
+        "kind": "qr",
+        "payload": "voicegis://asterion/l3/west",
+        "position": [
+          12,
+          24
+        ],
+        "spaceId": "l3-concourse"
+      },
+      "nodeId": "waypoint:l3-concourse:02",
+      "distanceMeters": 1
+    }
+  },
+  {
+    "id": "asterion-medical-center/37",
+    "venue": "asterion-medical-center",
+    "payload": "voicegis://asterion/l3/west/suffix",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "asterion-medical-center/38",
+    "venue": "asterion-medical-center",
+    "payload": "voicegis://asterion/l3/west",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "harbor-exchange/0",
+    "venue": "harbor-exchange",
+    "payload": "",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "harbor-exchange/1",
+    "venue": "harbor-exchange",
+    "payload": " ",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "harbor-exchange/2",
+    "venue": "harbor-exchange",
+    "payload": "foreign:venue:anchor",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "harbor-exchange/3",
+    "venue": "harbor-exchange",
+    "payload": "voicegis://harbor-exchange/g/ferry-entry",
+    "expected": {
+      "ok": true,
+      "anchor": {
+        "floorId": "g",
+        "headingDegrees": 90,
+        "id": "anchor-ferry-entry",
+        "kind": "qr",
+        "payload": "voicegis://harbor-exchange/g/ferry-entry",
+        "position": [
+          2,
+          11
+        ],
+        "spaceId": "g-entry"
+      },
+      "nodeId": "space:g-entry",
+      "distanceMeters": 1
+    }
+  },
+  {
+    "id": "harbor-exchange/4",
+    "venue": "harbor-exchange",
+    "payload": "﻿\tvoicegis://harbor-exchange/g/ferry-entry　",
+    "expected": {
+      "ok": true,
+      "anchor": {
+        "floorId": "g",
+        "headingDegrees": 90,
+        "id": "anchor-ferry-entry",
+        "kind": "qr",
+        "payload": "voicegis://harbor-exchange/g/ferry-entry",
+        "position": [
+          2,
+          11
+        ],
+        "spaceId": "g-entry"
+      },
+      "nodeId": "space:g-entry",
+      "distanceMeters": 1
+    }
+  },
+  {
+    "id": "harbor-exchange/5",
+    "venue": "harbor-exchange",
+    "payload": "voicegis://harbor-exchange/g/ferry-entry/suffix",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "harbor-exchange/6",
+    "venue": "harbor-exchange",
+    "payload": "voicegis://harbor-exchange/g/ferry-entry",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "harbor-exchange/7",
+    "venue": "harbor-exchange",
+    "payload": "voicegis://harbor-exchange/m/lift",
+    "expected": {
+      "ok": false,
+      "reason": "not-a-checkin-code"
+    }
+  },
+  {
+    "id": "harbor-exchange/8",
+    "venue": "harbor-exchange",
+    "payload": "﻿\tvoicegis://harbor-exchange/m/lift　",
+    "expected": {
+      "ok": false,
+      "reason": "not-a-checkin-code"
+    }
+  },
+  {
+    "id": "harbor-exchange/9",
+    "venue": "harbor-exchange",
+    "payload": "voicegis://harbor-exchange/m/lift/suffix",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "harbor-exchange/10",
+    "venue": "harbor-exchange",
+    "payload": "voicegis://harbor-exchange/m/lift",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "harbor-exchange/11",
+    "venue": "harbor-exchange",
+    "payload": "voicegis://harbor-exchange/g/platform-board",
+    "expected": {
+      "ok": false,
+      "reason": "not-a-checkin-code"
+    }
+  },
+  {
+    "id": "harbor-exchange/12",
+    "venue": "harbor-exchange",
+    "payload": "﻿\tvoicegis://harbor-exchange/g/platform-board　",
+    "expected": {
+      "ok": false,
+      "reason": "not-a-checkin-code"
+    }
+  },
+  {
+    "id": "harbor-exchange/13",
+    "venue": "harbor-exchange",
+    "payload": "voicegis://harbor-exchange/g/platform-board/suffix",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "harbor-exchange/14",
+    "venue": "harbor-exchange",
+    "payload": "voicegis://harbor-exchange/g/platform-board",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "meridian-park-campus/0",
+    "venue": "meridian-park-campus",
+    "payload": "",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "meridian-park-campus/1",
+    "venue": "meridian-park-campus",
+    "payload": " ",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "meridian-park-campus/2",
+    "venue": "meridian-park-campus",
+    "payload": "foreign:venue:anchor",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "meridian-park-campus/3",
+    "venue": "meridian-park-campus",
+    "payload": "voicegis://meridian/g/car-park",
+    "expected": {
+      "ok": true,
+      "anchor": {
+        "floorId": "g",
+        "headingDegrees": 180,
+        "id": "anchor-car-park",
+        "kind": "qr",
+        "payload": "voicegis://meridian/g/car-park",
+        "position": [
+          99,
+          123
+        ],
+        "spaceId": "car-park-walk"
+      },
+      "nodeId": "space:car-park-walk",
+      "distanceMeters": 0
+    }
+  },
+  {
+    "id": "meridian-park-campus/4",
+    "venue": "meridian-park-campus",
+    "payload": "﻿\tvoicegis://meridian/g/car-park　",
+    "expected": {
+      "ok": true,
+      "anchor": {
+        "floorId": "g",
+        "headingDegrees": 180,
+        "id": "anchor-car-park",
+        "kind": "qr",
+        "payload": "voicegis://meridian/g/car-park",
+        "position": [
+          99,
+          123
+        ],
+        "spaceId": "car-park-walk"
+      },
+      "nodeId": "space:car-park-walk",
+      "distanceMeters": 0
+    }
+  },
+  {
+    "id": "meridian-park-campus/5",
+    "venue": "meridian-park-campus",
+    "payload": "voicegis://meridian/g/car-park/suffix",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "meridian-park-campus/6",
+    "venue": "meridian-park-campus",
+    "payload": "voicegis://meridian/g/car-park",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "meridian-park-campus/7",
+    "venue": "meridian-park-campus",
+    "payload": "voicegis://meridian/g/emergency-entrance",
+    "expected": {
+      "ok": true,
+      "anchor": {
+        "floorId": "g",
+        "headingDegrees": 0,
+        "id": "anchor-emergency-entrance",
+        "kind": "qr",
+        "payload": "voicegis://meridian/g/emergency-entrance",
+        "position": [
+          42,
+          84
+        ],
+        "spaceId": "e-entrance"
+      },
+      "nodeId": "space:e-entrance",
+      "distanceMeters": 3
+    }
+  },
+  {
+    "id": "meridian-park-campus/8",
+    "venue": "meridian-park-campus",
+    "payload": "﻿\tvoicegis://meridian/g/emergency-entrance　",
+    "expected": {
+      "ok": true,
+      "anchor": {
+        "floorId": "g",
+        "headingDegrees": 0,
+        "id": "anchor-emergency-entrance",
+        "kind": "qr",
+        "payload": "voicegis://meridian/g/emergency-entrance",
+        "position": [
+          42,
+          84
+        ],
+        "spaceId": "e-entrance"
+      },
+      "nodeId": "space:e-entrance",
+      "distanceMeters": 3
+    }
+  },
+  {
+    "id": "meridian-park-campus/9",
+    "venue": "meridian-park-campus",
+    "payload": "voicegis://meridian/g/emergency-entrance/suffix",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "meridian-park-campus/10",
+    "venue": "meridian-park-campus",
+    "payload": "voicegis://meridian/g/emergency-entrance",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "meridian-park-campus/11",
+    "venue": "meridian-park-campus",
+    "payload": "voicegis://meridian/g/fountain",
+    "expected": {
+      "ok": true,
+      "anchor": {
+        "floorId": "g",
+        "headingDegrees": 270,
+        "id": "anchor-fountain",
+        "kind": "qr",
+        "payload": "voicegis://meridian/g/fountain",
+        "position": [
+          105,
+          77
+        ],
+        "spaceId": "court-north"
+      },
+      "nodeId": "space:court-north",
+      "distanceMeters": 2
+    }
+  },
+  {
+    "id": "meridian-park-campus/12",
+    "venue": "meridian-park-campus",
+    "payload": "﻿\tvoicegis://meridian/g/fountain　",
+    "expected": {
+      "ok": true,
+      "anchor": {
+        "floorId": "g",
+        "headingDegrees": 270,
+        "id": "anchor-fountain",
+        "kind": "qr",
+        "payload": "voicegis://meridian/g/fountain",
+        "position": [
+          105,
+          77
+        ],
+        "spaceId": "court-north"
+      },
+      "nodeId": "space:court-north",
+      "distanceMeters": 2
+    }
+  },
+  {
+    "id": "meridian-park-campus/13",
+    "venue": "meridian-park-campus",
+    "payload": "voicegis://meridian/g/fountain/suffix",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "meridian-park-campus/14",
+    "venue": "meridian-park-campus",
+    "payload": "voicegis://meridian/g/fountain",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "meridian-park-campus/15",
+    "venue": "meridian-park-campus",
+    "payload": "voicegis://meridian/g/hospital-entrance",
+    "expected": {
+      "ok": true,
+      "anchor": {
+        "floorId": "g",
+        "headingDegrees": 90,
+        "id": "anchor-hospital-entrance",
+        "kind": "qr",
+        "payload": "voicegis://meridian/g/hospital-entrance",
+        "position": [
+          105,
+          34
+        ],
+        "spaceId": "g-hall"
+      },
+      "nodeId": "space:g-hall",
+      "distanceMeters": 5
+    }
+  },
+  {
+    "id": "meridian-park-campus/16",
+    "venue": "meridian-park-campus",
+    "payload": "﻿\tvoicegis://meridian/g/hospital-entrance　",
+    "expected": {
+      "ok": true,
+      "anchor": {
+        "floorId": "g",
+        "headingDegrees": 90,
+        "id": "anchor-hospital-entrance",
+        "kind": "qr",
+        "payload": "voicegis://meridian/g/hospital-entrance",
+        "position": [
+          105,
+          34
+        ],
+        "spaceId": "g-hall"
+      },
+      "nodeId": "space:g-hall",
+      "distanceMeters": 5
+    }
+  },
+  {
+    "id": "meridian-park-campus/17",
+    "venue": "meridian-park-campus",
+    "payload": "voicegis://meridian/g/hospital-entrance/suffix",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "meridian-park-campus/18",
+    "venue": "meridian-park-campus",
+    "payload": "voicegis://meridian/g/hospital-entrance",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "meridian-park-campus/19",
+    "venue": "meridian-park-campus",
+    "payload": "voicegis://meridian/l1/lifts",
+    "expected": {
+      "ok": true,
+      "anchor": {
+        "floorId": "l1",
+        "headingDegrees": 90,
+        "id": "anchor-level-1",
+        "kind": "qr",
+        "payload": "voicegis://meridian/l1/lifts",
+        "position": [
+          96,
+          26
+        ],
+        "spaceId": "l1-concourse"
+      },
+      "nodeId": "waypoint:l1-concourse:05",
+      "distanceMeters": 2
+    }
+  },
+  {
+    "id": "meridian-park-campus/20",
+    "venue": "meridian-park-campus",
+    "payload": "﻿\tvoicegis://meridian/l1/lifts　",
+    "expected": {
+      "ok": true,
+      "anchor": {
+        "floorId": "l1",
+        "headingDegrees": 90,
+        "id": "anchor-level-1",
+        "kind": "qr",
+        "payload": "voicegis://meridian/l1/lifts",
+        "position": [
+          96,
+          26
+        ],
+        "spaceId": "l1-concourse"
+      },
+      "nodeId": "waypoint:l1-concourse:05",
+      "distanceMeters": 2
+    }
+  },
+  {
+    "id": "meridian-park-campus/21",
+    "venue": "meridian-park-campus",
+    "payload": "voicegis://meridian/l1/lifts/suffix",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "meridian-park-campus/22",
+    "venue": "meridian-park-campus",
+    "payload": "voicegis://meridian/l1/lifts",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "meridian-park-campus/23",
+    "venue": "meridian-park-campus",
+    "payload": "voicegis://meridian/l2/lifts",
+    "expected": {
+      "ok": true,
+      "anchor": {
+        "floorId": "l2",
+        "headingDegrees": 90,
+        "id": "anchor-level-2",
+        "kind": "qr",
+        "payload": "voicegis://meridian/l2/lifts",
+        "position": [
+          96,
+          26
+        ],
+        "spaceId": "l2-concourse"
+      },
+      "nodeId": "waypoint:l2-concourse:04",
+      "distanceMeters": 2
+    }
+  },
+  {
+    "id": "meridian-park-campus/24",
+    "venue": "meridian-park-campus",
+    "payload": "﻿\tvoicegis://meridian/l2/lifts　",
+    "expected": {
+      "ok": true,
+      "anchor": {
+        "floorId": "l2",
+        "headingDegrees": 90,
+        "id": "anchor-level-2",
+        "kind": "qr",
+        "payload": "voicegis://meridian/l2/lifts",
+        "position": [
+          96,
+          26
+        ],
+        "spaceId": "l2-concourse"
+      },
+      "nodeId": "waypoint:l2-concourse:04",
+      "distanceMeters": 2
+    }
+  },
+  {
+    "id": "meridian-park-campus/25",
+    "venue": "meridian-park-campus",
+    "payload": "voicegis://meridian/l2/lifts/suffix",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "meridian-park-campus/26",
+    "venue": "meridian-park-campus",
+    "payload": "voicegis://meridian/l2/lifts",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "meridian-park-campus/27",
+    "venue": "meridian-park-campus",
+    "payload": "voicegis://meridian/g/main-gate",
+    "expected": {
+      "ok": true,
+      "anchor": {
+        "floorId": "g",
+        "headingDegrees": 270,
+        "id": "anchor-main-gate",
+        "kind": "qr",
+        "payload": "voicegis://meridian/g/main-gate",
+        "position": [
+          105,
+          141
+        ],
+        "spaceId": "gate"
+      },
+      "nodeId": "space:gate",
+      "distanceMeters": 3
+    }
+  },
+  {
+    "id": "meridian-park-campus/28",
+    "venue": "meridian-park-campus",
+    "payload": "﻿\tvoicegis://meridian/g/main-gate　",
+    "expected": {
+      "ok": true,
+      "anchor": {
+        "floorId": "g",
+        "headingDegrees": 270,
+        "id": "anchor-main-gate",
+        "kind": "qr",
+        "payload": "voicegis://meridian/g/main-gate",
+        "position": [
+          105,
+          141
+        ],
+        "spaceId": "gate"
+      },
+      "nodeId": "space:gate",
+      "distanceMeters": 3
+    }
+  },
+  {
+    "id": "meridian-park-campus/29",
+    "venue": "meridian-park-campus",
+    "payload": "voicegis://meridian/g/main-gate/suffix",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "meridian-park-campus/30",
+    "venue": "meridian-park-campus",
+    "payload": "voicegis://meridian/g/main-gate",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "meridian-park-campus/31",
+    "venue": "meridian-park-campus",
+    "payload": "voicegis://meridian/g/pavilion-entrance",
+    "expected": {
+      "ok": true,
+      "anchor": {
+        "floorId": "g",
+        "headingDegrees": 180,
+        "id": "anchor-pavilion-entrance",
+        "kind": "qr",
+        "payload": "voicegis://meridian/g/pavilion-entrance",
+        "position": [
+          168,
+          84
+        ],
+        "spaceId": "w-entrance"
+      },
+      "nodeId": "space:w-entrance",
+      "distanceMeters": 3
+    }
+  },
+  {
+    "id": "meridian-park-campus/32",
+    "venue": "meridian-park-campus",
+    "payload": "﻿\tvoicegis://meridian/g/pavilion-entrance　",
+    "expected": {
+      "ok": true,
+      "anchor": {
+        "floorId": "g",
+        "headingDegrees": 180,
+        "id": "anchor-pavilion-entrance",
+        "kind": "qr",
+        "payload": "voicegis://meridian/g/pavilion-entrance",
+        "position": [
+          168,
+          84
+        ],
+        "spaceId": "w-entrance"
+      },
+      "nodeId": "space:w-entrance",
+      "distanceMeters": 3
+    }
+  },
+  {
+    "id": "meridian-park-campus/33",
+    "venue": "meridian-park-campus",
+    "payload": "voicegis://meridian/g/pavilion-entrance/suffix",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  },
+  {
+    "id": "meridian-park-campus/34",
+    "venue": "meridian-park-campus",
+    "payload": "voicegis://meridian/g/pavilion-entrance",
+    "expected": {
+      "ok": false,
+      "reason": "unknown-code"
+    }
+  }
+]

@@ -1,3 +1,4 @@
+mod checkin;
 mod clearance;
 mod directions;
 mod identity;
@@ -105,6 +106,11 @@ impl LegacyVenuePackage {
     }
     pub fn runtime(&self) -> &LegacyRuntime {
         &self.runtime
+    }
+    /// Resolve an exact QR payload. Placement of the physical sign remains a
+    /// venue responsibility; this is not a sensor accuracy measurement.
+    pub fn check_in(&self, payload: &str) -> Result<Value, LegacySearchError> {
+        checkin::resolve(self, payload)
     }
     pub fn building_id(&self) -> &str {
         self.value["building"]["id"].as_str().unwrap()
