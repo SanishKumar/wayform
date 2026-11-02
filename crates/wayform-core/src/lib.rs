@@ -8,6 +8,7 @@ mod graph;
 mod identity;
 mod json;
 mod legacy;
+mod legacy_guidance;
 mod legacy_lease;
 mod legacy_package;
 mod legacy_policy;
@@ -34,6 +35,7 @@ pub use legacy::{
     LEGACY_SOURCE_COMMIT, LegacyEdge, LegacyFloor, LegacyGraph, LegacyNode, LegacyRouteOptions,
     LegacySearchError, LegacySearchOutcome,
 };
+pub use legacy_guidance::{LegacyGuidanceError, LegacyGuidanceRead, LegacyGuidanceSession};
 pub use legacy_lease::{LegacyFreshnessStatus, LegacyOperationalFreshness, LegacyOperationalLease};
 pub use legacy_package::{
     LegacyClearanceIssue, LegacyCompiledOptions, LegacyDirections, LegacyDisplayClearance,
