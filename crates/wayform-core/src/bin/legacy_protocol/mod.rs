@@ -8,6 +8,7 @@ use wayform_core::{
 pub const SEARCH_VERSION: &str = "0.1.0";
 pub const POLICY_VERSION: &str = "0.2.0";
 pub const VENUE_VERSION: &str = "0.3.0";
+pub const COMPLETE_VERSION: &str = "0.4.0";
 
 pub struct Request {
     pub version: &'static str,
@@ -17,6 +18,7 @@ pub struct Request {
     pub edges: Vec<LegacyEdge>,
     pub package: Option<LegacyPolicyPackage>,
     pub verified_graph: Option<LegacyGraph>,
+    pub verified_venue: Option<LegacyVenuePackage>,
     pub queries: Vec<Query>,
 }
 
@@ -125,7 +127,7 @@ fn object_array(value: &Value, name: &str) -> bool {
 // require JSON objects for protocol records, including query options.
 pub fn parse(value: Value, version: &'static str) -> Result<Request, String> {
     if !value.is_object()
-        || (version != VENUE_VERSION
+        || (!matches!(version, VENUE_VERSION | COMPLETE_VERSION)
             && (!object_array(&value, "nodes") || !object_array(&value, "edges")))
         || !object_array(&value, "queries")
         || !value["queries"]
@@ -148,6 +150,7 @@ pub fn parse(value: Value, version: &'static str) -> Result<Request, String> {
             edges: wire.edges,
             package: None,
             verified_graph: None,
+            verified_venue: None,
             queries: wire
                 .queries
                 .into_iter()
@@ -185,7 +188,7 @@ pub fn parse(value: Value, version: &'static str) -> Result<Request, String> {
     {
         return Err("policy package and explicit query policy records are required".into());
     }
-    if version == VENUE_VERSION {
+    if matches!(version, VENUE_VERSION | COMPLETE_VERSION) {
         let wire: VenueRequest =
             serde_json::from_value(value).map_err(|error| error.to_string())?;
         if wire.protocol_version != version {
@@ -193,15 +196,24 @@ pub fn parse(value: Value, version: &'static str) -> Result<Request, String> {
         }
         let bytes = serde_json::to_vec(&wire.venue_package).map_err(|error| error.to_string())?;
         let venue = LegacyVenuePackage::from_json(&bytes).map_err(|error| error.to_string())?;
-        let package = venue.policy_package();
+        let (package, verified_graph, verified_venue) = if version == COMPLETE_VERSION {
+            (None, None, Some(venue))
+        } else {
+            (
+                Some(venue.policy_package()),
+                Some(venue.into_search_graph()),
+                None,
+            )
+        };
         return Ok(Request {
             version,
             source_commit: wire.source_commit,
             request_id: wire.request_id,
             nodes: Vec::new(),
             edges: Vec::new(),
-            package: Some(package),
-            verified_graph: Some(venue.into_search_graph()),
+            package,
+            verified_graph,
+            verified_venue,
             queries: wire.queries.into_iter().map(Query::from).collect(),
         });
     }
@@ -217,6 +229,7 @@ pub fn parse(value: Value, version: &'static str) -> Result<Request, String> {
         edges: wire.edges,
         package: Some(wire.package),
         verified_graph: None,
+        verified_venue: None,
         queries: wire.queries.into_iter().map(Query::from).collect(),
     })
 }

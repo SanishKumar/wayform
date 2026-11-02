@@ -1,6 +1,6 @@
 # WAYFORM
 
-Foundations for mobility-aware outdoor-to-indoor navigation. This repository currently contains a pinned VoiceGIS compatibility harness and a proposed mobility-data contract. It is not a deployed navigation product.
+Foundations for mobility-aware outdoor-to-indoor navigation: a native routing core, a pinned VoiceGIS compatibility harness and a draft mobility-data contract. It is not a deployed navigation product.
 
 ## Run the checks
 
@@ -35,9 +35,9 @@ The synthetic data demonstrates software behavior. It does not establish physica
 
 The Rust toolchain is pinned in `rust-toolchain.toml`. Run `cargo test --workspace --locked` for native tests and `cargo clippy --workspace --all-targets --locked -- -D warnings` for lint checks. `npm run test:native` builds the JSON-lines search CLI and checks it against TypeScript-evaluated mobility fixtures on Linux and Windows in CI. The [CLI protocol](docs/native-search-protocol.md) accepts already evaluated edges; its snapshot labels are supplied by the caller.
 
-Native [edge eligibility](docs/native-eligibility.md) combines physical requirements with access rules, closures and entrance registration. The [document loader](docs/native-loading.md) validates complete bundle/profile/context JSON and computes their identities before evaluating edges or issuing [supplied-path receipts](docs/native-path-receipts.md). The `wayform-mobility` [document protocol](docs/native-mobility-protocol.md) exposes supplied-path assessment and suitable-route selection over JSON lines. Complete legacy output parity, Android screens, Go services, geographic ingestion and production synchronization are later work.
+Native [edge eligibility](docs/native-eligibility.md) combines physical requirements with access rules, closures and entrance registration. The [document loader](docs/native-loading.md) validates complete bundle/profile/context JSON and computes their identities before evaluating edges or issuing [supplied-path receipts](docs/native-path-receipts.md). The `wayform-mobility` [document protocol](docs/native-mobility-protocol.md) exposes supplied-path assessment and suitable-route selection over JSON lines. Android screens, Go services, geographic ingestion and production synchronization are later work.
 
-An isolated [legacy search component and batch CLI](docs/native-legacy-search.md) preserve VoiceGIS's undirected adjacency and queue tie behavior. `test:native` compares exact node paths and distances for all 7,238 pinned journeys under three protocol versions, plus resolved-closure, search and policy-routing cases: 21,868 queries in total. Protocol `0.3.0` verifies complete packages in Rust; the earlier protocols retain host-supplied projections. Native directions, graphics and legacy receipts remain incomplete.
+An isolated [legacy search component and batch CLI](docs/native-legacy-search.md) preserve VoiceGIS's undirected adjacency and queue tie behavior. `test:native` retains 21,868 search/projection comparisons and separately compares all 7,238 [complete native route results](docs/native-legacy-routes.md) through protocol `0.4.0`: paths, destination metadata, landmark directions, graphic assessments and receipts. Complete packages are verified in Rust. Bearings use a documented nine-decimal comparison boundary; other result fields are exact. The original TypeScript fingerprints remain unchanged.
 
 A [native venue loader](docs/native-legacy-packages.md) now validates complete legacy package records, references and content hashes before constructing the search graph. Its immutable package can supply matching policy/session projections. The original TypeScript verifier remains the comparison reference.
 

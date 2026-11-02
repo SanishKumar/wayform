@@ -103,43 +103,96 @@ fn complete_packages_drive_search_and_policy_resolution_without_host_projections
 
 #[test]
 fn complete_package_protocol_rejects_tampering_and_projection_overrides() {
-    let valid = venue_request();
-    let mut requests = Vec::new();
-    let mut changed = valid.clone();
-    changed["venuePackage"]["building"]["name"] = json!("Tampered venue");
-    requests.push(changed);
-    for key in ["nodes", "edges", "package"] {
+    for version in ["0.3.0", "0.4.0"] {
+        let mut valid = venue_request();
+        valid["protocolVersion"] = json!(version);
+        let mut requests = Vec::new();
         let mut changed = valid.clone();
-        changed[key] = json!([]);
+        changed["venuePackage"]["building"]["name"] = json!("Tampered venue");
         requests.push(changed);
+        for key in ["nodes", "edges", "package"] {
+            let mut changed = valid.clone();
+            changed[key] = json!([]);
+            requests.push(changed);
+        }
+        let mut changed = valid.clone();
+        changed["queries"][0]["options"]["closedEdgeIds"] = json!([]);
+        requests.push(changed);
+        let mut changed = valid.clone();
+        changed["queries"][0]["policy"]["overlay"] = json!({});
+        requests.push(changed);
+        let mut changed = valid.clone();
+        changed["venuePackage"]["routing"]["edges"][0]
+            .as_object_mut()
+            .unwrap()
+            .remove("accessible");
+        requests.push(changed);
+        let mut lines: Vec<_> = requests.iter().map(Value::to_string).collect();
+        let duplicated = valid.to_string().replacen(
+            "\"hashAlgorithm\":",
+            "\"hashAlgorithm\":\"sha256\",\"hashAlgorithm\":",
+            1,
+        );
+        lines.push(duplicated);
+        lines.push(valid.to_string());
+        let responses = run((lines.join("\n") + "\n").into_bytes());
+        assert_eq!(responses.len(), lines.len());
+        for response in &responses[..responses.len() - 1] {
+            assert_eq!(response["outcome"], "rejected");
+            assert!(response.get("results").is_none());
+        }
+        assert_eq!(responses.last().unwrap()["outcome"], "completed");
     }
-    let mut changed = valid.clone();
-    changed["queries"][0]["options"]["closedEdgeIds"] = json!([]);
-    requests.push(changed);
-    let mut changed = valid.clone();
-    changed["queries"][0]["policy"]["overlay"] = json!({});
-    requests.push(changed);
-    let mut changed = valid.clone();
-    changed["venuePackage"]["routing"]["edges"][0]
-        .as_object_mut()
-        .unwrap()
-        .remove("accessible");
-    requests.push(changed);
-    let mut lines: Vec<_> = requests.iter().map(Value::to_string).collect();
-    let duplicated = valid.to_string().replacen(
-        "\"hashAlgorithm\":",
-        "\"hashAlgorithm\":\"sha256\",\"hashAlgorithm\":",
-        1,
+}
+
+#[test]
+fn complete_result_protocol_returns_receipts_and_gates_expired_stationary_routes() {
+    let mut batch = venue_request();
+    batch["protocolVersion"] = json!("0.4.0");
+    let overlay: Value = serde_json::from_str(include_str!("../../../compat/voicegis/upstream/buildings/asterion-medical-center/operations/all-public-lifts-closed.overlay.json")).unwrap();
+    let mut queries = vec![batch["queries"][0].clone(); 4];
+    for (i, query) in queries.iter_mut().enumerate() {
+        query["queryId"] = json!(format!("q{i}"));
+    }
+    queries[1]["policy"] =
+        json!({"mode":"overlay","overlay":overlay,"evaluatedAt":"2026-07-22T12:00:00.000Z"});
+    queries[1]["options"]["accessibleOnly"] = json!(true);
+    queries[2]["destinationId"] = queries[2]["startId"].clone();
+    queries[2]["policy"] =
+        json!({"mode":"overlay","overlay":overlay,"evaluatedAt":overlay["validUntil"]});
+    queries[3]["destinationId"] = json!("missing");
+    batch["queries"] = json!(queries);
+    let response = run(batch.to_string().into_bytes());
+    assert_eq!(response[0]["protocolVersion"], "0.4.0");
+    assert_eq!(response[0]["outcome"], "completed");
+    let results = response[0]["results"].as_array().unwrap();
+    assert_eq!(results[0]["found"], true);
+    assert!(results[0]["steps"].as_array().unwrap().len() > 1);
+    assert_eq!(results[0]["receipt"]["status"], "routed");
+    assert_eq!(results[0]["displayClearance"]["centerlineValid"], true);
+    assert!(results[0].get("overlayResolution").is_none());
+    assert_eq!(results[1]["receipt"]["status"], "unroutable");
+    assert_eq!(results[2]["receipt"]["status"], "rejected");
+    assert_eq!(results[3]["receipt"]["status"], "unroutable");
+    for result in &results[1..] {
+        assert_eq!(result["found"], false);
+        assert!(result.get("path").is_none());
+        assert!(result.get("steps").is_none());
+    }
+    let mut excessive = batch.clone();
+    excessive["queries"] = json!(
+        (0..101)
+            .map(|i| {
+                let mut query = batch["queries"][0].clone();
+                query["queryId"] = json!(i.to_string());
+                query
+            })
+            .collect::<Vec<_>>()
     );
-    lines.push(duplicated);
-    lines.push(valid.to_string());
-    let responses = run((lines.join("\n") + "\n").into_bytes());
-    assert_eq!(responses.len(), lines.len());
-    for response in &responses[..responses.len() - 1] {
-        assert_eq!(response["outcome"], "rejected");
-        assert!(response.get("results").is_none());
-    }
-    assert_eq!(responses.last().unwrap()["outcome"], "completed");
+    let response = run(format!("{excessive}\n{batch}").into_bytes());
+    assert_eq!(response[0]["error"]["code"], "invalid-batch");
+    assert!(response[0].get("results").is_none());
+    assert_eq!(response[1]["outcome"], "completed");
 }
 
 #[test]

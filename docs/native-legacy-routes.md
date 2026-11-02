@@ -9,3 +9,11 @@ Input absence is explicit: `None` means no operational overlay; a supplied malfo
 Eight complete representative results and the original twelve policy outcomes are compared with untouched reference results. Eleven altered-map cases verify that invalid geometry cannot leak guidance while insufficient graphic clearance can retain text. Bearing comparisons use the existing nine-decimal comparison boundary; other result fields are exact. The component-level corpora separately cover all 7,238 original paths, base/landmark instructions and display assessments.
 
 This API is a snapshot. A mobile host must use a live session to gate displayed and spoken guidance, invalidate on policy/profile/package changes and reacquire location when needed. Neither an integrity hash nor a legacy `wheelchair` receipt proves physical accessibility. Individual measured requirements belong to the separate mobility contract.
+
+## Complete-result protocol
+
+`wayform-legacy-search` protocol `0.4.0` accepts the same verified `venuePackage` envelope and explicit per-query policy as `0.3.0`. Each result contains `queryId` and the complete legacy result, including its receipt. Invalid overlays are represented by rejected legacy receipts. Resource and unsupported-input failures instead contain `outcome: "rejected"` and an error code, with no path or directions. There is no separate `overlayResolution` field in this version.
+
+Complete-result batches allow 1–100 queries and retain the 16 MiB request/response bounds. A response that exceeds the bound rejects the batch without partial results. Versions `0.1.0` through `0.3.0` retain their existing response shapes and limits.
+
+`scripts/native-legacy-route-conformance.ts` sends all 7,238 pinned journeys through this protocol in bounded batches. Each expected complete result must first match its original fingerprint; then native and reference paths, metadata, directions, graphic assessments and receipts are compared, with only the documented bearing rounding. This runs in addition to the retained 21,868 search/projection comparisons. CLI tests cover expired stationary journeys, lift outages, unknown endpoints, tampering, projection overrides and the complete-result query limit.

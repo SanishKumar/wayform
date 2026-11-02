@@ -2,7 +2,7 @@
 
 `LegacyGraph` preserves the search portion of VoiceGIS `routingCore.ts` at commit `305c70bd418d7fd2b6f0ebf7a2ecd0ddcb9b9b7f`. It is separate from the directed mobility engine. The original source and rights statement remain in `compat/voicegis/upstream/`.
 
-This component returns selected node IDs and total distance, or unknown-endpoint/no-route outcomes. The batch CLI also supports native operational-overlay validation before search. It does not yet load a complete venue package, verify package integrity, generate instructions, validate route graphics or issue the original route receipt. The existing TypeScript compatibility harness remains authoritative for those boundaries.
+This component returns selected node IDs and total distance, or unknown-endpoint/no-route outcomes. The batch CLI also supports native operational-overlay validation before search. Protocol `0.3.0` verifies complete venue packages, while `0.4.0` adds [complete native route results](native-legacy-routes.md), including instructions, graphic assessments and receipts. The search-only protocols retain their original response shapes. The unchanged TypeScript compatibility harness remains the comparison reference.
 
 ## Preserved behavior
 

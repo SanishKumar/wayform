@@ -4,11 +4,14 @@ mod support;
 use std::collections::HashSet;
 use std::io;
 
-use legacy_protocol::{POLICY_VERSION, Policy, Query, Request, SEARCH_VERSION, VENUE_VERSION};
+use legacy_protocol::{
+    COMPLETE_VERSION, POLICY_VERSION, Policy, Query, Request, SEARCH_VERSION, VENUE_VERSION,
+};
 use serde::Serialize;
 use wayform_core::{
-    LEGACY_SOURCE_COMMIT, LegacyGraph, LegacyOverlayResolution, LegacyPolicyError,
-    LegacyPolicyIndex, LegacySearchError, LegacySearchOutcome, parse_bounded_json,
+    LEGACY_SOURCE_COMMIT, LegacyCompiledOptions, LegacyGraph, LegacyOverlayResolution,
+    LegacyPolicyError, LegacyPolicyIndex, LegacyRouteError, LegacySearchError, LegacySearchOutcome,
+    LegacyVenuePackage, parse_bounded_json,
 };
 
 const MAX_QUERIES: usize = 10_000;
@@ -44,6 +47,7 @@ struct QueryResponse {
 #[derive(Serialize)]
 #[serde(untagged)]
 enum QueryResult {
+    Complete(serde_json::Value),
     Search(LegacySearchOutcome),
     Rejected {
         outcome: &'static str,
@@ -92,8 +96,16 @@ fn execute(request: Request) -> BatchResult {
     if request.source_commit != LEGACY_SOURCE_COMMIT {
         return rejected("unsupported-source", "unsupported reference source commit");
     }
-    if request.queries.is_empty() || request.queries.len() > MAX_QUERIES {
-        return rejected("invalid-batch", "expected between 1 and 10000 queries");
+    let max_queries = if request.version == COMPLETE_VERSION {
+        100
+    } else {
+        MAX_QUERIES
+    };
+    if request.queries.is_empty() || request.queries.len() > max_queries {
+        return rejected(
+            "invalid-batch",
+            format!("expected between 1 and {max_queries} queries"),
+        );
     }
     let mut ids = HashSet::new();
     if request.queries.iter().any(|query| {
@@ -139,16 +151,26 @@ fn execute(request: Request) -> BatchResult {
     } else {
         None
     };
-    let graph = match request
-        .verified_graph
-        .map_or_else(|| LegacyGraph::new(request.nodes, request.edges), Ok)
-    {
-        Ok(graph) => graph,
-        Err(error) => return rejected(error_code(&error), error),
+    let graph = if request.verified_venue.is_some() {
+        None
+    } else {
+        Some(
+            match request
+                .verified_graph
+                .map_or_else(|| LegacyGraph::new(request.nodes, request.edges), Ok)
+            {
+                Ok(graph) => graph,
+                Err(error) => return rejected(error_code(&error), error),
+            },
+        )
     };
     let mut results = Vec::with_capacity(request.queries.len());
     for query in request.queries {
-        let item = execute_query(&graph, policy_index.as_ref(), query);
+        let item = if let Some(venue) = &request.verified_venue {
+            execute_complete_query(venue, query)
+        } else {
+            execute_query(graph.as_ref().unwrap(), policy_index.as_ref(), query)
+        };
         let size = match serde_json::to_vec(&item) {
             Ok(bytes) => bytes.len(),
             Err(error) => return rejected("encoding-failed", error),
@@ -169,6 +191,43 @@ fn query_rejection(code: &'static str, message: impl ToString) -> QueryResult {
     QueryResult::Rejected {
         outcome: "rejected",
         error: failure(code, message),
+    }
+}
+
+fn execute_complete_query(venue: &LegacyVenuePackage, query: Query) -> QueryResponse {
+    let (operational_overlay, evaluated_at) = match query.policy {
+        Policy::None => (None, None),
+        Policy::Overlay {
+            overlay,
+            evaluated_at,
+        } => (Some(overlay), Some(evaluated_at)),
+    };
+    let options = LegacyCompiledOptions {
+        accessible_only: query.options.accessible_only,
+        allow_restricted: query.options.allow_restricted,
+        operational_overlay,
+        evaluated_at,
+    };
+    let result = match venue.calculate_route(&query.start_id, &query.destination_id, &options) {
+        Ok(route) => QueryResult::Complete(route),
+        Err(error) => {
+            let code = match &error {
+                LegacyRouteError::Search(error) => error_code(error),
+                LegacyRouteError::Policy(LegacyPolicyError::WorkLimitExceeded) => {
+                    "work-limit-exceeded"
+                }
+                LegacyRouteError::Policy(LegacyPolicyError::InvalidPackage) => {
+                    "invalid-policy-package"
+                }
+                LegacyRouteError::UnsupportedConnectorId => "unsupported-connector-id",
+            };
+            query_rejection(code, error)
+        }
+    };
+    QueryResponse {
+        query_id: query.query_id,
+        overlay_resolution: None,
+        result,
     }
 }
 
@@ -235,6 +294,7 @@ fn process(bytes: &[u8]) -> Response {
         Some(SEARCH_VERSION) => SEARCH_VERSION,
         Some(POLICY_VERSION) => POLICY_VERSION,
         Some(VENUE_VERSION) => VENUE_VERSION,
+        Some(COMPLETE_VERSION) => COMPLETE_VERSION,
         Some(_) => {
             return response(
                 SEARCH_VERSION,
@@ -245,7 +305,7 @@ fn process(bytes: &[u8]) -> Response {
                     .map(str::to_owned),
                 rejected(
                     "unsupported-protocol",
-                    "expected protocolVersion 0.1.0, 0.2.0 or 0.3.0",
+                    "expected protocolVersion 0.1.0, 0.2.0, 0.3.0 or 0.4.0",
                 ),
             );
         }
