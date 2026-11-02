@@ -1,0 +1,27 @@
+[package]
+name = "wayform-mobile"
+version = "0.1.0"
+description = "Mobile bindings for WAYFORM venue navigation"
+edition.workspace = true
+rust-version = "1.88"
+publish.workspace = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+# UniFFI emits the FFI glue. The navigation core keeps unsafe_code = forbid.
+[lints.clippy]
+all = "warn"
+
+[features]
+bindgen = ["uniffi/cli"]
+
+[dependencies]
+wayform-core = { path = "../wayform-core" }
+serde_json = { version = "1.0.154", features = ["float_roundtrip"] }
+uniffi = "=0.32.2"
+
+[[bin]]
+name = "wayform-bindgen"
+path = "src/bin/bindgen.rs"
+required-features = ["bindgen"]

@@ -1,0 +1,31 @@
+name: Android native core
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  native:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - run: rustup toolchain install 1.99.1 --profile minimal
+      - name: Install pinned NDK
+        run: sdkmanager 'ndk;28.2.13676358'
+      - name: Build Kotlin bindings and Android libraries
+        run: bash scripts/build-android-core.sh
+      - uses: actions/upload-artifact@v6
+        with:
+          name: android-native-core
+          path: target/android-mobile/
+          if-no-files-found: error
+          retention-days: 7

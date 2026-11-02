@@ -1,0 +1,5 @@
+[bindings.kotlin]
+package_name = "app.wayform.core"
+android = true
+kotlin_target_version = "2.3.0"
+generate_immutable_records = true
