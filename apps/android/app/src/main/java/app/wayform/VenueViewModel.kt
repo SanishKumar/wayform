@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import app.wayform.core.MobileVenue
+import app.wayform.core.MobileException
 import app.wayform.core.TripStopReason
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -29,6 +30,7 @@ data class VenueState(
     val stepIndex: Int = 0,
     val policyLabel: String? = null,
     val notice: String? = null,
+    val checkInLabel: String? = null,
 )
 
 class VenueViewModel(application: Application) : AndroidViewModel(application) {
@@ -43,6 +45,9 @@ class VenueViewModel(application: Application) : AndroidViewModel(application) {
     private var watch: Job? = null
     private var foreground = true
     private var planningTrip = false
+    private val speech = OfflineSpeech(application)
+    val speechReady = speech.ready
+    private fun errorText(error: Exception, fallback: String): String = if (error is MobileException.Failed) error.detail else error.message ?: fallback
 
     init { load() }
     fun load(id: String? = null) {
@@ -69,7 +74,7 @@ class VenueViewModel(application: Application) : AndroidViewModel(application) {
                 mutableState.value = VenueState(false, result.first, result.third, startId = result.third.startId, avoidStairs = preferences.getBoolean("avoidStairs", false))
             } catch (error: Exception) {
                 loaded?.close()
-                if (request == generation) mutableState.value = mutableState.value.copy(busy = false, error = error.message ?: "Could not open the venue.")
+                if (request == generation) mutableState.value = mutableState.value.copy(busy = false, error = errorText(error, "Could not open the venue."))
             }
         }
     }
@@ -79,7 +84,7 @@ class VenueViewModel(application: Application) : AndroidViewModel(application) {
         stopTrip(TripStopReason.CONTEXT_CHANGED)
         val request = ++generation
         preferences.edit().putBoolean("avoidStairs", avoidStairs).apply()
-        mutableState.value = state.value.copy(destination = destination, startId = startId, avoidStairs = avoidStairs, route = null, busy = true, error = null, confirmed = false, active = false, notice = null, stepIndex = 0)
+        mutableState.value = state.value.copy(destination = destination, startId = startId, avoidStairs = avoidStairs, route = null, busy = true, error = null, confirmed = false, active = false, notice = null, stepIndex = 0, checkInLabel = if (startId == state.value.startId) state.value.checkInLabel else null)
         viewModelScope.launch {
             try {
                 val route = withContext(Dispatchers.Default) { JSONObject(venue.preview(startId, destination.id, avoidStairs)) }
@@ -87,7 +92,7 @@ class VenueViewModel(application: Application) : AndroidViewModel(application) {
                 check(route.getBoolean("found")) { route.optString("error", "No route is available with these options.") }
                 mutableState.value = state.value.copy(busy = false, route = route)
             } catch (error: Exception) {
-                if (request == generation) mutableState.value = state.value.copy(busy = false, route = null, error = error.message ?: "Could not plan this route.")
+                if (request == generation) mutableState.value = state.value.copy(busy = false, route = null, error = errorText(error, "Could not plan this route."))
             }
         }
     }
@@ -121,7 +126,7 @@ class VenueViewModel(application: Application) : AndroidViewModel(application) {
                 policy = bytes.copyOf()
                 mutableState.value = state.value.copy(busy = false, policyLabel = label, notice = "Conditions loaded. Confirm your starting place before beginning.")
             } catch (error: Exception) {
-                if (request == generation) mutableState.value = state.value.copy(busy = false, error = error.message ?: "Conditions are unavailable.")
+                if (request == generation) mutableState.value = state.value.copy(busy = false, error = errorText(error, "Conditions are unavailable."))
             }
         }
     }
@@ -161,12 +166,13 @@ class VenueViewModel(application: Application) : AndroidViewModel(application) {
                 pending?.close()
                 if (request == generation) {
                     planningTrip = false
-                    mutableState.value = state.value.copy(busy = false, active = false, route = null, confirmed = false, error = error.message ?: "Guidance is unavailable.")
+                    mutableState.value = state.value.copy(busy = false, active = false, route = null, confirmed = false, error = errorText(error, "Guidance is unavailable."))
                 }
             }
         }
     }
     fun nextInstruction() {
+        speech.stop()
         val guard = trip ?: return
         try {
             val route = guard.read()
@@ -174,6 +180,34 @@ class VenueViewModel(application: Application) : AndroidViewModel(application) {
                 recover("Journey complete. You marked your arrival.")
             } else mutableState.value = state.value.copy(route = route, stepIndex = state.value.stepIndex + 1)
         } catch (error: Exception) { recover(error.message ?: "Guidance is unavailable.") }
+    }
+    fun readInstruction() {
+        val guard = trip ?: return
+        try {
+            val route = guard.read()
+            if (!speech.speak(route.getJSONArray("steps").getJSONObject(state.value.stepIndex).getString("instruction"))) {
+                mutableState.value = state.value.copy(notice = "An offline voice is unavailable. You can follow the written directions.")
+            }
+        } catch (error: Exception) { recover(errorText(error, "Guidance is unavailable.")) }
+    }
+    fun checkIn(payload: String) {
+        val venue = native ?: return
+        stopTrip(TripStopReason.CONTEXT_CHANGED)
+        val request = ++generation
+        mutableState.value = state.value.copy(active = false, route = null, confirmed = false, busy = true, error = null, notice = null)
+        viewModelScope.launch {
+            try {
+                val result = withContext(Dispatchers.Default) { JSONObject(venue.checkIn(payload)) }
+                if (request != generation) return@launch
+                check(result.getBoolean("ok")) { "This code is not a recognized check-in for this venue. Choose a starting place or try another sign." }
+                val anchor = result.getJSONObject("anchor")
+                val floor = state.value.catalog!!.raw.getJSONArray("floors").objects().first { it.getString("id") == anchor.getString("floorId") }.getString("name")
+                val label = "${anchor.getString("id")} · $floor"
+                mutableState.value = state.value.copy(busy = false, startId = result.getString("nodeId"), checkInLabel = label, notice = "Code recognized. Confirm that you are beside sign $label before beginning.")
+            } catch (error: Exception) {
+                if (request == generation) mutableState.value = state.value.copy(busy = false, error = errorText(error, "Check-in is unavailable."))
+            }
+        }
     }
     fun recover(message: String = "Guidance paused. Choose your current starting place and confirm it before restarting.") {
         generation++
@@ -187,6 +221,7 @@ class VenueViewModel(application: Application) : AndroidViewModel(application) {
         else mutableState.value = state.value.copy(confirmed = false)
     }
     private fun stopTrip(reason: TripStopReason) {
+        speech.stop()
         watch?.cancel(); watch = null
         val previous = trip
         trip = null
@@ -194,5 +229,5 @@ class VenueViewModel(application: Application) : AndroidViewModel(application) {
         runCatching { previous?.stop(reason) }
         planningTrip = false
     }
-    override fun onCleared() { generation++; stopTrip(TripStopReason.CANCELLED); native?.close(); store.close() }
+    override fun onCleared() { generation++; stopTrip(TripStopReason.CANCELLED); speech.close(); native?.close(); store.close() }
 }

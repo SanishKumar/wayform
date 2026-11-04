@@ -19,6 +19,8 @@ import androidx.compose.ui.test.performTextClearance
 import org.junit.Rule
 import org.junit.Test
 import androidx.lifecycle.Lifecycle
+import androidx.test.platform.app.InstrumentationRegistry
+import org.json.JSONObject
 
 class VenueScreenTest {
     @get:Rule val compose = createAndroidComposeRule<MainActivity>()
@@ -72,6 +74,24 @@ class VenueScreenTest {
         startSampleJourney()
         compose.activityRule.scenario.moveToState(Lifecycle.State.CREATED)
         compose.activityRule.scenario.moveToState(Lifecycle.State.RESUMED)
+        compose.onNodeWithTag("route-loading").performScrollToNode(hasText("Start sample journey"))
+        compose.onNodeWithText("Start sample journey").assertIsNotEnabled()
+    }
+    @Test fun recognizedCheckInStillRequiresConfirmationAndForeignCodesFail() {
+        findCardiology()
+        compose.onNodeWithText("Heart & Vascular Clinic").performClick()
+        compose.waitUntil(30_000) { compose.onAllNodesWithTag("route-ready").fetchSemanticsNodes().isNotEmpty() }
+        compose.onNodeWithText("Enter code").performClick()
+        compose.onNodeWithText("Check-in code").performTextInput("not-a-venue-code")
+        compose.onNodeWithText("Check code").performClick()
+        compose.waitUntil(30_000) { compose.onAllNodesWithText("This code is not a recognized check-in", substring = true).fetchSemanticsNodes().isNotEmpty() }
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val packageJson = context.assets.open("venues/asterion-medical-center.json").use { JSONObject(it.readBytes().toString(Charsets.UTF_8)) }
+        val payload = packageJson.getJSONArray("localizationAnchors").objects().first { it.getString("kind") == "qr" }.getString("payload")
+        compose.onNodeWithText("Enter code").performClick()
+        compose.onNodeWithText("Check-in code").performTextInput(payload)
+        compose.onNodeWithText("Check code").performClick()
+        compose.waitUntil(30_000) { compose.onAllNodesWithText("Code recognized.", substring = true).fetchSemanticsNodes().isNotEmpty() }
         compose.onNodeWithTag("route-loading").performScrollToNode(hasText("Start sample journey"))
         compose.onNodeWithText("Start sample journey").assertIsNotEnabled()
     }

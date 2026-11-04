@@ -44,7 +44,7 @@ A [native venue loader](docs/native-legacy-packages.md) now validates complete l
 
 The [native legacy overlay resolver](docs/native-legacy-policies.md) checks closure targets, package binding and expiry against a host-verified package projection. Protocol `0.2.0` validates these policies before routing, blocks invalid overlays and requires explicit policy absence. Its comparisons preserve legacy issue ordering and UTF-16 sorting. A [native expiry lease](docs/native-legacy-leases.md) now latches wall/monotonic expiry and clock failures, with 105 reference traces. Hosts must retain and check it during guidance; the batch CLI remains stateless.
 
-The [native route session](docs/native-legacy-sessions.md) now owns a planned path and its lease together. Every path read checks freshness; policy removal or other host-reported changes can permanently withdraw the route. Mobile bindings expose complete guidance under this lease. Android clears guidance on expiry, recovery and suspension; speech is being integrated.
+The [native route session](docs/native-legacy-sessions.md) now owns a planned path and its lease together. Every path read checks freshness; policy removal or other host-reported changes can permanently withdraw the route. Mobile bindings expose complete guidance under this lease. Android clears guidance and stops speech on expiry, recovery and suspension.
 
 ## Updating baselines
 

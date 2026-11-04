@@ -1,5 +1,6 @@
 package app.wayform
 
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -12,6 +13,9 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.journeyapps.barcodescanner.ScanContract
+import com.journeyapps.barcodescanner.ScanOptions
 import kotlin.math.roundToInt
 
 @Composable
@@ -23,6 +27,10 @@ fun RouteScreen(state: VenueState, model: VenueViewModel) {
     var floorId by remember(catalog.id, state.startId) { mutableStateOf(start?.floorId ?: floors.first().getString("id")) }
     var chooseStart by remember { mutableStateOf(false) }
     var chooseConditions by remember { mutableStateOf(false) }
+    var enterCode by remember { mutableStateOf(false) }
+    var code by remember { mutableStateOf("") }
+    val scanner = rememberLauncherForActivityResult(ScanContract()) { result -> result.contents?.let(model::checkIn) }
+    val speechReady by model.speechReady.collectAsStateWithLifecycle()
     val route = state.route
     LaunchedEffect(state.active, state.stepIndex) {
         if (state.active) route?.getJSONArray("steps")?.getJSONObject(state.stepIndex)?.optString("floorId")?.takeIf { id -> floors.any { it.getString("id") == id } }?.let { floorId = it }
@@ -34,7 +42,13 @@ fun RouteScreen(state: VenueState, model: VenueViewModel) {
             Text(destination.name, style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.SemiBold)
             Text(destination.floorName, style = MaterialTheme.typography.bodyMedium)
         }
-        if (!state.active) item { OutlinedButton(onClick = { chooseStart = true }, modifier = Modifier.fillMaxWidth(), enabled = !state.busy) { Text("From: ${start?.name ?: "Check-in location"}") } }
+        if (!state.active) item {
+            OutlinedButton(onClick = { chooseStart = true }, modifier = Modifier.fillMaxWidth(), enabled = !state.busy) { Text("From: ${state.checkInLabel ?: start?.name ?: "Check-in location"}") }
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                TextButton(onClick = { scanner.launch(ScanOptions().setDesiredBarcodeFormats(ScanOptions.QR_CODE).setBeepEnabled(false).setBarcodeImageEnabled(false).setOrientationLocked(false).setPrompt("Scan a venue check-in sign")) }, enabled = !state.busy) { Text("Scan QR sign") }
+                TextButton(onClick = { code = ""; enterCode = true }, enabled = !state.busy) { Text("Enter code") }
+            }
+        }
         if (!state.active) item {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Column(Modifier.weight(1f)) {
@@ -65,6 +79,7 @@ fun RouteScreen(state: VenueState, model: VenueViewModel) {
                     Text(steps.getJSONObject(state.stepIndex).getString("instruction"), style = MaterialTheme.typography.titleLarge)
                     Text("Advance each step manually. Your movement is not being tracked.", style = MaterialTheme.typography.bodySmall)
                     Button(onClick = model::nextInstruction) { Text(if (state.stepIndex + 1 == steps.length()) "Mark arrived" else "Next instruction") }
+                    OutlinedButton(onClick = model::readInstruction, enabled = speechReady) { Text(if (speechReady) "Read instruction" else "Offline voice unavailable") }
                     OutlinedButton(onClick = { model.recover() }) { Text("I'm not here") }
                 }
             }
@@ -94,4 +109,10 @@ fun RouteScreen(state: VenueState, model: VenueViewModel) {
             TextButton(onClick = { chooseConditions = false; model.sampleConditions(false, short = true) }) { Text("Open for 30 seconds") }
         }
     }, confirmButton = { TextButton(onClick = { chooseConditions = false }) { Text("Close") } })
+    if (enterCode) AlertDialog(onDismissRequest = { enterCode = false }, title = { Text("Venue check-in code") }, text = {
+        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text("Paste the full code from a venue sign. A recognized code still needs your location confirmation.")
+            OutlinedTextField(code, { if (it.length <= 4096) code = it }, label = { Text("Check-in code") }, singleLine = true)
+        }
+    }, confirmButton = { TextButton(onClick = { enterCode = false; model.checkIn(code) }, enabled = code.isNotBlank()) { Text("Check code") } }, dismissButton = { TextButton(onClick = { enterCode = false }) { Text("Cancel") } })
 }
