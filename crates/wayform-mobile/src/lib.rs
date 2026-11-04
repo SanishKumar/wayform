@@ -14,19 +14,19 @@ uniffi::setup_scaffolding!();
 
 #[derive(Debug, uniffi::Error)]
 pub enum MobileError {
-    Failed { message: String },
+    Failed { detail: String },
 }
 impl fmt::Display for MobileError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            Self::Failed { message } => f.write_str(message),
+            Self::Failed { detail } => f.write_str(detail),
         }
     }
 }
 impl std::error::Error for MobileError {}
 fn failed(message: impl ToString) -> MobileError {
     MobileError::Failed {
-        message: message.to_string().chars().take(512).collect(),
+        detail: message.to_string().chars().take(512).collect(),
     }
 }
 fn encode(value: &Value) -> Result<String, MobileError> {
