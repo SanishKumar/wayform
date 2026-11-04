@@ -31,9 +31,20 @@ jobs:
           echo "$RUNNER_TEMP/android-sdk/cmdline-tools/latest/bin" >> "$GITHUB_PATH"
           { yes || true; } | "$RUNNER_TEMP/android-sdk/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null
       - name: Install pinned NDK
-        run: sdkmanager 'ndk;28.2.13676358'
+        run: sdkmanager 'ndk;28.2.13676358' 'platforms;android-36' 'build-tools;35.0.0'
       - name: Build Kotlin bindings and Android libraries
         run: bash scripts/build-android-core.sh
+      - name: Check and assemble Android app
+        working-directory: apps/android
+        run: bash gradlew :app:assembleDebug :app:assembleDebugAndroidTest :app:lintDebug :app:testDebugUnitTest --no-daemon
+      - uses: actions/upload-artifact@v6
+        with:
+          name: android-debug
+          path: |
+            apps/android/app/build/outputs/apk/
+            apps/android/app/build/reports/lint-results-debug.html
+          if-no-files-found: error
+          retention-days: 7
       - uses: actions/upload-artifact@v6
         with:
           name: android-native-core
