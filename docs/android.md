@@ -1,6 +1,6 @@
 # Android application
 
-The Android app currently provides a searchable offline catalog of four synthetic VoiceGIS venues. It verifies package bytes with the Rust core before storing them in SQLite and verifies them again when opening a venue. The selected venue survives process restarts. Failed imports cannot replace stored bytes. No network permission is requested. Route guidance screens are still being integrated.
+The Android app provides a searchable offline catalog of four synthetic VoiceGIS venues, native route previews, floor maps, selectable starting places and an authored stairs-exclusion option. It verifies package bytes with the Rust core before storing them in SQLite and verifies them again when opening a venue. The selected venue and stairs option survive process restarts. Failed imports cannot replace stored bytes. No network permission is requested. Live guidance is still being integrated.
 
 The app targets Android 8.0 (API 26) and later on arm64 or x86_64. Build requirements are JDK 17, the pinned Rust toolchain, Android platform 36 and NDK 28.2.13676358. The Gradle wrapper pins Gradle 8.13 and its distribution checksum.
 
@@ -25,4 +25,6 @@ cd apps/android
 
 Device tests exercise the actual native library, verified catalog and route preview, rejection of corrupt packages, SQLite reopen and failed-write preservation. Sample assets are copied from the pinned compatibility source at build time; their original README and source lock are included in the APK. They are not surveyed real venues. Hash verification detects changed bytes, not publisher authenticity or physical accessibility.
 
-The initial catalog was checked on an Android 15 / API 35 x86_64 emulator: all three device tests passed, including the Compose search and venue-selection flow. Lint reported no errors. The app limits stored venue packages to 1 MiB to keep database rows within older Android cursor windows.
+The catalog and preview were checked on an Android 15 / API 35 x86_64 emulator: all four device tests passed, including Compose search, venue selection and route previews. Lint reported no errors. The app limits stored venue packages to 1 MiB to keep database rows within older Android cursor windows.
+
+Map coordinates use the venue's plan axes. Pinch and pan change the view; the reset control restores it. Route strokes never exceed the core's checked physical drawing width, and are withheld if its graphic assessment has issues. Endpoint markers are screen-space annotations. Floor changes do not imply a detected user position. The preview has no current operational lease and must not be presented as live guidance.

@@ -4,16 +4,23 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -41,7 +48,13 @@ fun VenueScreen(model: VenueViewModel = viewModel()) {
     var query by rememberSaveable { mutableStateOf("") }
     var chooseVenue by remember { mutableStateOf(false) }
     val catalog = state.catalog
-    LazyColumn(Modifier.fillMaxSize().safeDrawingPadding(), contentPadding = PaddingValues(24.dp), verticalArrangement = Arrangement.spacedBy(18.dp)) {
+    val keyboard = LocalSoftwareKeyboardController.current
+    if (catalog != null && state.destination != null) {
+        BackHandler { model.backToPlaces() }
+        RouteScreen(state, model)
+        return
+    }
+    LazyColumn(Modifier.fillMaxSize().safeDrawingPadding().testTag("venue-list"), contentPadding = PaddingValues(24.dp), verticalArrangement = Arrangement.spacedBy(18.dp)) {
         item {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Text("WAYFORM", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Black, color = Forest)
@@ -62,11 +75,11 @@ fun VenueScreen(model: VenueViewModel = viewModel()) {
         if (state.busy) item { LinearProgressIndicator(Modifier.fillMaxWidth()) }
         state.error?.let { message -> item { Text(message, color = MaterialTheme.colorScheme.error); Button(onClick = { model.load() }) { Text("Try again") } } }
         if (catalog != null && !state.busy) {
-            item { OutlinedTextField(query, { query = it }, label = { Text("Find a room or place") }, modifier = Modifier.fillMaxWidth(), singleLine = true, shape = RoundedCornerShape(16.dp)) }
+            item { OutlinedTextField(query, { query = it }, label = { Text("Find a room or place") }, modifier = Modifier.fillMaxWidth(), singleLine = true, shape = RoundedCornerShape(16.dp), keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search), keyboardActions = KeyboardActions(onSearch = { keyboard?.hide() })) }
             val results = catalog.destinations.filter { it.matches(query) }
             item { Text("${results.size} ${if (results.size == 1) "place" else "places"} · stored on this device", style = MaterialTheme.typography.labelLarge) }
             items(results, key = { it.id }) { destination ->
-                Column(Modifier.fillMaxWidth().background(Color.White, RoundedCornerShape(16.dp)).padding(18.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                Column(Modifier.fillMaxWidth().background(Color.White, RoundedCornerShape(16.dp)).clickable { model.preview(destination) }.padding(18.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                     Text(destination.name, style = MaterialTheme.typography.titleMedium)
                     Text(destination.floorName, style = MaterialTheme.typography.bodyMedium, color = Forest)
                 }

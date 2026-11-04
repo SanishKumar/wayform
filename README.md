@@ -20,7 +20,7 @@ After dependency installation, these checks need no network or adjacent VoiceGIS
 - **Mobility contract:** versioned JSON schemas, semantic validation, supplied-path assessment, a conservative legacy adapter and portable decision fixtures. The contract is `0.1.0-draft.1`.
 - **Quality checks:** TypeScript validation, regression tests and GitHub Actions on Linux/Windows with Node 22/24.
 - **Native core:** validated mobility documents, evidence and policy evaluation, deterministic directed route search and path receipts in `crates/wayform-core`. Snapshot-based routing distinguishes known exclusions from insufficient evidence and only selects suitable paths. Shared TypeScript fixtures check component, receipt and CLI behavior.
-- **Android app:** a searchable offline catalog backed by verified native packages and SQLite. See the [Android build and device checks](docs/android.md) and [mobile bindings](docs/mobile-bindings.md). Journey guidance screens are being integrated.
+- **Android app:** a searchable offline catalog, floor maps and native route previews backed by verified packages and SQLite. See the [Android build and device checks](docs/android.md) and [mobile bindings](docs/mobile-bindings.md). Live guidance is being integrated.
 
 | Location | Responsibility |
 | --- | --- |
