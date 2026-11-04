@@ -20,7 +20,7 @@ After dependency installation, these checks need no network or adjacent VoiceGIS
 - **Mobility contract:** versioned JSON schemas, semantic validation, supplied-path assessment, a conservative legacy adapter and portable decision fixtures. The contract is `0.1.0-draft.1`.
 - **Quality checks:** TypeScript validation, regression tests and GitHub Actions on Linux/Windows with Node 22/24.
 - **Native core:** validated mobility documents, evidence and policy evaluation, deterministic directed route search and path receipts in `crates/wayform-core`. Snapshot-based routing distinguishes known exclusions from insufficient evidence and only selects suitable paths. Shared TypeScript fixtures check component, receipt and CLI behavior.
-- **Android app:** a searchable offline catalog, floor maps and native route previews backed by verified packages and SQLite. See the [Android build and device checks](docs/android.md) and [mobile bindings](docs/mobile-bindings.md). Live guidance is being integrated.
+- **Android app:** offline venue search, floor maps, native previews and manual guidance under expiring conditions, backed by verified packages and SQLite. Bundled venues and condition simulations are fictional. See the [Android build and device checks](docs/android.md) and [mobile bindings](docs/mobile-bindings.md).
 
 | Location | Responsibility |
 | --- | --- |
@@ -44,7 +44,7 @@ A [native venue loader](docs/native-legacy-packages.md) now validates complete l
 
 The [native legacy overlay resolver](docs/native-legacy-policies.md) checks closure targets, package binding and expiry against a host-verified package projection. Protocol `0.2.0` validates these policies before routing, blocks invalid overlays and requires explicit policy absence. Its comparisons preserve legacy issue ordering and UTF-16 sorting. A [native expiry lease](docs/native-legacy-leases.md) now latches wall/monotonic expiry and clock failures, with 105 reference traces. Hosts must retain and check it during guidance; the batch CLI remains stateless.
 
-The [native route session](docs/native-legacy-sessions.md) now owns a planned path and its lease together. Every path read checks freshness; policy removal or other host-reported changes can permanently withdraw the route. Mobile bindings expose complete guidance under this lease; Android display/speech cancellation is being integrated.
+The [native route session](docs/native-legacy-sessions.md) now owns a planned path and its lease together. Every path read checks freshness; policy removal or other host-reported changes can permanently withdraw the route. Mobile bindings expose complete guidance under this lease. Android clears guidance on expiry, recovery and suspension; speech is being integrated.
 
 ## Updating baselines
 

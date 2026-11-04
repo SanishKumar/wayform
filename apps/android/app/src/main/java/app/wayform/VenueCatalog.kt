@@ -8,7 +8,7 @@ fun JSONArray.objects(): List<JSONObject> = (0 until length()).map { getJSONObje
 data class Destination(val id: String, val name: String, val floorId: String, val floorName: String, val category: String, val aliases: List<String>) {
     fun matches(query: String): Boolean = (listOf(name, category, floorName) + aliases).any { it.contains(query.trim(), ignoreCase = true) }
 }
-data class VenueCatalog(val raw: JSONObject) {
+data class VenueCatalog(val raw: JSONObject, val liftIds: List<String> = emptyList()) {
     val id: String = raw.getJSONObject("building").getString("id")
     val name: String = raw.getJSONObject("building").getString("name")
     val hash: String = raw.getString("packageHash")

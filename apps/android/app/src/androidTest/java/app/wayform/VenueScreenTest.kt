@@ -1,6 +1,7 @@
 package app.wayform
 
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.hasClickAction
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
@@ -17,6 +18,7 @@ import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.performTextClearance
 import org.junit.Rule
 import org.junit.Test
+import androidx.lifecycle.Lifecycle
 
 class VenueScreenTest {
     @get:Rule val compose = createAndroidComposeRule<MainActivity>()
@@ -45,5 +47,32 @@ class VenueScreenTest {
         compose.waitUntil(30_000) { compose.onAllNodesWithTag("route-ready").fetchSemanticsNodes().isNotEmpty() }
         compose.onNodeWithTag("route-ready").performScrollToNode(hasText("Preview only.", substring = true))
         compose.onNodeWithText("Preview only.", substring = true).assertIsDisplayed()
+    }
+    private fun startSampleJourney() {
+        findCardiology()
+        compose.onNodeWithText("Heart & Vascular Clinic").performClick()
+        compose.waitUntil(30_000) { compose.onAllNodesWithTag("route-ready").fetchSemanticsNodes().isNotEmpty() }
+        compose.onNodeWithTag("route-ready").performScrollToNode(hasText("Venue conditions"))
+        compose.onNodeWithText("Venue conditions").performClick()
+        compose.onNodeWithText("All modeled paths open").performClick()
+        compose.waitUntil(30_000) { compose.onAllNodesWithText("Simulated: open · 10 min").fetchSemanticsNodes().isNotEmpty() }
+        compose.onNodeWithTag("route-loading").performScrollToNode(hasText("Confirm this starting place"))
+        compose.onNodeWithText("Confirm this starting place").performClick()
+        compose.onNodeWithText("Start sample journey").performClick()
+        compose.waitUntil(30_000) { compose.onAllNodesWithTag("route-ready").fetchSemanticsNodes().isNotEmpty() }
+    }
+    @Test fun locationRecoveryClearsTheLiveJourney() {
+        startSampleJourney()
+        compose.onNodeWithTag("route-ready").performScrollToNode(hasText("I'm not here"))
+        compose.onNodeWithText("I'm not here").performClick()
+        compose.onNodeWithTag("route-loading").performScrollToNode(hasText("Start sample journey"))
+        compose.onNodeWithText("Start sample journey").assertIsNotEnabled()
+    }
+    @Test fun backgroundingRequiresNewLocationConfirmation() {
+        startSampleJourney()
+        compose.activityRule.scenario.moveToState(Lifecycle.State.CREATED)
+        compose.activityRule.scenario.moveToState(Lifecycle.State.RESUMED)
+        compose.onNodeWithTag("route-loading").performScrollToNode(hasText("Start sample journey"))
+        compose.onNodeWithText("Start sample journey").assertIsNotEnabled()
     }
 }

@@ -25,21 +25,25 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.ViewModelProvider
 
 val Forest = Color(0xFF173D35)
 val Paper = Color(0xFFF5F5F0)
 val Lime = Color(0xFFE2F29A)
 
 class MainActivity : ComponentActivity() {
+    private val venueModel by lazy { ViewModelProvider(this)[VenueViewModel::class.java] }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             MaterialTheme(colorScheme = lightColorScheme(primary = Forest, secondary = Forest, background = Paper, surface = Paper, primaryContainer = Lime, secondaryContainer = Lime, onSecondaryContainer = Forest)) {
-                Surface(Modifier.fillMaxSize(), color = Paper) { VenueScreen() }
+                Surface(Modifier.fillMaxSize(), color = Paper) { VenueScreen(venueModel) }
             }
         }
     }
+    override fun onResume() { super.onResume(); venueModel.resume() }
+    override fun onPause() { venueModel.suspendGuidance(); super.onPause() }
 }
 
 @Composable
