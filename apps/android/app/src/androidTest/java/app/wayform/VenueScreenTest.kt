@@ -21,11 +21,16 @@ import org.junit.Test
 import androidx.lifecycle.Lifecycle
 import androidx.test.platform.app.InstrumentationRegistry
 import org.json.JSONObject
+import androidx.lifecycle.ViewModelProvider
+import android.net.Uri
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNull
 
 class VenueScreenTest {
     @get:Rule val compose = createAndroidComposeRule<MainActivity>()
 
     private fun findCardiology() {
+        InstrumentationRegistry.getInstrumentation().targetContext.getSharedPreferences("wayform", 0).edit().remove("widthCm").remove("slopePercent").remove("noSteps").commit()
         compose.waitUntil(30_000) { compose.onAllNodesWithText("Find a room or place").fetchSemanticsNodes().isNotEmpty() }
         compose.onNodeWithText("Change venue").performClick()
         compose.onNode(hasText("Asterion University Medical Center") and hasClickAction()).performClick()
@@ -94,5 +99,48 @@ class VenueScreenTest {
         compose.waitUntil(30_000) { compose.onAllNodesWithText("Code recognized.", substring = true).fetchSemanticsNodes().isNotEmpty() }
         compose.onNodeWithTag("route-loading").performScrollToNode(hasText("Start sample journey"))
         compose.onNodeWithText("Start sample journey").assertIsNotEnabled()
+    }
+    @Test fun hardRequirementsWithdrawGuidanceAndSurviveRecreation() {
+        startSampleJourney()
+        compose.onNodeWithTag("route-ready").performScrollToNode(hasText("Mobility requirements"))
+        compose.onNodeWithText("Mobility requirements").performClick()
+        compose.onNodeWithText("Minimum clear width (cm)").performTextInput("90")
+        compose.onNodeWithText("Save requirements").performClick()
+        compose.onNodeWithTag("route-loading").performScrollToNode(hasText("No verified route:", substring = true))
+        compose.onNodeWithText("No verified route:", substring = true).assertIsDisplayed()
+        compose.onNodeWithTag("route-loading").performScrollToNode(hasText("Start sample journey"))
+        compose.onNodeWithText("Start sample journey").assertIsNotEnabled()
+        compose.activityRule.scenario.recreate()
+        compose.onNodeWithTag("route-loading").performScrollToNode(hasText("No verified route:", substring = true))
+        compose.onNodeWithText("No verified route:", substring = true).assertIsDisplayed()
+    }
+    @Test fun invalidImportedConditionsWithdrawTheCurrentJourney() {
+        startSampleJourney()
+        lateinit var model: VenueViewModel
+        compose.runOnIdle { model = ViewModelProvider(compose.activity)[VenueViewModel::class.java] }
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val file = java.io.File(context.cacheDir, "invalid-conditions.json")
+        for (bytes in listOf("{\"schemaVersion\":\"0.1.0\",\"schemaVersion\":\"0.1.0\"}".toByteArray(), ByteArray(64 * 1024 + 1) { 32 })) {
+            file.writeBytes(bytes)
+            compose.runOnIdle { model.importConditions(Uri.fromFile(file)) }
+            compose.waitUntil(30_000) { !model.state.value.busy && model.state.value.error != null }
+            assertFalse(model.state.value.active)
+            assertFalse(model.state.value.confirmed)
+            assertNull(model.state.value.route)
+            assertNull(model.state.value.policyLabel)
+        }
+        file.delete()
+    }
+    @Test fun switchingVenueWithdrawsGuidanceBeforeTheNewPackageLoads() {
+        startSampleJourney()
+        lateinit var model: VenueViewModel
+        compose.runOnIdle {
+            model = ViewModelProvider(compose.activity)[VenueViewModel::class.java]
+            model.load("harbor-exchange")
+            assertFalse(model.state.value.active)
+            assertFalse(model.state.value.confirmed)
+            assertNull(model.state.value.route)
+        }
+        compose.waitUntil(30_000) { !model.state.value.busy && model.state.value.catalog?.id == "harbor-exchange" }
     }
 }

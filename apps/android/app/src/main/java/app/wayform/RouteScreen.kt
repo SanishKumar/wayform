@@ -1,6 +1,7 @@
 package app.wayform
 
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -29,7 +30,9 @@ fun RouteScreen(state: VenueState, model: VenueViewModel) {
     var chooseConditions by remember { mutableStateOf(false) }
     var enterCode by remember { mutableStateOf(false) }
     var code by remember { mutableStateOf("") }
+    var needsDialog by remember { mutableStateOf(false) }
     val scanner = rememberLauncherForActivityResult(ScanContract()) { result -> result.contents?.let(model::checkIn) }
+    val conditionsPicker = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri -> uri?.let(model::importConditions) }
     val speechReady by model.speechReady.collectAsStateWithLifecycle()
     val route = state.route
     LaunchedEffect(state.active, state.stepIndex) {
@@ -59,6 +62,8 @@ fun RouteScreen(state: VenueState, model: VenueViewModel) {
             }
         }
         if (state.busy) item { LinearProgressIndicator(Modifier.fillMaxWidth()) }
+        item { TextButton(onClick = { needsDialog = true }, enabled = !state.busy) { Text(if (state.needs.hasRequirements) "Mobility requirements · enabled" else "Mobility requirements") } }
+        if (state.needs.hasRequirements) item { Text(state.needs.missingEvidence(), color = MaterialTheme.colorScheme.error) }
         state.error?.let { item { Text(it, color = MaterialTheme.colorScheme.error) } }
         state.notice?.let { item { Text(it, style = MaterialTheme.typography.bodyMedium) } }
         item {
@@ -68,7 +73,7 @@ fun RouteScreen(state: VenueState, model: VenueViewModel) {
         if (!state.active) item {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 OutlinedButton(onClick = model::confirmStart, enabled = !state.busy && !state.confirmed, modifier = Modifier.fillMaxWidth()) { Text(if (state.confirmed) "Starting place confirmed" else "Confirm this starting place") }
-                Button(onClick = model::startGuidance, enabled = state.confirmed && state.policyLabel != null && !state.busy, modifier = Modifier.fillMaxWidth()) { Text("Start sample journey") }
+                Button(onClick = model::startGuidance, enabled = state.confirmed && state.policyLabel != null && !state.busy && !state.needs.hasRequirements, modifier = Modifier.fillMaxWidth()) { Text("Start sample journey") }
             }
         }
         if (state.active && route != null) item {
@@ -107,6 +112,7 @@ fun RouteScreen(state: VenueState, model: VenueViewModel) {
             TextButton(onClick = { chooseConditions = false; model.sampleConditions(false) }) { Text("All modeled paths open") }
             TextButton(onClick = { chooseConditions = false; model.sampleConditions(true) }) { Text("All modeled lifts closed") }
             TextButton(onClick = { chooseConditions = false; model.sampleConditions(false, short = true) }) { Text("Open for 30 seconds") }
+            TextButton(onClick = { chooseConditions = false; conditionsPicker.launch(arrayOf("application/json", "text/plain", "application/octet-stream")) }) { Text("Import conditions file") }
         }
     }, confirmButton = { TextButton(onClick = { chooseConditions = false }) { Text("Close") } })
     if (enterCode) AlertDialog(onDismissRequest = { enterCode = false }, title = { Text("Venue check-in code") }, text = {
@@ -115,4 +121,5 @@ fun RouteScreen(state: VenueState, model: VenueViewModel) {
             OutlinedTextField(code, { if (it.length <= 4096) code = it }, label = { Text("Check-in code") }, singleLine = true)
         }
     }, confirmButton = { TextButton(onClick = { enterCode = false; model.checkIn(code) }, enabled = code.isNotBlank()) { Text("Check code") } }, dismissButton = { TextButton(onClick = { enterCode = false }) { Text("Cancel") } })
+    if (needsDialog) MobilityNeedsDialog(state.needs, onSave = { model.saveNeeds(it); needsDialog = false }, onDismiss = { needsDialog = false })
 }

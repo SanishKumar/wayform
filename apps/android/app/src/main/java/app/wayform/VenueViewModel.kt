@@ -1,6 +1,7 @@
 package app.wayform
 
 import android.app.Application
+import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import app.wayform.core.MobileVenue
@@ -31,6 +32,7 @@ data class VenueState(
     val policyLabel: String? = null,
     val notice: String? = null,
     val checkInLabel: String? = null,
+    val needs: MobilityNeeds = MobilityNeeds(),
 )
 
 class VenueViewModel(application: Application) : AndroidViewModel(application) {
@@ -48,13 +50,14 @@ class VenueViewModel(application: Application) : AndroidViewModel(application) {
     private val speech = OfflineSpeech(application)
     val speechReady = speech.ready
     private fun errorText(error: Exception, fallback: String): String = if (error is MobileException.Failed) error.detail else error.message ?: fallback
+    private fun savedNeeds() = MobilityNeeds(preferences.getString("widthCm", "").orEmpty(), preferences.getString("slopePercent", "").orEmpty(), preferences.getBoolean("noSteps", false))
 
     init { load() }
     fun load(id: String? = null) {
         stopTrip(TripStopReason.CONTEXT_CHANGED)
         policy = null
         val request = ++generation
-        mutableState.value = mutableState.value.copy(busy = true, error = null)
+        mutableState.value = mutableState.value.copy(busy = true, error = null, destination = null, route = null, active = false, confirmed = false, policyLabel = null, notice = null, checkInLabel = null)
         viewModelScope.launch {
             var loaded: MobileVenue? = null
             try {
@@ -71,7 +74,7 @@ class VenueViewModel(application: Application) : AndroidViewModel(application) {
                 native?.close()
                 native = loaded
                 preferences.edit().putString("venue", result.second).apply()
-                mutableState.value = VenueState(false, result.first, result.third, startId = result.third.startId, avoidStairs = preferences.getBoolean("avoidStairs", false))
+                mutableState.value = VenueState(false, result.first, result.third, startId = result.third.startId, avoidStairs = preferences.getBoolean("avoidStairs", false), needs = savedNeeds())
             } catch (error: Exception) {
                 loaded?.close()
                 if (request == generation) mutableState.value = mutableState.value.copy(busy = false, error = errorText(error, "Could not open the venue."))
@@ -85,6 +88,10 @@ class VenueViewModel(application: Application) : AndroidViewModel(application) {
         val request = ++generation
         preferences.edit().putBoolean("avoidStairs", avoidStairs).apply()
         mutableState.value = state.value.copy(destination = destination, startId = startId, avoidStairs = avoidStairs, route = null, busy = true, error = null, confirmed = false, active = false, notice = null, stepIndex = 0, checkInLabel = if (startId == state.value.startId) state.value.checkInLabel else null)
+        if (state.value.needs.hasRequirements) {
+            mutableState.value = state.value.copy(busy = false, error = state.value.needs.validationError())
+            return
+        }
         viewModelScope.launch {
             try {
                 val route = withContext(Dispatchers.Default) { JSONObject(venue.preview(startId, destination.id, avoidStairs)) }
@@ -103,6 +110,30 @@ class VenueViewModel(application: Application) : AndroidViewModel(application) {
     }
     fun confirmStart() {
         if (!state.value.busy && foreground) mutableState.value = state.value.copy(confirmed = true, error = null, notice = "Starting place confirmed manually.")
+    }
+    fun saveNeeds(needs: MobilityNeeds) {
+        val error = needs.validationError()
+        if (error != null) { mutableState.value = state.value.copy(error = error); return }
+        generation++
+        stopTrip(TripStopReason.CONTEXT_CHANGED)
+        preferences.edit().putString("widthCm", needs.widthCm.trim()).putString("slopePercent", needs.slopePercent.trim()).putBoolean("noSteps", needs.noSteps).apply()
+        mutableState.value = state.value.copy(needs = needs, active = false, confirmed = false, route = null, busy = false, notice = null)
+        state.value.destination?.let { preview(it) }
+    }
+    fun importConditions(uri: Uri) {
+        recover("Reading venue conditions…")
+        policy = null
+        val request = ++generation
+        mutableState.value = state.value.copy(busy = true, policyLabel = null)
+        viewModelScope.launch {
+            try {
+                val bytes = withContext(Dispatchers.IO) { getApplication<Application>().contentResolver.openInputStream(uri)?.use { it.readBounded(64 * 1024) } ?: error("Could not read the selected conditions file.") }
+                if (request != generation) return@launch
+                applyPolicy(bytes, "Imported venue conditions")
+            } catch (error: Exception) {
+                if (request == generation) mutableState.value = state.value.copy(busy = false, notice = null, error = errorText(error, "Could not read venue conditions."))
+            }
+        }
     }
     fun sampleConditions(closeLifts: Boolean, short: Boolean = false) {
         val catalog = state.value.catalog ?: return
@@ -136,7 +167,7 @@ class VenueViewModel(application: Application) : AndroidViewModel(application) {
         val destination = current.destination ?: return
         val start = current.startId ?: return
         val conditions = policy ?: return
-        if (!current.confirmed || !foreground || current.busy) return
+        if (!current.confirmed || !foreground || current.busy || current.active || current.needs.hasRequirements) return
         stopTrip(TripStopReason.CONTEXT_CHANGED)
         val request = ++generation
         planningTrip = true
