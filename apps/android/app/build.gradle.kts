@@ -8,6 +8,7 @@ val nativeDirectory = rootProject.file(providers.gradleProperty("wayformNativeDi
 val sampleVenues = listOf("asterion-medical-center", "harbor-exchange", "meridian-park-campus", "reference-medical-centre")
 val sampleAssets = tasks.register<Sync>("prepareSampleVenues") {
     into(layout.buildDirectory.dir("generated/sampleAssets"))
+    from(rootProject.file("../../examples/survey/clinic-entrance.json")) { into("survey") }
     sampleVenues.forEach { venue ->
         from(rootProject.file("../../compat/voicegis/upstream/buildings/$venue/compiled/building.package.json")) {
             into("venues")
