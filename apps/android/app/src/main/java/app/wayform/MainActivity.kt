@@ -51,8 +51,13 @@ fun VenueScreen(model: VenueViewModel = viewModel()) {
     val state by model.state.collectAsStateWithLifecycle()
     var query by rememberSaveable { mutableStateOf("") }
     var chooseVenue by remember { mutableStateOf(false) }
+    var survey by rememberSaveable { mutableStateOf(false) }
     val catalog = state.catalog
     val keyboard = LocalSoftwareKeyboardController.current
+    if (survey) {
+        SurveyScreen(state.needs, model::saveNeeds, onExit = { survey = false })
+        return
+    }
     if (catalog != null && state.destination != null) {
         BackHandler { model.backToPlaces() }
         RouteScreen(state, model)
@@ -65,7 +70,7 @@ fun VenueScreen(model: VenueViewModel = viewModel()) {
                 Text("OFFLINE", color = Forest, modifier = Modifier.background(Lime, RoundedCornerShape(20.dp)).padding(horizontal = 12.dp, vertical = 6.dp), style = MaterialTheme.typography.labelMedium)
             }
         }
-        item { Text("A clearer way\nto get there.", style = MaterialTheme.typography.headlineLarge, fontWeight = FontWeight.SemiBold) }
+        item { Text("Find a destination", style = MaterialTheme.typography.headlineLarge, fontWeight = FontWeight.SemiBold) }
         item {
             Card(colors = CardDefaults.cardColors(containerColor = Forest)) {
                 Column(Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
@@ -76,6 +81,7 @@ fun VenueScreen(model: VenueViewModel = viewModel()) {
                 }
             }
         }
+        item { OutlinedButton(onClick = { survey = true }, enabled = !state.busy) { Text("Survey routes") } }
         if (state.busy) item { LinearProgressIndicator(Modifier.fillMaxWidth()) }
         state.error?.let { message -> item { Text(message, color = MaterialTheme.colorScheme.error); Button(onClick = { model.load() }) { Text("Try again") } } }
         if (catalog != null && !state.busy) {
