@@ -1,10 +1,40 @@
 # WAYFORM
 
-Foundations for mobility-aware outdoor-to-indoor navigation: a native routing core, an Android offline venue catalog, a pinned VoiceGIS compatibility harness and a draft mobility-data contract. It is not a deployed navigation product.
+WAYFORM is an offline Android wayfinding app for getting from a venue entrance to a specific room. Its survey planner checks which paths have enough measured clearance, slope and step evidence for a visitor’s requirements.
 
-## Run the checks
+**[Download the Android preview](https://github.com/SanishKumar/wayform/releases/download/v0.1.0-preview.1/wayform-0.1.0-preview.1.apk)** · [Release notes and checksum](https://github.com/SanishKumar/wayform/releases/tag/v0.1.0-preview.1) · [Build from source](docs/android.md)
 
-Use Node.js 22.14+ (locally verified with Node 24) and npm:
+The public preview runs in airplane mode and uses fictional venues. You can also open a private survey file on the device for a dated route assessment. **Real-world navigation still needs a surveyed venue and a supervised field trial.**
+
+| Find a destination | Preview a floor | Check a width requirement |
+| --- | --- | --- |
+| <img src="docs/images/destination-search.png" width="245" alt="Searching for cardiology finds Heart and Vascular Clinic in the offline venue catalog"> | <img src="docs/images/floor-preview.png" width="245" alt="Ground-floor plan with a route line and a 71 metre, nine-instruction preview"> | <img src="docs/images/survey-route.png" width="245" alt="A 90 centimetre width requirement selects the 18 metre side-lobby route in the fictional clinic"> |
+
+## Try it in three minutes
+
+Install the preview APK on an Android 8.0 or newer arm64 phone or x86_64 emulator. You can open the downloaded APK on the device, or use `adb install -r wayform-0.1.0-preview.1.apk`. The preview installs as `app.wayform.preview`. Its bundled examples need no account or network.
+
+1. **Walk through a sample journey.** In Asterion University Medical Center, search for **cardiology** and open **Heart & Vascular Clinic**. Look at the floor plan, open **Venue conditions → All modeled paths open**, confirm **Civic Plaza Entrance** as the starting place, then tap **Start sample journey**. Advance through the nine instructions or use **I'm not here** to exercise recovery. Keep the optional hard mobility requirements blank for this legacy sample.
+2. **See a measurement change the route.** Return to places and choose **Survey routes → Try the clinic example**. Under **Mobility requirements**, set only the minimum clear width. Save and tap **Check route** after each change.
+
+   | Minimum clear width | Expected result from Plaza entrance to Reception |
+   | --- | --- |
+   | 75 cm | The 12 m path through the front door qualifies. |
+   | 90 cm | The front door measures 82 ± 1 cm. The planner selects the 18 m path through the side lobby. |
+   | 120 cm | Both entrances fall below the requirement. The app reports **No eligible path**. |
+   | 90 cm plus surveyed zero steps | The example contains only width measurements. The app reports **More evidence needed**. |
+
+3. **Check your own file.** Choose **Open survey file** and select a mobility bundle. The app uses the device clock, the chosen endpoints and your saved requirements. The built-in example uses a fixed time so the results above can be reproduced. [Example JSON](examples/survey/clinic-entrance.json) · [Prepare a venue file](docs/venue-pilot.md)
+
+## How it works
+
+- **Android** uses Kotlin, Jetpack Compose and SQLite. Four bundled venues support offline search, floor maps, written directions, QR or manual check-in and optional offline English speech. Visitors confirm their location and advance instructions themselves. Expired conditions, location recovery and suspension withdraw active guidance. [Android behavior and build](docs/android.md)
+- **Rust** owns routing and policy evaluation. The survey planner evaluates directed edges against physical measurements, uncertainty, provenance and freshness. Only eligible edges enter the path search. A result includes the chosen segments and evidence. Missing evidence and an excluded path have separate outcomes. Android calls the same Rust code through UniFFI. [Mobility contract](docs/mobility-contract.md) · [Native route protocol](docs/native-mobility-protocol.md) · [Mobile bindings](docs/mobile-bindings.md)
+- **VoiceGIS compatibility** preserves 35 upstream Git blobs at commit `305c70bd418d7fd2b6f0ebf7a2ecd0ddcb9b9b7f`. The migration compares 7,238 complete synthetic route results with the TypeScript reference, including step-free routing, instructions and receipts. The imported source retains its original rights notice. [Compatibility and provenance](docs/compatibility.md) · [Native parity](docs/native-legacy-routes.md) · [Upstream notice](compat/voicegis/upstream/README.md)
+
+## Reproduce the checks
+
+From a clone with Node.js 22.14+ and npm, run the contract tests and the upstream journey audit.
 
 ```sh
 npm ci --ignore-scripts --no-audit --no-fund
@@ -12,44 +42,21 @@ npm run check
 npm run compat:audit
 ```
 
-After dependency installation, these checks need no network or adjacent VoiceGIS checkout. `check` runs TypeScript validation, exported-schema consistency, legacy compatibility, and contract tests. `compat:audit` runs the unmodified upstream direction audit over all four venues.
+With the pinned Rust toolchain installed, run the native suite and compare native results with the reference fixtures.
 
-## Components
+```sh
+cargo test --workspace --locked
+npm run test:native
+```
 
-- **Compatibility baseline:** 35 exact Git blobs from VoiceGIS commit `305c70bd418d7fd2b6f0ebf7a2ecd0ddcb9b9b7f`, verified venue packages, deterministic recompilation and 7,238 recorded route results.
-- **Mobility contract:** versioned JSON schemas, semantic validation, supplied-path assessment, a conservative legacy adapter and portable decision fixtures. The contract is `0.1.0-draft.1`.
-- **Quality checks:** TypeScript validation, regression tests and GitHub Actions on Linux/Windows with Node 22/24.
-- **Native core:** validated mobility documents, evidence and policy evaluation, deterministic directed route search and path receipts in `crates/wayform-core`. Snapshot-based routing distinguishes known exclusions from insufficient evidence and only selects suitable paths. Shared TypeScript fixtures check component, receipt and CLI behavior.
-- **Android app:** offline venue search, floor maps, native previews and manual guidance under expiring conditions, backed by verified packages and SQLite. Bundled venues and condition simulations are fictional. See the [Android build and device checks](docs/android.md) and [mobile bindings](docs/mobile-bindings.md).
+The Android 15 emulator suite covers offline venue loading, navigation and recovery, policy expiry, survey imports and route changes. To reproduce it, build the native bindings first, connect an arm64 or x86_64 device, then run the following from `apps/android`. The Android guide includes Windows setup and toolchain versions. [Android guide](docs/android.md)
 
-| Location | Responsibility |
-| --- | --- |
-| `compat/voicegis/upstream/` | Immutable upstream source subset and synthetic venue fixtures |
-| `compat/voicegis/source-lock.json` | Upstream revision, SHA-256 digests and Git blob identities |
-| `compat/voicegis/expected/` | Recorded legacy behavior; normal tests never rewrite it |
-| `packages/mobility-contract/` | Proposed data model, schemas, evaluator and examples |
-| `docs/compatibility.md` | Exact compatibility scope and reproduction instructions |
-| `docs/mobility-contract.md` | Normative draft semantics, trust boundaries and limitations |
-| `docs/rust-core.md` | Native interface design and acceptance gates |
+```sh
+./gradlew :app:connectedDebugAndroidTest :app:testDebugUnitTest :app:lintDebug
+```
 
-The synthetic data demonstrates software behavior. It does not establish physical passability, positioning accuracy, publisher authenticity or a live closure service. A legacy accessibility assertion is never converted into surveyed evidence.
+[Compatibility CI](https://github.com/SanishKumar/wayform/actions/workflows/quality.yml) · [Android build CI](https://github.com/SanishKumar/wayform/actions/workflows/android.yml)
 
-The Rust toolchain is pinned in `rust-toolchain.toml`. Run `cargo test --workspace --locked` for native tests and `cargo clippy --workspace --all-targets --locked -- -D warnings` for lint checks. `npm run test:native` builds the JSON-lines search CLI and checks it against TypeScript-evaluated mobility fixtures on Linux and Windows in CI. The [CLI protocol](docs/native-search-protocol.md) accepts already evaluated edges; its snapshot labels are supplied by the caller.
+## Taking it to a real venue
 
-Native [edge eligibility](docs/native-eligibility.md) combines physical requirements with access rules, closures and entrance registration. The [document loader](docs/native-loading.md) validates complete bundle/profile/context JSON and computes their identities before evaluating edges or issuing [supplied-path receipts](docs/native-path-receipts.md). The `wayform-mobility` [document protocol](docs/native-mobility-protocol.md) exposes supplied-path assessment and suitable-route selection over JSON lines. Go services, geographic ingestion and production synchronization are later work.
-
-An isolated [legacy search component and batch CLI](docs/native-legacy-search.md) preserve VoiceGIS's undirected adjacency and queue tie behavior. `test:native` retains 21,868 search/projection comparisons and separately compares all 7,238 [complete native route results](docs/native-legacy-routes.md) through protocol `0.4.0`: paths, destination metadata, landmark directions, graphic assessments and receipts. Complete packages are verified in Rust. Bearings use a documented nine-decimal comparison boundary; other result fields are exact. The original TypeScript fingerprints remain unchanged.
-
-A [native venue loader](docs/native-legacy-packages.md) now validates complete legacy package records, references and content hashes before constructing the search graph. Its immutable package can supply matching policy/session projections. The original TypeScript verifier remains the comparison reference.
-
-The [native legacy overlay resolver](docs/native-legacy-policies.md) checks closure targets, package binding and expiry against a host-verified package projection. Protocol `0.2.0` validates these policies before routing, blocks invalid overlays and requires explicit policy absence. Its comparisons preserve legacy issue ordering and UTF-16 sorting. A [native expiry lease](docs/native-legacy-leases.md) now latches wall/monotonic expiry and clock failures, with 105 reference traces. Hosts must retain and check it during guidance; the batch CLI remains stateless.
-
-The [native route session](docs/native-legacy-sessions.md) now owns a planned path and its lease together. Every path read checks freshness; policy removal or other host-reported changes can permanently withdraw the route. Mobile bindings expose complete guidance under this lease. Android clears guidance and stops speech on expiry, recovery and suspension.
-
-## Updating baselines
-
-`npm run compat:record` explicitly regenerates expected legacy results. Review every change against the pinned source and documented compatibility decisions; never use regeneration to silence a regression. `npm run schema:write` exports schemas from their TypeScript definitions. Contract examples are explicitly recorded with `node --import tsx scripts/record-contract-examples.ts --record`.
-
-The [native measurement corpus](docs/native-measurements.md) is recorded with `node --import tsx scripts/record-measurement-examples.ts --record`. Both TypeScript and Rust tests read the committed expectations; normal tests do not rewrite them.
-
-The imported VoiceGIS README retains its original rights statement. No new license is imposed on the imported code.
+The first field milestone is one operator-approved entrance-to-room journey. It needs a scaled plan, surveyed entrance registration and per-segment measurements, a person responsible for closures, and a supervised trial on physical phones. Survey imports currently support planning. Live guidance for imported surveys still needs map and sign binding and authenticated, expiring operating conditions. [Pilot inputs and field checks](docs/venue-pilot.md)
