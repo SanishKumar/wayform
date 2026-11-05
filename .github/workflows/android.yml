@@ -37,13 +37,20 @@ jobs:
         run: bash scripts/build-android-core.sh
       - name: Check and assemble Android app
         working-directory: apps/android
-        run: bash gradlew :app:assembleDebug :app:assembleDebugAndroidTest :app:lintDebug :app:testDebugUnitTest --no-daemon
+        run: bash gradlew :app:assembleDebug :app:assembleDebugAndroidTest :app:assemblePreview :app:lintDebug :app:testDebugUnitTest --no-daemon
       - uses: actions/upload-artifact@v6
         with:
           name: android-debug
           path: |
-            apps/android/app/build/outputs/apk/
+            apps/android/app/build/outputs/apk/debug/
+            apps/android/app/build/outputs/apk/androidTest/
             apps/android/app/build/reports/lint-results-debug.html
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v6
+        with:
+          name: android-preview
+          path: apps/android/app/build/outputs/apk/preview/app-preview.apk
           if-no-files-found: error
           retention-days: 7
       - uses: actions/upload-artifact@v6

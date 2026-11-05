@@ -28,6 +28,8 @@ On Windows, generate the native outputs on a compatible build host or download t
 
 The APK is written to `apps/android/app/build/outputs/apk/debug/app-debug.apk`. This is a development build, not a signed store release. Android CI compiles both device test and app APKs and runs lint; a successful build alone does not establish device behavior.
 
+For the public demo, run `./gradlew :app:assemblePreview` from `apps/android`. The preview uses a release-derived, non-debuggable build with its own application ID, `app.wayform.preview`, and the build host's development signing key. Its APK is `app/build/outputs/apk/preview/app-preview.apk`. The GitHub prerelease provides the distributed APK and its SHA-256 digest. Independently rebuilt APKs can have different signing certificates.
+
 With an arm64 or x86_64 emulator/device connected:
 
 ```sh

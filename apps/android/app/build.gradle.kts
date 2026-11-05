@@ -46,7 +46,16 @@ android {
         jniLibs.srcDir(nativeDirectory.resolve("jniLibs"))
         assets.srcDir(layout.buildDirectory.dir("generated/sampleAssets"))
     }
-    buildTypes { release { isMinifyEnabled = false } }
+    buildTypes {
+        release { isMinifyEnabled = false }
+        create("preview") {
+            initWith(getByName("release"))
+            applicationIdSuffix = ".preview"
+            versionNameSuffix = "-preview.1"
+            signingConfig = signingConfigs.getByName("debug")
+            matchingFallbacks += "release"
+        }
+    }
     packaging { resources.excludes += "/META-INF/{AL2.0,LGPL2.1}" }
 }
 kotlin { jvmToolchain(17) }
