@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "0.1.0-draft.1",
+  "id": "fictional-clinic-entrance",
+  "revision": "1",
+  "frames": [{ "id": "plan", "kind": "local", "axes": "x-right-y-up-z-up" }],
+  "nodes": [
+    { "id": "Plaza entrance", "frameId": "plan", "position": [0, 0, 0], "floorId": "ground" },
+    { "id": "Side lobby", "frameId": "plan", "position": [0, 5, 0], "floorId": "ground" },
+    { "id": "Reception", "frameId": "plan", "position": [12, 0, 0], "floorId": "ground" }
+  ],
+  "edges": [
+    { "id": "front-door", "from": "Plaza entrance", "to": "Reception", "lengthMeters": 12, "kind": "door", "access": "public", "transformId": null, "legacy": null },
+    { "id": "side-door", "from": "Plaza entrance", "to": "Side lobby", "lengthMeters": 5, "kind": "door", "access": "public", "transformId": null, "legacy": null },
+    { "id": "lobby-corridor", "from": "Side lobby", "to": "Reception", "lengthMeters": 13, "kind": "walkway", "access": "public", "transformId": null, "legacy": null }
+  ],
+  "evidence": [{
+    "id": "example-widths", "source": "field-survey", "actorId": "fictional-surveyor",
+    "method": "Synthetic tape-measure readings for a worked example",
+    "observedAt": "2026-10-25T09:00:00.000Z", "validUntil": "2026-11-01T00:00:00.000Z",
+    "review": { "status": "reviewed", "reviewerId": "fictional-reviewer", "reviewedAt": "2026-10-25T10:00:00.000Z" }
+  }],
+  "observations": [
+    { "id": "front-width", "edgeId": "front-door", "attribute": "clearWidthMeters", "value": 0.82, "uncertainty": 0.01, "unknownReason": null, "evidenceId": "example-widths" },
+    { "id": "side-width", "edgeId": "side-door", "attribute": "clearWidthMeters", "value": 1.12, "uncertainty": 0.02, "unknownReason": null, "evidenceId": "example-widths" },
+    { "id": "corridor-width", "edgeId": "lobby-corridor", "attribute": "clearWidthMeters", "value": 1.06, "uncertainty": 0.01, "unknownReason": null, "evidenceId": "example-widths" }
+  ],
+  "transforms": [],
+  "policyRequirements": []
+}
