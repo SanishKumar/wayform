@@ -2,20 +2,22 @@
 
 WAYFORM is an offline Android wayfinding app for getting from a venue entrance to a specific room. Its survey planner checks which paths have enough measured clearance, slope and step evidence for a visitor’s requirements.
 
-**[Download the Android preview](https://github.com/SanishKumar/wayform/releases/download/v0.1.0-preview.1/wayform-0.1.0-preview.1.apk)** · [Release notes and checksum](https://github.com/SanishKumar/wayform/releases/tag/v0.1.0-preview.1) · [Build from source](docs/android.md)
+**[Download the Android preview](https://github.com/SanishKumar/wayform/releases/download/v0.1.0-preview.2/wayform-0.1.0-preview.2.apk)** · [Release notes and checksum](https://github.com/SanishKumar/wayform/releases/tag/v0.1.0-preview.2) · [Build from source](docs/android.md)
 
 The public preview runs in airplane mode and uses fictional venues. You can also open a private survey file on the device for a dated route assessment. **Real-world navigation still needs a surveyed venue and a supervised field trial.**
 
-| Find a destination | Preview a floor | Check a width requirement |
-| --- | --- | --- |
-| <img src="docs/images/destination-search.png" width="245" alt="Searching for cardiology finds Heart and Vascular Clinic in the offline venue catalog"> | <img src="docs/images/floor-preview.png" width="245" alt="Ground-floor plan with a route line and a 71 metre, nine-instruction preview"> | <img src="docs/images/survey-route.png" width="245" alt="A 90 centimetre width requirement selects the 18 metre side-lobby route in the fictional clinic"> |
+| Search | Preview the route | Follow directions | Compare widths |
+| --- | --- | --- | --- |
+| <img src="docs/images/destination-search.png" width="205" alt="Searching for cardiology finds Heart and Vascular Clinic"> | <img src="docs/images/floor-preview.png" width="205" alt="Ground-floor plan showing the start and where to change floors"> | <img src="docs/images/journey-step.png" width="205" alt="The current instruction names Central Concourse and Advanced Imaging above the map"> | <img src="docs/images/survey-route.png" width="205" alt="The 90 cm choice selects the 18 metre side-lobby route"> |
 
 ## Try it in three minutes
 
-Install the preview APK on an Android 8.0 or newer arm64 phone or x86_64 emulator. You can open the downloaded APK on the device, or use `adb install -r wayform-0.1.0-preview.1.apk`. The preview installs as `app.wayform.preview`. Its bundled examples need no account or network.
+Install the preview APK on an Android 8.0 or newer arm64 phone or x86_64 emulator. You can open the downloaded APK on the device, or use `adb install -r wayform-0.1.0-preview.2.apk`. The preview installs as `app.wayform.preview`. Its bundled examples need no account or network.
 
-1. **Walk through a sample journey.** In Asterion University Medical Center, search for **cardiology** and open **Heart & Vascular Clinic**. Look at the floor plan, open **Venue conditions → All modeled paths open**, confirm **Civic Plaza Entrance** as the starting place, then tap **Start sample journey**. Advance through the nine instructions or use **I'm not here** to exercise recovery. Keep the optional hard mobility requirements blank for this legacy sample.
-2. **See a measurement change the route.** Return to places and choose **Survey routes → Try the clinic example**. Under **Mobility requirements**, set only the minimum clear width. Save and tap **Check route** after each change.
+If you installed preview 1 from GitHub, uninstall it before installing preview 2. The previews use different development signing certificates. Uninstalling removes saved preferences.
+
+1. **Walk through a sample journey.** In Asterion University Medical Center, search for **cardiology** and open **Heart & Vascular Clinic**. The preview shows the starting place, floor plan and route length. Tap **Start sample journey**, check that the starting place is **Civic Plaza Entrance**, then select **I'm here · Start**. The confirmation describes the simulated conditions. Use **Route options** to change conditions or mobility requirements. Advance through the nine instructions or use **I'm not here** to exercise recovery. Keep the optional hard mobility requirements blank for this legacy sample.
+2. **See a measurement change the route.** Return to places and choose **Survey routes → Try the clinic example**. The example opens with a 90 cm width. Tap **75 cm**, **90 cm** or **120 cm** to recalculate immediately. **Edit example requirements** also lets you try zero steps. These example settings are separate from your saved visitor profile.
 
    | Minimum clear width | Expected result from Plaza entrance to Reception |
    | --- | --- |
