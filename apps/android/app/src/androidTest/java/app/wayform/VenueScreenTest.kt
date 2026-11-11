@@ -3,6 +3,8 @@ package app.wayform
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.hasClickAction
+import androidx.compose.ui.test.hasAnyAncestor
+import androidx.compose.ui.test.isDialog
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onAllNodesWithText
@@ -32,8 +34,8 @@ class VenueScreenTest {
     private fun findCardiology() {
         InstrumentationRegistry.getInstrumentation().targetContext.getSharedPreferences("wayform", 0).edit().remove("widthCm").remove("slopePercent").remove("noSteps").commit()
         compose.waitUntil(30_000) { compose.onAllNodesWithText("Find a room or place").fetchSemanticsNodes().isNotEmpty() }
-        compose.onNodeWithText("Change venue").performClick()
-        compose.onNode(hasText("Asterion University Medical Center") and hasClickAction()).performClick()
+        compose.onNodeWithContentDescription("Change venue").performClick()
+        compose.onNode(hasText("Asterion University Medical Center") and hasClickAction() and hasAnyAncestor(isDialog())).performClick()
         compose.waitUntil(30_000) { compose.onAllNodesWithText("Find a room or place").fetchSemanticsNodes().isNotEmpty() }
         compose.onNodeWithText("Find a room or place").performTextClearance()
         compose.onNodeWithText("Find a room or place").performTextInput("cardiology")
@@ -43,8 +45,8 @@ class VenueScreenTest {
     @Test fun searchAndVenueSelectionWorkOffline() {
         findCardiology()
         compose.onNodeWithText("Heart & Vascular Clinic").assertIsDisplayed()
-        compose.onNodeWithTag("venue-list").performScrollToNode(hasText("1 place · stored on this device"))
-        compose.onNodeWithText("1 place · stored on this device").assertIsDisplayed()
+        compose.onNodeWithTag("venue-list").performScrollToNode(hasText("Search results · 1"))
+        compose.onNodeWithText("Search results · 1").assertIsDisplayed()
     }
     @Test fun destinationOpensNativeFloorMapAndDirections() {
         findCardiology()
