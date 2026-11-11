@@ -34,12 +34,34 @@ import kotlin.math.min
 
 private fun JSONArray.points() = (0 until length()).map { getJSONArray(it).let { p -> Offset(p.getDouble(0).toFloat(), p.getDouble(1).toFloat()) } }
 
+private fun roomLabel(name: String, paint: Paint, width: Float): List<String> {
+    val lines = mutableListOf<String>()
+    var line = ""
+    for (word in name.split(' ')) {
+        if (paint.measureText(word) > width) return emptyList()
+        val next = if (line.isEmpty()) word else "$line $word"
+        if (paint.measureText(next) <= width) line = next
+        else { lines.add(line); line = word }
+    }
+    if (line.isNotEmpty()) lines.add(line)
+    return lines
+}
+
 @Composable
 fun VenueMap(catalog: VenueCatalog, route: JSONObject?, floorId: String, modifier: Modifier = Modifier) {
     val floor = remember(catalog, floorId) { catalog.raw.getJSONArray("floors").objects().first { it.getString("id") == floorId } }
     val outline = remember(floor) { floor.getJSONArray("outline").points() }
     val spaces = remember(catalog, floorId) { catalog.raw.getJSONArray("spaces").objects().filter { it.getString("floorId") == floorId }.map { it to it.getJSONArray("polygon").points() } }
     val path = remember(route) { route?.optJSONArray("path")?.objects().orEmpty() }
+    val occupiedSpaces = remember(path, spaces, floorId) {
+        val nodes = path.filter { it.getString("floor") == floorId }
+            .map { Offset(it.getDouble("x").toFloat(), it.getDouble("y").toFloat()) }
+        spaces.mapNotNull { (space, points) ->
+            val x = points.minOf { it.x }..points.maxOf { it.x }
+            val y = points.minOf { it.y }..points.maxOf { it.y }
+            space.getString("id").takeIf { nodes.any { point -> point.x in x && point.y in y } }
+        }.toSet()
+    }
     val floorNames = remember(catalog) { catalog.raw.getJSONArray("floors").objects().associate { it.getString("id") to it.getString("name").substringBefore(" · ") } }
     val labelPaint = remember { TextPaint(Paint.ANTI_ALIAS_FLAG).apply { textAlign = Paint.Align.CENTER } }
     val bubblePaint = remember { Paint(Paint.ANTI_ALIAS_FLAG) }
@@ -84,9 +106,15 @@ fun VenueMap(catalog: VenueCatalog, route: JSONObject?, floorId: String, modifie
                 val bounds = shape.getBounds()
                 labelPaint.textSize = 11.sp.toPx()
                 labelPaint.color = Muted.toArgb()
-                val name = space.getString("name")
-                if (bounds.height > 22.dp.toPx() && labelPaint.measureText(name) < bounds.width - 8.dp.toPx()) {
-                    drawIntoCanvas { it.nativeCanvas.drawText(name, bounds.center.x, bounds.center.y - (labelPaint.ascent() + labelPaint.descent()) / 2, labelPaint) }
+                if (space.getString("id") !in occupiedSpaces && (path.isEmpty() || space.getString("type") != "corridor")) {
+                    val lines = roomLabel(space.getString("name"), labelPaint, bounds.width - 5.dp.toPx())
+                    val lineHeight = labelPaint.descent() - labelPaint.ascent()
+                    if (lines.size * lineHeight <= bounds.height - 5.dp.toPx()) drawIntoCanvas {
+                        val firstBaseline = bounds.center.y - lines.size * lineHeight / 2 - labelPaint.ascent()
+                        lines.forEachIndexed { index, line ->
+                            it.nativeCanvas.drawText(line, bounds.center.x, firstBaseline + index * lineHeight, labelPaint)
+                        }
+                    }
                 }
             }
             val clearance = route?.optJSONObject("displayClearance")
