@@ -28,6 +28,7 @@ data class VenueState(
     val route: JSONObject? = null,
     val confirmed: Boolean = false,
     val active: Boolean = false,
+    val arrived: Boolean = false,
     val stepIndex: Int = 0,
     val policyLabel: String? = null,
     val notice: String? = null,
@@ -87,7 +88,7 @@ class VenueViewModel(application: Application) : AndroidViewModel(application) {
         stopTrip(TripStopReason.CONTEXT_CHANGED)
         val request = ++generation
         preferences.edit().putBoolean("avoidStairs", avoidStairs).apply()
-        mutableState.value = state.value.copy(destination = destination, startId = startId, avoidStairs = avoidStairs, route = null, busy = true, error = null, confirmed = false, active = false, notice = null, stepIndex = 0, checkInLabel = if (startId == state.value.startId) state.value.checkInLabel else null)
+        mutableState.value = state.value.copy(destination = destination, arrived = false, startId = startId, avoidStairs = avoidStairs, route = null, busy = true, error = null, confirmed = false, active = false, notice = null, stepIndex = 0, checkInLabel = if (startId == state.value.startId) state.value.checkInLabel else null)
         if (state.value.needs.hasRequirements) {
             mutableState.value = state.value.copy(busy = false, error = state.value.needs.validationError())
             return
@@ -106,10 +107,7 @@ class VenueViewModel(application: Application) : AndroidViewModel(application) {
     fun backToPlaces() {
         generation++
         stopTrip(TripStopReason.CANCELLED)
-        mutableState.value = state.value.copy(destination = null, route = null, busy = false, error = null, active = false, confirmed = false, notice = null)
-    }
-    fun confirmStart() {
-        if (!state.value.busy && foreground) mutableState.value = state.value.copy(confirmed = true, error = null, notice = "Starting place confirmed manually.")
+        mutableState.value = state.value.copy(destination = null, route = null, busy = false, error = null, active = false, arrived = false, confirmed = false, notice = null)
     }
     fun saveNeeds(needs: MobilityNeeds) {
         val error = needs.validationError()
@@ -161,17 +159,18 @@ class VenueViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
     }
-    fun startGuidance() {
+    fun confirmAndStart(simulateOpenPaths: Boolean) {
         val venue = native ?: return
         val current = state.value
         val destination = current.destination ?: return
         val start = current.startId ?: return
-        val conditions = policy ?: return
-        if (!current.confirmed || !foreground || current.busy || current.active || current.needs.hasRequirements) return
+        if (!foreground || current.busy || current.active || current.needs.hasRequirements) return
+        if (simulateOpenPaths != (policy == null)) return
+        val conditions = policy ?: SampleConditions.create(current.catalog ?: return, false, 600_000)
         stopTrip(TripStopReason.CONTEXT_CHANGED)
         val request = ++generation
         planningTrip = true
-        mutableState.value = current.copy(busy = true, route = null, error = null, notice = null, stepIndex = 0)
+        mutableState.value = current.copy(busy = true, confirmed = true, route = null, error = null, notice = null, stepIndex = 0)
         viewModelScope.launch {
             var pending: TripGuard? = null
             try {
@@ -182,7 +181,9 @@ class VenueViewModel(application: Application) : AndroidViewModel(application) {
                 trip = guard
                 pending = null
                 planningTrip = false
-                mutableState.value = state.value.copy(busy = false, active = true, route = route)
+                policy = conditions
+                mutableState.value = state.value.copy(busy = false, active = true, route = route,
+                    policyLabel = current.policyLabel ?: "Simulated: open · 10 min")
                 watch = viewModelScope.launch {
                     while (trip === guard) {
                         try {
@@ -209,6 +210,7 @@ class VenueViewModel(application: Application) : AndroidViewModel(application) {
             val route = guard.read()
             if (state.value.stepIndex + 1 >= route.getJSONArray("steps").length()) {
                 recover("Journey complete. You marked your arrival.")
+                mutableState.value = state.value.copy(arrived = true)
             } else mutableState.value = state.value.copy(route = route, stepIndex = state.value.stepIndex + 1)
         } catch (error: Exception) { recover(error.message ?: "Guidance is unavailable.") }
     }
@@ -243,7 +245,7 @@ class VenueViewModel(application: Application) : AndroidViewModel(application) {
     fun recover(message: String = "Guidance paused. Choose your current starting place and confirm it before restarting.") {
         generation++
         stopTrip(TripStopReason.CONTEXT_CHANGED)
-        mutableState.value = state.value.copy(active = false, route = null, confirmed = false, busy = false, notice = message, error = null)
+        mutableState.value = state.value.copy(active = false, arrived = false, route = null, confirmed = false, busy = false, notice = message, error = null)
     }
     fun resume() { foreground = true }
     fun suspendGuidance() {

@@ -32,11 +32,12 @@ class VenueScreenTest {
     @get:Rule val compose = createAndroidComposeRule<MainActivity>()
 
     private fun findCardiology() {
+        val model = ViewModelProvider(compose.activity)[VenueViewModel::class.java]
         InstrumentationRegistry.getInstrumentation().targetContext.getSharedPreferences("wayform", 0).edit().remove("widthCm").remove("slopePercent").remove("noSteps").commit()
-        compose.waitUntil(30_000) { compose.onAllNodesWithText("Find a room or place").fetchSemanticsNodes().isNotEmpty() }
+        compose.waitUntil(30_000) { model.state.value.catalog != null && !model.state.value.busy }
         compose.onNodeWithContentDescription("Change venue").performClick()
         compose.onNode(hasText("Asterion University Medical Center") and hasClickAction() and hasAnyAncestor(isDialog())).performClick()
-        compose.waitUntil(30_000) { compose.onAllNodesWithText("Find a room or place").fetchSemanticsNodes().isNotEmpty() }
+        compose.waitUntil(30_000) { model.state.value.catalog?.id == "asterion-medical-center" && !model.state.value.busy }
         compose.onNodeWithText("Find a room or place").performTextClearance()
         compose.onNodeWithText("Find a room or place").performTextInput("cardiology")
         compose.onNodeWithText("Find a room or place").performImeAction()
@@ -52,42 +53,73 @@ class VenueScreenTest {
         findCardiology()
         compose.onNodeWithText("Heart & Vascular Clinic").performClick()
         compose.waitUntil(30_000) { compose.onAllNodesWithTag("route-ready").fetchSemanticsNodes().isNotEmpty() }
+        compose.onNodeWithContentDescription("Route options").performClick()
         compose.onNodeWithContentDescription("Avoid stairs").performClick()
         compose.waitUntil(30_000) { compose.onAllNodesWithTag("route-ready").fetchSemanticsNodes().isNotEmpty() }
-        compose.onNodeWithTag("route-ready").performScrollToNode(hasText("Preview only.", substring = true))
-        compose.onNodeWithText("Preview only.", substring = true).assertIsDisplayed()
+        compose.onNodeWithTag("route-ready").performScrollToNode(hasText("Show directions"))
+        compose.onNodeWithText("Show directions").performClick()
+        compose.onNodeWithText("Hide directions").assertIsDisplayed()
     }
     private fun startSampleJourney() {
         findCardiology()
         compose.onNodeWithText("Heart & Vascular Clinic").performClick()
         compose.waitUntil(30_000) { compose.onAllNodesWithTag("route-ready").fetchSemanticsNodes().isNotEmpty() }
-        compose.onNodeWithTag("route-ready").performScrollToNode(hasText("Venue conditions"))
-        compose.onNodeWithText("Venue conditions").performClick()
-        compose.onNodeWithText("All modeled paths open").performClick()
-        compose.waitUntil(30_000) { compose.onAllNodesWithText("Simulated: open · 10 min").fetchSemanticsNodes().isNotEmpty() }
-        compose.onNodeWithTag("route-loading").performScrollToNode(hasText("Confirm this starting place"))
-        compose.onNodeWithText("Confirm this starting place").performClick()
         compose.onNodeWithText("Start sample journey").performClick()
-        compose.waitUntil(30_000) { compose.onAllNodesWithTag("route-ready").fetchSemanticsNodes().isNotEmpty() }
+        compose.onNodeWithText("This demo simulates open paths for 10 minutes.").assertIsDisplayed()
+        compose.onNodeWithText("I'm here · Start").performClick()
+        compose.waitUntil(30_000) { compose.onAllNodesWithText("Next instruction").fetchSemanticsNodes().isNotEmpty() }
+    }
+    private fun assertConfirmationRequired() {
+        compose.onNodeWithText("Next instruction").assertDoesNotExist()
+        val model = ViewModelProvider(compose.activity)[VenueViewModel::class.java]
+        assertFalse(model.state.value.confirmed)
+        assertFalse(model.state.value.active)
+        compose.onNodeWithText("Start sample journey").performClick()
+        compose.onNodeWithText("Confirm your starting place").assertIsDisplayed()
+        compose.onNodeWithText("Cancel").performClick()
     }
     @Test fun locationRecoveryClearsTheLiveJourney() {
         startSampleJourney()
-        compose.onNodeWithTag("route-ready").performScrollToNode(hasText("I'm not here"))
         compose.onNodeWithText("I'm not here").performClick()
-        compose.onNodeWithTag("route-loading").performScrollToNode(hasText("Start sample journey"))
-        compose.onNodeWithText("Start sample journey").assertIsNotEnabled()
+        assertConfirmationRequired()
+    }
+    @Test fun markingArrivalEndsGuidanceAndReturnsToTheSearchResults() {
+        startSampleJourney()
+        val model = ViewModelProvider(compose.activity)[VenueViewModel::class.java]
+        val count = requireNotNull(model.state.value.route).getJSONArray("steps").length()
+        repeat(count - 1) { compose.onNodeWithText("Next instruction").performClick() }
+        compose.onNodeWithText("Mark arrived").performClick()
+        compose.onNodeWithText("Arrival confirmed").assertIsDisplayed()
+        assertFalse(model.state.value.active)
+        compose.onNodeWithText("Back to places").performClick()
+        compose.onNodeWithText("Heart & Vascular Clinic").assertIsDisplayed()
+    }
+    @Test fun confirmingTheStartingPlaceKeepsTheChosenVenueConditions() {
+        findCardiology()
+        compose.onNodeWithText("Heart & Vascular Clinic").performClick()
+        val model = ViewModelProvider(compose.activity)[VenueViewModel::class.java]
+        compose.waitUntil(30_000) { !model.state.value.busy }
+        compose.onNodeWithContentDescription("Route options").performClick()
+        compose.onNodeWithText("Venue conditions").performClick()
+        compose.onNodeWithText("All modeled lifts closed").performClick()
+        compose.waitUntil(30_000) { model.state.value.policyLabel?.contains("lifts closed") == true }
+        compose.onNodeWithText("Start sample journey").performClick()
+        compose.onNodeWithText("Simulated: all lifts closed · 10 min").assertIsDisplayed()
+        compose.onNodeWithText("I'm here · Start").performClick()
+        compose.waitUntil(30_000) { !model.state.value.busy }
+        org.junit.Assert.assertEquals("Simulated: all lifts closed · 10 min", model.state.value.policyLabel)
     }
     @Test fun backgroundingRequiresNewLocationConfirmation() {
         startSampleJourney()
         compose.activityRule.scenario.moveToState(Lifecycle.State.CREATED)
         compose.activityRule.scenario.moveToState(Lifecycle.State.RESUMED)
-        compose.onNodeWithTag("route-loading").performScrollToNode(hasText("Start sample journey"))
-        compose.onNodeWithText("Start sample journey").assertIsNotEnabled()
+        assertConfirmationRequired()
     }
     @Test fun recognizedCheckInStillRequiresConfirmationAndForeignCodesFail() {
         findCardiology()
         compose.onNodeWithText("Heart & Vascular Clinic").performClick()
         compose.waitUntil(30_000) { compose.onAllNodesWithTag("route-ready").fetchSemanticsNodes().isNotEmpty() }
+        compose.onNodeWithText("From:", substring = true).performClick()
         compose.onNodeWithText("Enter code").performClick()
         compose.onNodeWithText("Check-in code").performTextInput("not-a-venue-code")
         compose.onNodeWithText("Check code").performClick()
@@ -95,22 +127,21 @@ class VenueScreenTest {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         val packageJson = context.assets.open("venues/asterion-medical-center.json").use { JSONObject(it.readBytes().toString(Charsets.UTF_8)) }
         val payload = packageJson.getJSONArray("localizationAnchors").objects().first { it.getString("kind") == "qr" }.getString("payload")
+        compose.onNodeWithText("From:", substring = true).performClick()
         compose.onNodeWithText("Enter code").performClick()
         compose.onNodeWithText("Check-in code").performTextInput(payload)
         compose.onNodeWithText("Check code").performClick()
         compose.waitUntil(30_000) { compose.onAllNodesWithText("Code recognized.", substring = true).fetchSemanticsNodes().isNotEmpty() }
-        compose.onNodeWithTag("route-loading").performScrollToNode(hasText("Start sample journey"))
-        compose.onNodeWithText("Start sample journey").assertIsNotEnabled()
+        assertConfirmationRequired()
     }
     @Test fun hardRequirementsWithdrawGuidanceAndSurviveRecreation() {
         startSampleJourney()
-        compose.onNodeWithTag("route-ready").performScrollToNode(hasText("Mobility requirements"))
+        compose.onNodeWithContentDescription("Route options").performClick()
         compose.onNodeWithText("Mobility requirements").performClick()
         compose.onNodeWithText("Minimum clear width (cm)").performTextInput("90")
         compose.onNodeWithText("Save requirements").performClick()
         compose.onNodeWithTag("route-loading").performScrollToNode(hasText("No verified route:", substring = true))
         compose.onNodeWithText("No verified route:", substring = true).assertIsDisplayed()
-        compose.onNodeWithTag("route-loading").performScrollToNode(hasText("Start sample journey"))
         compose.onNodeWithText("Start sample journey").assertIsNotEnabled()
         compose.activityRule.scenario.recreate()
         compose.onNodeWithTag("route-loading").performScrollToNode(hasText("No verified route:", substring = true))
