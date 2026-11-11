@@ -16,7 +16,7 @@ class SurveyBundleTest {
         assertEquals(12.0, checkWidth(bundle, "75").distanceMeters!!, 0.0)
         val detour = checkWidth(bundle, "90")
         assertEquals(18.0, detour.distanceMeters!!, 0.0)
-        assertEquals(listOf("Plaza entrance → Side lobby · side-door", "Side lobby → Reception · lobby-corridor"), detour.legs)
+        assertEquals(listOf(SurveyLeg("Plaza entrance", "Side lobby", "side-door"), SurveyLeg("Side lobby", "Reception", "lobby-corridor")), detour.legs)
         assertEquals(listOf("example-widths"), detour.evidence)
         assertEquals("infeasible", checkWidth(bundle, "120").outcome)
         val noSteps = bundle.assess(bundle.nodes.first(), bundle.nodes.last(), MobilityNeeds(noSteps = true))

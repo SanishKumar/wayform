@@ -89,7 +89,7 @@ internal class SurveyBundle private constructor(
         val receipt = assessment.getJSONObject("receipt")
         val legs = receipt.getJSONArray("edgeIds").strings().map { edgeId ->
             val edge = edges.getValue(edgeId)
-            "${edge.getString("from")} → ${edge.getString("to")} · $edgeId"
+            SurveyLeg(edge.getString("from"), edge.getString("to"), edgeId)
         }
         return SurveyAssessment(outcome, receipt.getString("evaluatedAt"), legs = legs,
             distanceMeters = receipt.getDouble("distanceMeters"), evidence = assessment.getJSONArray("evidenceIds").strings())
@@ -109,10 +109,12 @@ internal class SurveyBundle private constructor(
 
 private fun JSONArray.strings(): List<String> = (0 until length()).map(::getString)
 
+internal data class SurveyLeg(val from: String, val to: String, val edgeId: String)
+
 internal data class SurveyAssessment(
     val outcome: String,
     val evaluatedAt: String,
-    val legs: List<String> = emptyList(),
+    val legs: List<SurveyLeg> = emptyList(),
     val distanceMeters: Double? = null,
     val evidence: List<String> = emptyList(),
     val reasons: List<String> = emptyList(),

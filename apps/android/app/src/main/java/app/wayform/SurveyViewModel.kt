@@ -17,6 +17,7 @@ internal data class SurveyState(
     val bundle: SurveyBundle? = null,
     val start: String = "",
     val end: String = "",
+    val exampleNeeds: MobilityNeeds = MobilityNeeds(widthCm = "90"),
     val busy: Boolean = false,
     val assessment: SurveyAssessment? = null,
     val error: String? = null,
@@ -44,6 +45,7 @@ internal class SurveyViewModel(application: Application) : AndroidViewModel(appl
                     SurveyBundle.open(stream.use { it.readBounded(surveyByteLimit) }, example = uri == null)
                 }
                 stateFlow.value = SurveyState(bundle, bundle.nodes.first(), bundle.nodes.last())
+                if (bundle.example) check(state.value.exampleNeeds)
             } catch (cancelled: CancellationException) {
                 throw cancelled
             } catch (error: Exception) {
@@ -55,6 +57,15 @@ internal class SurveyViewModel(application: Application) : AndroidViewModel(appl
     fun select(start: String = state.value.start, end: String = state.value.end) {
         job?.cancel()
         stateFlow.value = state.value.copy(start = start, end = end, assessment = null, error = null, busy = false)
+        if (state.value.bundle?.example == true && start != end && state.value.exampleNeeds.hasRequirements) {
+            check(state.value.exampleNeeds)
+        }
+    }
+
+    fun setExampleNeeds(needs: MobilityNeeds) {
+        if (state.value.bundle?.example != true) return
+        stateFlow.value = state.value.copy(exampleNeeds = needs)
+        select()
     }
 
     fun check(needs: MobilityNeeds) {

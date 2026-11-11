@@ -18,21 +18,25 @@ class SurveyScreenTest {
         val venue = ViewModelProvider(compose.activity)[VenueViewModel::class.java]
         val initial = venue.state.value.needs
         try {
-            compose.runOnIdle { venue.saveNeeds(MobilityNeeds(widthCm = "90")) }
+            val saved = MobilityNeeds(widthCm = "83", noSteps = true)
+            compose.runOnIdle { venue.saveNeeds(saved) }
             compose.onNodeWithText("Survey routes").performClick()
             compose.onNodeWithText("Try the clinic example").performClick()
-            compose.waitUntil(30_000) { compose.onAllNodesWithText("Check route").fetchSemanticsNodes().isNotEmpty() }
-            compose.onNodeWithText("Check route").performScrollTo().performClick()
-            fun scrollTo(text: String) = compose.onNodeWithTag("survey-review").performScrollToNode(hasText(text))
-            scrollTo("Route meets selected requirements")
-            compose.onNodeWithText("18 m · 2 segments").assertIsDisplayed()
-            scrollTo("Mobility requirements")
-            compose.onNodeWithText("Mobility requirements").performClick()
-            compose.onNodeWithText("Minimum clear width (cm)").performTextReplacement("120")
-            compose.onNodeWithText("Save requirements").performClick()
-            compose.onNodeWithText("Route meets selected requirements").assertDoesNotExist()
-            compose.onNodeWithText("Check route").performScrollTo().performClick()
-            scrollTo("No eligible path")
+            fun expect(text: String) {
+                compose.waitUntil(30_000) {
+                    ViewModelProvider(compose.activity)[SurveyViewModel::class.java].state.value.assessment != null
+                }
+                compose.onNodeWithTag("survey-review").performScrollToNode(hasText(text))
+                compose.onNodeWithText(text).assertIsDisplayed()
+            }
+            expect("18 m · 2 segments")
+            compose.onNodeWithTag("survey-review").performScrollToNode(hasText("75 cm"))
+            compose.onNodeWithText("75 cm").performClick()
+            expect("12 m · 1 segment")
+            compose.onNodeWithTag("survey-review").performScrollToNode(hasText("120 cm"))
+            compose.onNodeWithText("120 cm").performClick()
+            expect("No eligible path")
+            assertEquals(saved, venue.state.value.needs)
         } finally {
             compose.runOnIdle { venue.saveNeeds(initial) }
         }
