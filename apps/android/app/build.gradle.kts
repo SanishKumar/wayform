@@ -34,7 +34,7 @@ android {
         applicationId = "app.wayform"
         minSdk = 26
         targetSdk = 36
-        versionCode = 1
+        versionCode = 2
         versionName = "0.1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         ndk { abiFilters += listOf("arm64-v8a", "x86_64") }
@@ -51,7 +51,7 @@ android {
         create("preview") {
             initWith(getByName("release"))
             applicationIdSuffix = ".preview"
-            versionNameSuffix = "-preview.1"
+            versionNameSuffix = "-preview.2"
             signingConfig = signingConfigs.getByName("debug")
             matchingFallbacks += "release"
         }
