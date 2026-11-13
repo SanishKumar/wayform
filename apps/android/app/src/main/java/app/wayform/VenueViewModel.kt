@@ -84,11 +84,11 @@ class VenueViewModel(application: Application) : AndroidViewModel(application) {
     }
     fun preview(destination: Destination, start: String? = state.value.startId, avoidStairs: Boolean = state.value.avoidStairs) {
         val venue = native ?: return
-        val startId = start ?: return
         stopTrip(TripStopReason.CONTEXT_CHANGED)
         val request = ++generation
         preferences.edit().putBoolean("avoidStairs", avoidStairs).apply()
-        mutableState.value = state.value.copy(destination = destination, arrived = false, startId = startId, avoidStairs = avoidStairs, route = null, busy = true, error = null, confirmed = false, active = false, notice = null, stepIndex = 0, checkInLabel = if (startId == state.value.startId) state.value.checkInLabel else null)
+        mutableState.value = state.value.copy(destination = destination, arrived = false, startId = start, avoidStairs = avoidStairs, route = null, busy = start != null, error = null, confirmed = false, active = false, notice = null, stepIndex = 0, checkInLabel = if (start == state.value.startId) state.value.checkInLabel else null)
+        val startId = start ?: return
         if (state.value.needs.hasRequirements) {
             mutableState.value = state.value.copy(busy = false, error = state.value.needs.validationError())
             return
@@ -139,7 +139,8 @@ class VenueViewModel(application: Application) : AndroidViewModel(application) {
     }
     fun applyPolicy(bytes: ByteArray, label: String) {
         val venue = native ?: return
-        val start = state.value.startId ?: return
+        // A stationary query validates the overlay even while the visitor is choosing an origin.
+        val start = state.value.startId ?: state.value.catalog?.startId ?: return
         stopTrip(TripStopReason.POLICY_CHANGED)
         policy = null
         val request = ++generation
@@ -227,22 +228,31 @@ class VenueViewModel(application: Application) : AndroidViewModel(application) {
         val venue = native ?: return
         stopTrip(TripStopReason.CONTEXT_CHANGED)
         val request = ++generation
-        mutableState.value = state.value.copy(active = false, route = null, confirmed = false, busy = true, error = null, notice = null)
+        mutableState.value = state.value.copy(active = false, route = null, startId = null, checkInLabel = null, confirmed = false, busy = true, error = null, notice = null)
         viewModelScope.launch {
             try {
                 val result = withContext(Dispatchers.Default) { JSONObject(venue.checkIn(payload)) }
                 if (request != generation) return@launch
                 check(result.getBoolean("ok")) { "This code is not a recognized check-in for this venue. Choose a starting place or try another sign." }
                 val anchor = result.getJSONObject("anchor")
-                val floor = state.value.catalog!!.raw.getJSONArray("floors").objects().first { it.getString("id") == anchor.getString("floorId") }.getString("name")
-                val label = "${anchor.getString("id")} · $floor"
-                mutableState.value = state.value.copy(busy = false, startId = result.getString("nodeId"), checkInLabel = label, notice = "Code recognized. Confirm that you are beside sign $label before beginning.")
+                val catalog = requireNotNull(state.value.catalog)
+                val floor = catalog.raw.getJSONArray("floors").objects().first { it.getString("id") == anchor.getString("floorId") }.getString("name")
+                val space = catalog.raw.getJSONArray("spaces").objects().firstOrNull { it.getString("id") == anchor.optString("spaceId") }
+                val label = listOfNotNull(space?.getString("name"), floor.substringBefore(" · "), anchor.getString("id")).joinToString(" · ")
+                val start = result.getString("nodeId")
+                mutableState.value = state.value.copy(busy = false, startId = start, checkInLabel = label)
+                state.value.destination?.let { preview(it, start) }
+                mutableState.value = state.value.copy(notice = "Code recognized. Confirm that you are beside this sign before starting.")
             } catch (error: Exception) {
                 if (request == generation) mutableState.value = state.value.copy(busy = false, error = errorText(error, "Check-in is unavailable."))
             }
         }
     }
-    fun recover(message: String = "Guidance paused. Choose your current starting place and confirm it before restarting.") {
+    fun lostLocation() {
+        recover("Guidance paused. Choose a nearby place or scan a venue sign.")
+        mutableState.value = state.value.copy(startId = null, checkInLabel = null, stepIndex = 0)
+    }
+    private fun recover(message: String) {
         generation++
         stopTrip(TripStopReason.CONTEXT_CHANGED)
         mutableState.value = state.value.copy(active = false, arrived = false, route = null, confirmed = false, busy = false, notice = message, error = null)

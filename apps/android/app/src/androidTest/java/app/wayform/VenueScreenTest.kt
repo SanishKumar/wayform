@@ -78,10 +78,33 @@ class VenueScreenTest {
         compose.onNodeWithText("Confirm your starting place").assertIsDisplayed()
         compose.onNodeWithText("Cancel").performClick()
     }
-    @Test fun locationRecoveryClearsTheLiveJourney() {
+    @Test fun locationRecoveryPlansFromTheSelectedPlaceAndKeepsTheDestination() {
         startSampleJourney()
+        val model = ViewModelProvider(compose.activity)[VenueViewModel::class.java]
+        val old = model.state.value
         compose.onNodeWithText("I'm not here").performClick()
+        compose.onNodeWithText("Where are you now?").assertIsDisplayed()
+        compose.onNodeWithText("Close").performClick()
+        compose.onNodeWithText("Start sample journey").assertDoesNotExist()
+        compose.runOnIdle { model.confirmAndStart(simulateOpenPaths = false) }
+        assertNull(model.state.value.startId)
+        assertNull(model.state.value.route)
+        assertFalse(model.state.value.active)
+        compose.activityRule.scenario.recreate()
+        compose.onNodeWithText("Choose current location").performClick()
+        compose.onNodeWithText("Find a nearby place").performTextInput("Garden Café")
+        compose.onNodeWithText("Garden Café · Ground · Diagnostics & Outpatients").performClick()
+        compose.waitUntil(30_000) { model.state.value.route != null }
         assertConfirmationRequired()
+        compose.onNodeWithText("Start sample journey").performClick()
+        compose.onNodeWithText("Garden Café").assertIsDisplayed()
+        compose.onNodeWithText("I'm here · Start").performClick()
+        compose.waitUntil(30_000) { model.state.value.active }
+        val resumed = model.state.value
+        org.junit.Assert.assertEquals(old.destination?.id, resumed.destination?.id)
+        org.junit.Assert.assertEquals(old.policyLabel, resumed.policyLabel)
+        org.junit.Assert.assertNotEquals(old.startId, resumed.startId)
+        org.junit.Assert.assertEquals(resumed.startId, resumed.route!!.getJSONArray("path").getJSONObject(0).getString("id"))
     }
     @Test fun markingArrivalEndsGuidanceAndReturnsToTheSearchResults() {
         startSampleJourney()
@@ -127,11 +150,13 @@ class VenueScreenTest {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         val packageJson = context.assets.open("venues/asterion-medical-center.json").use { JSONObject(it.readBytes().toString(Charsets.UTF_8)) }
         val payload = packageJson.getJSONArray("localizationAnchors").objects().first { it.getString("kind") == "qr" }.getString("payload")
-        compose.onNodeWithText("From:", substring = true).performClick()
+        compose.onNodeWithText("Choose current location").performClick()
         compose.onNodeWithText("Enter code").performClick()
         compose.onNodeWithText("Check-in code").performTextInput(payload)
         compose.onNodeWithText("Check code").performClick()
         compose.waitUntil(30_000) { compose.onAllNodesWithText("Code recognized.", substring = true).fetchSemanticsNodes().isNotEmpty() }
+        compose.waitUntil(30_000) { compose.onAllNodesWithTag("route-ready").fetchSemanticsNodes().isNotEmpty() }
+        compose.onNodeWithText("From: Central Concourse", substring = true).assertIsDisplayed()
         assertConfirmationRequired()
     }
     @Test fun hardRequirementsWithdrawGuidanceAndSurviveRecreation() {

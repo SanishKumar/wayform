@@ -86,7 +86,7 @@ fun RouteScreen(state: VenueState, model: VenueViewModel) {
                 } else item {
                     Text(destination.name, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
                     Text(destination.floorName, color = Muted)
-                    TextButton(onClick = { panel = RoutePanel.ORIGIN }, enabled = !state.busy) {
+                    if (state.startId != null) TextButton(onClick = { panel = RoutePanel.ORIGIN }, enabled = !state.busy) {
                         WayIcon(R.drawable.ic_pin)
                         Spacer(Modifier.width(6.dp))
                         Text("From: $origin")
@@ -128,10 +128,14 @@ fun RouteScreen(state: VenueState, model: VenueViewModel) {
         HorizontalDivider()
         Column(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 6.dp)) {
             if (state.active) {
-                TextButton(onClick = { model.recover() }, modifier = Modifier.align(Alignment.CenterHorizontally)) { Text("I'm not here") }
+                TextButton(onClick = { model.lostLocation(); panel = RoutePanel.ORIGIN },
+                    modifier = Modifier.align(Alignment.CenterHorizontally)) { Text("I'm not here") }
                 Button(onClick = model::nextInstruction, modifier = Modifier.fillMaxWidth()) {
                     Text(if (state.stepIndex == steps.lastIndex) "Mark arrived" else "Next instruction")
                 }
+            } else if (state.startId == null) {
+                Button(onClick = { panel = RoutePanel.ORIGIN }, enabled = !state.busy,
+                    modifier = Modifier.fillMaxWidth()) { Text("Choose current location") }
             } else {
                 Button(onClick = { panel = RoutePanel.START }, enabled = !state.busy && !state.needs.hasRequirements,
                     modifier = Modifier.fillMaxWidth()) { Text("Start sample journey") }
@@ -150,16 +154,14 @@ fun RouteScreen(state: VenueState, model: VenueViewModel) {
             }
         }, confirmButton = { Button(onClick = { dismiss(); model.confirmAndStart(simulateOpenPaths = state.policyLabel == null) }) { Text("I'm here · Start") } },
             dismissButton = { TextButton(onClick = dismiss) { Text("Cancel") } })
-        RoutePanel.ORIGIN -> AlertDialog(onDismissRequest = dismiss, title = { Text("Starting place") }, text = {
-            LazyColumn {
-                item { TextButton(onClick = { dismiss(); scanner.launch(ScanOptions().setDesiredBarcodeFormats(ScanOptions.QR_CODE)
-                    .setBeepEnabled(false).setBarcodeImageEnabled(false).setOrientationLocked(false).setPrompt("Scan a venue check-in sign")) }) { Text("Scan QR sign") } }
-                item { TextButton(onClick = { code = ""; panel = RoutePanel.CODE }) { Text("Enter code") }; HorizontalDivider() }
-                items(catalog.destinations) { place -> TextButton(onClick = { dismiss(); model.preview(destination, start = place.id) }) {
-                    Text("${place.name} · ${place.floorName}")
-                } }
-            }
-        }, confirmButton = { TextButton(onClick = dismiss) { Text("Close") } })
+        RoutePanel.ORIGIN -> OriginPicker(catalog, onDismiss = dismiss,
+            onSelect = { place -> dismiss(); model.preview(destination, start = place.id) },
+            onScan = {
+                dismiss()
+                scanner.launch(ScanOptions().setDesiredBarcodeFormats(ScanOptions.QR_CODE)
+                    .setBeepEnabled(false).setBarcodeImageEnabled(false).setOrientationLocked(false).setPrompt("Scan a venue check-in sign"))
+            },
+            onEnterCode = { code = ""; panel = RoutePanel.CODE })
         RoutePanel.OPTIONS -> AlertDialog(onDismissRequest = dismiss, title = { Text("Route options") }, text = {
             Column(Modifier.verticalScroll(rememberScrollState())) {
                 if (!state.active) {
@@ -191,4 +193,28 @@ fun RouteScreen(state: VenueState, model: VenueViewModel) {
         RoutePanel.NEEDS -> MobilityNeedsDialog(state.needs, onSave = { model.saveNeeds(it); dismiss() }, onDismiss = dismiss)
         null -> Unit
     }
+}
+
+@Composable
+private fun OriginPicker(catalog: VenueCatalog, onDismiss: () -> Unit, onSelect: (Destination) -> Unit,
+    onScan: () -> Unit, onEnterCode: () -> Unit) {
+    var query by rememberSaveable { mutableStateOf("") }
+    val matches = catalog.destinations.filter { it.matches(query) }
+    AlertDialog(onDismissRequest = onDismiss, title = { Text("Where are you now?") }, text = {
+        Column {
+            OutlinedTextField(query, { query = it }, modifier = Modifier.fillMaxWidth(),
+                singleLine = true, label = { Text("Find a nearby place") })
+            LazyColumn {
+                if (query.isBlank()) item {
+                    TextButton(onClick = onScan) { Text("Scan QR sign") }
+                    TextButton(onClick = onEnterCode) { Text("Enter code") }
+                    HorizontalDivider()
+                }
+                items(matches, key = { it.id }) { place ->
+                    TextButton(onClick = { onSelect(place) }) { Text("${place.name} · ${place.floorName}") }
+                }
+                if (matches.isEmpty()) item { Text("No matching places. Try a room name or floor.") }
+            }
+        }
+    }, confirmButton = { TextButton(onClick = onDismiss) { Text("Close") } })
 }
