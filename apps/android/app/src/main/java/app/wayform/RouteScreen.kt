@@ -3,13 +3,13 @@ package app.wayform
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -18,11 +18,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -70,67 +74,80 @@ fun RouteScreen(state: VenueState, model: VenueViewModel) {
         if (floors.any { it.getString("id") == floor }) floorId = requireNotNull(floor)
     }
 
-    Column(Modifier.fillMaxSize().safeDrawingPadding(), horizontalAlignment = Alignment.CenterHorizontally) {
-        Row(Modifier.widthIn(max = 680.dp).fillMaxWidth().padding(horizontal = 14.dp, vertical = 4.dp),
-            verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            FilledTonalIconButton(onClick = model::backToPlaces) { WayIcon(R.drawable.ic_back, "Back to places") }
-            Column(Modifier.weight(1f)) {
-                Text(if (state.active) "Sample journey" else "Route preview", style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.SemiBold)
-                Text(catalog.name, style = MaterialTheme.typography.labelMedium, color = Muted, maxLines = 1,
-                    overflow = TextOverflow.Ellipsis)
-            }
-            FilledTonalIconButton(onClick = { panel = RoutePanel.OPTIONS }, enabled = !state.busy) {
-                WayIcon(R.drawable.ic_options, "Route options")
-            }
+    val density = LocalDensity.current
+    var headerHeight by remember { mutableIntStateOf(0) }
+    var dockHeight by remember { mutableIntStateOf(0) }
+    var dockWidth by remember { mutableIntStateOf(0) }
+    BoxWithConstraints(Modifier.fillMaxSize().background(Paper)) {
+        val wide = maxWidth >= 600.dp && maxHeight < 540.dp
+        val dockMaxWidth = if (wide) (maxWidth * .48f).coerceAtMost(480.dp) else 500.dp
+        val detailsHeight = maxHeight * when {
+            wide -> .44f
+            showSteps -> .44f
+            density.fontScale > 1.3f -> .40f
+            else -> .32f
         }
+        val framing = with(density) {
+            PaddingValues(
+                top = headerHeight.toDp(),
+                end = if (wide) dockWidth.toDp() else 0.dp,
+                bottom = if (!wide) dockHeight.toDp() else WindowInsets.safeDrawing.getBottom(this).toDp(),
+            )
+        }
+        VenueMap(catalog, route, floorId, Modifier.matchParentSize(), mode = mapMode, stepNodeId = stepNodeId,
+            framing = framing, focusRoute = true)
 
-        BoxWithConstraints(Modifier.weight(1f).widthIn(max = 680.dp).fillMaxWidth()) {
-            val mapShare = when {
-                state.error != null || state.needs.hasRequirements || state.notice != null -> 0.43f
-                LocalDensity.current.fontScale > 1.3f || showSteps -> 0.49f
-                else -> 0.64f
+        RouteHeader(catalog.name, state.active,
+            Modifier.align(Alignment.TopCenter).widthIn(max = 680.dp).fillMaxWidth()
+                .onSizeChanged { headerHeight = it.height }
+                .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Top + WindowInsetsSides.Horizontal))
+                .padding(horizontal = 16.dp, vertical = 8.dp),
+            canOpenOptions = !state.busy, onBack = model::backToPlaces, onOptions = { panel = RoutePanel.OPTIONS })
+
+        Column(
+            Modifier.align(if (wide) Alignment.BottomEnd else Alignment.BottomCenter)
+                .widthIn(max = dockMaxWidth).fillMaxWidth()
+                .onSizeChanged { dockHeight = it.height; dockWidth = it.width }
+                .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom + WindowInsetsSides.Horizontal))
+                .padding(horizontal = 16.dp, vertical = 10.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                FloorSwitch(floors, floorId, Modifier.weight(1f), onFloor = { floorId = it })
+                ModeSwitch(mapMode, onMode = { mapMode = it })
             }
-            val mapHeight = (maxHeight * mapShare).coerceAtMost(520.dp)
-            val sideBySide = maxWidth >= 600.dp && maxHeight < 540.dp
-            val map: @Composable (Modifier) -> Unit = { modifier ->
-                RouteMapStage(catalog, route, floors, floorId, mapMode, stepNodeId, modifier,
-                    onFloor = { floorId = it }, onMode = { mapMode = it })
-            }
-            val details: @Composable (Modifier) -> Unit = { modifier ->
-                RouteDetails(state, destination, origin, currentStep, steps, showSteps, modifier,
-                    onOrigin = { panel = RoutePanel.ORIGIN }, onToggleSteps = { showSteps = !showSteps })
-            }
-            if (sideBySide) {
-                Row(Modifier.fillMaxSize().padding(horizontal = 12.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                    map(Modifier.weight(1f).fillMaxHeight())
-                    details(Modifier.weight(1f).fillMaxHeight())
+
+            RouteDetails(state, destination, origin, currentStep, steps, showSteps, Modifier.heightIn(max = detailsHeight),
+                onOrigin = { panel = RoutePanel.ORIGIN })
+
+            when {
+                state.active -> Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    RouteControl(
+                        text = if (speechReady) "Listen" else "Voice unavailable",
+                        icon = R.drawable.ic_audio,
+                        modifier = Modifier.weight(1f),
+                        enabled = speechReady,
+                        description = if (speechReady) "Read instruction" else "Offline voice unavailable",
+                        onClick = model::readInstruction,
+                    )
+                    RouteControl("I'm not here", R.drawable.ic_pin, Modifier.weight(1f), onClick = {
+                        model.lostLocation()
+                        panel = RoutePanel.ORIGIN
+                    })
+                    val last = state.stepIndex == steps.lastIndex
+                    RouteAction(if (last) "Arrived" else "Next", if (last) "Mark arrived" else "Next instruction",
+                        onClick = model::nextInstruction)
                 }
-            } else {
-                Column(Modifier.fillMaxSize().padding(horizontal = 12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    map(Modifier.fillMaxWidth().height(mapHeight))
-                    details(Modifier.weight(1f).fillMaxWidth())
-                }
-            }
-        }
-        Surface(Modifier.widthIn(max = 680.dp).fillMaxWidth(), color = Paper) {
-            Column(Modifier.padding(horizontal = 16.dp, vertical = 6.dp)) {
-                if (state.active) {
-                    Button(onClick = model::nextInstruction, modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp)) {
-                        Text(if (state.stepIndex == steps.lastIndex) "Mark arrived" else "Next instruction")
-                    }
-                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                        TextButton(onClick = model::readInstruction, enabled = speechReady) {
-                            Text(if (speechReady) "Read instruction" else "Offline voice unavailable")
-                        }
-                        TextButton(onClick = { model.lostLocation(); panel = RoutePanel.ORIGIN }) { Text("I'm not here") }
-                    }
-                } else if (state.startId == null) {
-                    Button(onClick = { panel = RoutePanel.ORIGIN }, enabled = !state.busy,
-                        modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp)) { Text("Choose current location") }
-                } else {
-                    Button(onClick = { panel = RoutePanel.START }, enabled = !state.busy && !state.needs.hasRequirements,
-                        modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp)) { Text("Start sample journey") }
+                state.startId == null -> Button(
+                    onClick = { panel = RoutePanel.ORIGIN }, enabled = !state.busy,
+                    modifier = Modifier.fillMaxWidth().heightIn(min = 54.dp), shape = MaterialTheme.shapes.medium,
+                ) { Text("Choose current location") }
+                else -> Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    if (route != null) RouteSummary(route.getDouble("totalDistance").roundToInt(), steps.size,
+                        showSteps, Modifier.weight(1f), onClick = { showSteps = !showSteps })
+                    else Spacer(Modifier.weight(1f))
+                    RouteAction("Start", "Start sample journey", enabled = !state.busy && !state.needs.hasRequirements,
+                        onClick = { panel = RoutePanel.START })
                 }
             }
         }
@@ -189,37 +206,70 @@ fun RouteScreen(state: VenueState, model: VenueViewModel) {
 }
 
 @Composable
-private fun RouteMapStage(
-    catalog: VenueCatalog,
-    route: JSONObject?,
-    floors: List<JSONObject>,
-    floorId: String,
-    mode: MapViewMode,
-    stepNodeId: String?,
+private fun RouteHeader(
+    venue: String,
+    active: Boolean,
     modifier: Modifier,
-    onFloor: (String) -> Unit,
-    onMode: (MapViewMode) -> Unit,
+    canOpenOptions: Boolean,
+    onBack: () -> Unit,
+    onOptions: () -> Unit,
 ) {
-    val shape = MaterialTheme.shapes.large
-    Column(modifier.clip(shape).background(Paper).border(1.dp, MaterialTheme.colorScheme.outlineVariant, shape)) {
-        Row(Modifier.fillMaxWidth().padding(horizontal = 12.dp), verticalAlignment = Alignment.CenterVertically) {
-            Text("Sample map", Modifier.weight(1f), color = Muted, style = MaterialTheme.typography.labelMedium)
-            FilterChip(selected = mode == MapViewMode.DEPTH, onClick = { onMode(MapViewMode.DEPTH) },
-                label = { Text("3D") }, modifier = Modifier.semantics { contentDescription = "3D cutaway" })
-            Spacer(Modifier.width(6.dp))
-            FilterChip(selected = mode == MapViewMode.PLAN, onClick = { onMode(MapViewMode.PLAN) },
-                label = { Text("2D") }, modifier = Modifier.semantics { contentDescription = "2D floor plan" })
+    Row(modifier, verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        FilledTonalIconButton(
+            onClick = onBack, modifier = Modifier.size(50.dp), shape = MaterialTheme.shapes.medium,
+            colors = IconButtonDefaults.filledTonalIconButtonColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHigh),
+        ) { WayIcon(R.drawable.ic_back, "Back to places") }
+        Surface(Modifier.weight(1f), shape = MaterialTheme.shapes.medium,
+            color = MaterialTheme.colorScheme.surfaceContainerHigh.copy(alpha = .94f)) {
+            Column(Modifier.padding(horizontal = 14.dp, vertical = 8.dp)) {
+                Text(if (active) "Sample journey" else "Route preview", style = MaterialTheme.typography.titleSmall)
+                Text(venue, style = MaterialTheme.typography.labelMedium, color = Muted, maxLines = 1,
+                    overflow = TextOverflow.Ellipsis)
+            }
         }
-        VenueMap(catalog, route, floorId, Modifier.weight(1f).fillMaxWidth(), mode = mode, stepNodeId = stepNodeId)
-        LazyRow(contentPadding = PaddingValues(horizontal = 10.dp), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+        FilledTonalIconButton(
+            onClick = onOptions, enabled = canOpenOptions, modifier = Modifier.size(50.dp),
+            shape = MaterialTheme.shapes.medium,
+            colors = IconButtonDefaults.filledTonalIconButtonColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHigh),
+        ) { WayIcon(R.drawable.ic_options, "Route options") }
+    }
+}
+
+@Composable
+private fun FloorSwitch(floors: List<JSONObject>, floorId: String, modifier: Modifier, onFloor: (String) -> Unit) {
+    Surface(modifier, shape = MaterialTheme.shapes.medium, color = MaterialTheme.colorScheme.surfaceContainerHigh.copy(alpha = .93f)) {
+        LazyRow(contentPadding = PaddingValues(4.dp), horizontalArrangement = Arrangement.spacedBy(1.dp)) {
             items(floors, key = { it.getString("id") }) { floor ->
                 val id = floor.getString("id")
                 val name = floor.getString("name")
-                FilterChip(selected = floorId == id, onClick = { onFloor(id) },
-                    label = { Text(name.substringBefore(" · ")) },
-                    modifier = Modifier.semantics { contentDescription = name })
+                val label = name.substringBefore(" · ").removePrefix("Level ")
+                MapSelection(label, name, floorId == id, onClick = { onFloor(id) })
             }
         }
+    }
+}
+
+@Composable
+private fun ModeSwitch(mode: MapViewMode, onMode: (MapViewMode) -> Unit) {
+    Surface(shape = MaterialTheme.shapes.medium, color = MaterialTheme.colorScheme.surfaceContainerHigh.copy(alpha = .93f)) {
+        Row(Modifier.padding(4.dp), horizontalArrangement = Arrangement.spacedBy(1.dp)) {
+            MapSelection("3D", "3D cutaway", mode == MapViewMode.DEPTH, onClick = { onMode(MapViewMode.DEPTH) })
+            MapSelection("2D", "2D floor plan", mode == MapViewMode.PLAN, onClick = { onMode(MapViewMode.PLAN) })
+        }
+    }
+}
+
+@Composable
+private fun MapSelection(label: String, description: String, selected: Boolean, onClick: () -> Unit) {
+    val colors = MaterialTheme.colorScheme
+    val fill = if (selected) colors.primary else Color.Transparent
+    val textColor = if (selected) colors.onPrimary else colors.onSurfaceVariant
+    Box(Modifier.clip(MaterialTheme.shapes.small).background(fill)
+        .selectable(selected = selected, onClick = onClick, role = Role.Tab)
+        .semantics { contentDescription = description }
+        .defaultMinSize(minWidth = 44.dp, minHeight = 44.dp).padding(horizontal = 8.dp),
+        contentAlignment = Alignment.Center) {
+        Text(label, color = textColor, style = MaterialTheme.typography.labelLarge, maxLines = 1)
     }
 }
 
@@ -233,49 +283,102 @@ private fun RouteDetails(
     showSteps: Boolean,
     modifier: Modifier,
     onOrigin: () -> Unit,
-    onToggleSteps: () -> Unit,
 ) {
     val listState = rememberLazyListState()
     LaunchedEffect(state.active, state.stepIndex) { listState.scrollToItem(0) }
-    Surface(modifier, color = MaterialTheme.colorScheme.surface, shape = MaterialTheme.shapes.large) {
-        LazyColumn(
-            Modifier.fillMaxSize().testTag(if (state.route != null) "route-ready" else "route-loading"),
-            state = listState,
-            contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            if (step != null) item {
-                DirectionCard(step, "Step ${state.stepIndex + 1} of ${steps.size}", destination.name)
-            } else item {
-                Text(destination.name, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
-                Text(destination.floorName, color = Muted, style = MaterialTheme.typography.bodyMedium)
-                if (state.startId != null) {
-                    TextButton(onClick = onOrigin, enabled = !state.busy, contentPadding = PaddingValues(horizontal = 0.dp)) {
-                        WayIcon(R.drawable.ic_pin)
-                        Spacer(Modifier.width(5.dp))
-                        Text("From: $origin")
+    LazyColumn(
+        modifier.fillMaxWidth().testTag(if (state.route != null) "route-ready" else "route-loading"),
+        state = listState,
+        verticalArrangement = Arrangement.spacedBy(6.dp),
+    ) {
+        item {
+            Surface(shape = MaterialTheme.shapes.large, color = MaterialTheme.colorScheme.surfaceContainerHigh,
+                modifier = Modifier.fillMaxWidth()) {
+                Column(Modifier.padding(horizontal = 14.dp, vertical = 12.dp)) {
+                    if (step != null) {
+                        DirectionCard(step, "Step ${state.stepIndex + 1} of ${steps.size}", destination.name)
+                        state.policyLabel?.let { label ->
+                            Text(label, Modifier.padding(top = 8.dp), color = Muted, style = MaterialTheme.typography.labelMedium)
+                        }
+                    } else {
+                        Text(destination.name, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold)
+                        Text(destination.floorName, color = Muted, style = MaterialTheme.typography.bodyMedium)
+                        if (state.startId != null) {
+                            TextButton(onClick = onOrigin, enabled = !state.busy, contentPadding = PaddingValues(horizontal = 0.dp)) {
+                                WayIcon(R.drawable.ic_pin, tint = Lime)
+                                Spacer(Modifier.width(5.dp))
+                                Text("From: $origin")
+                            }
+                        }
                     }
                 }
             }
-            if (state.busy) item { LinearProgressIndicator(Modifier.fillMaxWidth()) }
-            if (state.needs.hasRequirements) item { Text(state.needs.missingEvidence(), color = MaterialTheme.colorScheme.error) }
-            state.error?.let { item { Text(it, color = MaterialTheme.colorScheme.error) } }
-            state.notice?.let { item { Text(it, color = Lime) } }
-            if (state.route != null && !state.active) item {
-                HorizontalDivider()
-                Row(Modifier.fillMaxWidth().padding(top = 4.dp), verticalAlignment = Alignment.CenterVertically) {
-                    Text("${state.route.getDouble("totalDistance").roundToInt()} m · ${steps.size} instructions",
-                        Modifier.weight(1f), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
-                    TextButton(onClick = onToggleSteps) { Text(if (showSteps) "Hide directions" else "Show directions") }
+        }
+        if (state.busy) item { LinearProgressIndicator(Modifier.fillMaxWidth()) }
+        val message = state.error ?: state.needs.takeIf { it.hasRequirements }?.missingEvidence() ?: state.notice
+        if (message != null) item {
+            Surface(shape = MaterialTheme.shapes.medium, color = MaterialTheme.colorScheme.surface, modifier = Modifier.fillMaxWidth()) {
+                Text(message, Modifier.padding(12.dp), color = if (state.error != null || state.needs.hasRequirements)
+                    MaterialTheme.colorScheme.error else Lime)
+            }
+        }
+        if (showSteps && !state.active) items(steps) { segment ->
+            Surface(shape = MaterialTheme.shapes.medium, color = MaterialTheme.colorScheme.surface, modifier = Modifier.fillMaxWidth()) {
+                Text(segment.getString("instruction"), Modifier.padding(12.dp))
+            }
+        }
+    }
+}
+
+@Composable
+private fun RouteSummary(distance: Int, stepCount: Int, showSteps: Boolean, modifier: Modifier, onClick: () -> Unit) {
+    Surface(onClick = onClick, modifier = modifier.heightIn(min = 76.dp),
+        shape = MaterialTheme.shapes.large, color = MaterialTheme.colorScheme.surfaceContainerHigh) {
+        Row(Modifier.padding(horizontal = 14.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
+            Column(Modifier.weight(1f)) {
+                Row(verticalAlignment = Alignment.Bottom, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Text("$distance m", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.SemiBold)
+                    Text("$stepCount instructions", Modifier.padding(bottom = 3.dp),
+                        style = MaterialTheme.typography.labelMedium, color = Muted)
                 }
+                Text(if (showSteps) "Hide directions" else "Show directions",
+                    style = MaterialTheme.typography.labelMedium, color = Lime)
             }
-            if (showSteps && !state.active) items(steps) { segment ->
-                Text(segment.getString("instruction"), Modifier.padding(vertical = 4.dp))
-                HorizontalDivider()
-            }
-            if (state.active) state.policyLabel?.let { item {
-                Text(it, color = Muted, style = MaterialTheme.typography.bodySmall)
-            } }
+            WayIcon(if (showSteps) R.drawable.ic_close else R.drawable.ic_right)
+        }
+    }
+}
+
+@Composable
+private fun RouteControl(
+    text: String,
+    icon: Int,
+    modifier: Modifier,
+    enabled: Boolean = true,
+    description: String = text,
+    onClick: () -> Unit,
+) {
+    Surface(onClick = onClick, enabled = enabled, modifier = modifier.heightIn(min = 76.dp)
+        .semantics { if (description != text) contentDescription = description },
+        shape = MaterialTheme.shapes.large, color = MaterialTheme.colorScheme.surfaceContainerHigh,
+        contentColor = if (enabled) MaterialTheme.colorScheme.onSurface else Muted) {
+        Column(Modifier.padding(horizontal = 8.dp, vertical = 10.dp), verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally) {
+            WayIcon(icon)
+            Spacer(Modifier.height(4.dp))
+            Text(text, style = MaterialTheme.typography.labelMedium, textAlign = TextAlign.Center)
+        }
+    }
+}
+
+@Composable
+private fun RouteAction(label: String, description: String, enabled: Boolean = true, onClick: () -> Unit) {
+    Button(onClick = onClick, enabled = enabled, shape = MaterialTheme.shapes.large,
+        modifier = Modifier.widthIn(min = 82.dp).heightIn(min = 76.dp).semantics { contentDescription = description },
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 10.dp)) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            WayIcon(R.drawable.ic_right)
+            Text(label, style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.Bold)
         }
     }
 }

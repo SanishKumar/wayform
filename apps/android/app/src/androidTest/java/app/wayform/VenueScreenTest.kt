@@ -8,6 +8,7 @@ import androidx.compose.ui.test.hasAnyAncestor
 import androidx.compose.ui.test.isDialog
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onAllNodesWithContentDescription
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onNodeWithTag
@@ -66,7 +67,6 @@ class VenueScreenTest {
         compose.onNodeWithContentDescription("Route options").performClick()
         compose.onNodeWithContentDescription("Avoid stairs").performClick()
         compose.waitUntil(30_000) { compose.onAllNodesWithTag("route-ready").fetchSemanticsNodes().isNotEmpty() }
-        compose.onNodeWithTag("route-ready").performScrollToNode(hasText("Show directions"))
         compose.onNodeWithText("Show directions").performClick()
         compose.onNodeWithText("Hide directions").assertIsDisplayed()
     }
@@ -74,17 +74,17 @@ class VenueScreenTest {
         findCardiology()
         compose.onNodeWithText("Heart & Vascular Clinic").performClick()
         compose.waitUntil(30_000) { compose.onAllNodesWithTag("route-ready").fetchSemanticsNodes().isNotEmpty() }
-        compose.onNodeWithText("Start sample journey").performClick()
+        compose.onNodeWithContentDescription("Start sample journey").performClick()
         compose.onNodeWithText("This demo simulates open paths for 10 minutes.").assertIsDisplayed()
         compose.onNodeWithText("I'm here · Start").performClick()
-        compose.waitUntil(30_000) { compose.onAllNodesWithText("Next instruction").fetchSemanticsNodes().isNotEmpty() }
+        compose.waitUntil(30_000) { compose.onAllNodesWithContentDescription("Next instruction").fetchSemanticsNodes().isNotEmpty() }
     }
     private fun assertConfirmationRequired() {
-        compose.onNodeWithText("Next instruction").assertDoesNotExist()
+        compose.onNodeWithContentDescription("Next instruction").assertDoesNotExist()
         val model = ViewModelProvider(compose.activity)[VenueViewModel::class.java]
         assertFalse(model.state.value.confirmed)
         assertFalse(model.state.value.active)
-        compose.onNodeWithText("Start sample journey").performClick()
+        compose.onNodeWithContentDescription("Start sample journey").performClick()
         compose.onNodeWithText("Confirm your starting place").assertIsDisplayed()
         compose.onNodeWithText("Cancel").performClick()
     }
@@ -95,7 +95,7 @@ class VenueScreenTest {
         compose.onNodeWithText("I'm not here").performClick()
         compose.onNodeWithText("Where are you now?").assertIsDisplayed()
         compose.onNodeWithText("Close").performClick()
-        compose.onNodeWithText("Start sample journey").assertDoesNotExist()
+        compose.onNodeWithContentDescription("Start sample journey").assertDoesNotExist()
         compose.runOnIdle { model.confirmAndStart(simulateOpenPaths = false) }
         assertNull(model.state.value.startId)
         assertNull(model.state.value.route)
@@ -106,7 +106,7 @@ class VenueScreenTest {
         compose.onNodeWithText("Garden Café · Ground · Diagnostics & Outpatients").performClick()
         compose.waitUntil(30_000) { model.state.value.route != null }
         assertConfirmationRequired()
-        compose.onNodeWithText("Start sample journey").performClick()
+        compose.onNodeWithContentDescription("Start sample journey").performClick()
         compose.onNodeWithText("Garden Café").assertIsDisplayed()
         compose.onNodeWithText("I'm here · Start").performClick()
         compose.waitUntil(30_000) { model.state.value.active }
@@ -120,8 +120,8 @@ class VenueScreenTest {
         startSampleJourney()
         val model = ViewModelProvider(compose.activity)[VenueViewModel::class.java]
         val count = requireNotNull(model.state.value.route).getJSONArray("steps").length()
-        repeat(count - 1) { compose.onNodeWithText("Next instruction").performClick() }
-        compose.onNodeWithText("Mark arrived").performClick()
+        repeat(count - 1) { compose.onNodeWithContentDescription("Next instruction").performClick() }
+        compose.onNodeWithContentDescription("Mark arrived").performClick()
         compose.onNodeWithText("Arrival confirmed").assertIsDisplayed()
         assertFalse(model.state.value.active)
         compose.onNodeWithText("Back to places").performClick()
@@ -136,7 +136,7 @@ class VenueScreenTest {
         compose.onNodeWithText("Venue conditions").performClick()
         compose.onNodeWithText("All modeled lifts closed").performClick()
         compose.waitUntil(30_000) { model.state.value.policyLabel?.contains("lifts closed") == true }
-        compose.onNodeWithText("Start sample journey").performClick()
+        compose.onNodeWithContentDescription("Start sample journey").performClick()
         compose.onNodeWithText("Simulated: all lifts closed · 10 min").assertIsDisplayed()
         compose.onNodeWithText("I'm here · Start").performClick()
         compose.waitUntil(30_000) { !model.state.value.busy }
@@ -177,7 +177,7 @@ class VenueScreenTest {
         compose.onNodeWithText("Save requirements").performClick()
         compose.onNodeWithTag("route-loading").performScrollToNode(hasText("No verified route:", substring = true))
         compose.onNodeWithText("No verified route:", substring = true).assertIsDisplayed()
-        compose.onNodeWithText("Start sample journey").assertIsNotEnabled()
+        compose.onNodeWithContentDescription("Start sample journey").assertIsNotEnabled()
         compose.activityRule.scenario.recreate()
         compose.onNodeWithTag("route-loading").performScrollToNode(hasText("No verified route:", substring = true))
         compose.onNodeWithText("No verified route:", substring = true).assertIsDisplayed()

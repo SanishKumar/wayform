@@ -8,12 +8,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
-internal val Paper = Color(0xFF121317)
-private val RaisedSurface = Color(0xFF25262D)
+internal val Paper = Color(0xFF101116)
+private val RaisedSurface = Color(0xFF272933)
 internal val Lime = Color(0xFFC8FA73)
 internal val Muted = Color(0xFFB8BAC3)
 private val Ink = Color(0xFF171D10)
-private val OffWhite = Color(0xFFF4F4F6)
+private val OffWhite = Color(0xFFF2F3F5)
 
 private val WayformColors = darkColorScheme(
     primary = Lime,
@@ -26,7 +26,7 @@ private val WayformColors = darkColorScheme(
     onSecondaryContainer = OffWhite,
     background = Paper,
     onBackground = OffWhite,
-    surface = Color(0xFF1C1D23),
+    surface = Color(0xFF1D1E25),
     onSurface = OffWhite,
     surfaceVariant = Color(0xFF2A2C34),
     onSurfaceVariant = Muted,
