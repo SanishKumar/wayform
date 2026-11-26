@@ -13,8 +13,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
@@ -23,11 +24,15 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
@@ -66,46 +71,99 @@ fun VenueScreen(model: VenueViewModel = viewModel()) {
     var chooseVenue by remember { mutableStateOf(false) }
     var survey by rememberSaveable { mutableStateOf(false) }
     val surveyModel: SurveyViewModel = viewModel()
-    val catalog = state.catalog
     val keyboardVisible = WindowInsets.ime.getBottom(LocalDensity.current) > 0
-    if (catalog != null && state.destination != null && !survey) {
+    if (state.catalog != null && state.destination != null && !survey) {
         BackHandler { model.backToPlaces() }
         RouteScreen(state, model)
         return
     }
 
-    Column(Modifier.fillMaxSize().safeDrawingPadding().imePadding()) {
-        Box(Modifier.weight(1f)) {
+    Column(Modifier.fillMaxSize().imePadding(), horizontalAlignment = Alignment.CenterHorizontally) {
+        Box(Modifier.fillMaxWidth().weight(1f)) {
             if (survey) {
-                SurveyScreen(state.needs, model::saveNeeds, onExit = { survey = false }, model = surveyModel)
+                Box(Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Top + WindowInsetsSides.Horizontal))) {
+                    SurveyScreen(state.needs, model::saveNeeds, onExit = { survey = false }, model = surveyModel)
+                }
             } else {
                 VenueHome(
-                    state, query, keyboardVisible, onQueryChange = { query = it },
-                    onVenueClick = { chooseVenue = true }, onDestinationClick = { model.preview(it) },
+                    state = state,
+                    query = query,
+                    keyboardVisible = keyboardVisible,
+                    onQueryChange = { query = it },
+                    onVenueClick = { chooseVenue = true },
+                    onDestinationClick = { model.preview(it) },
                     onRetry = { model.load() },
                 )
             }
         }
         if (!keyboardVisible) {
-            HorizontalDivider()
-            NavigationBar(
-                modifier = Modifier.height(62.dp),
-                containerColor = MaterialTheme.colorScheme.surface,
-                tonalElevation = 0.dp,
-                windowInsets = WindowInsets(0),
-            ) {
-                NavigationBarItem(selected = !survey, onClick = { if (survey) surveyModel.clear(); survey = false },
-                    icon = { WayIcon(R.drawable.ic_pin) }, label = { Text("Places") })
-                NavigationBarItem(selected = survey, onClick = { survey = true },
-                    icon = { WayIcon(R.drawable.ic_survey) }, label = { Text("Survey routes") })
-            }
+            HomeDock(
+                survey = survey,
+                onPlaces = {
+                    if (survey) surveyModel.clear()
+                    survey = false
+                },
+                onSurvey = { survey = true },
+            )
         }
     }
-    if (chooseVenue) AlertDialog(onDismissRequest = { chooseVenue = false }, title = { Text("Choose a venue") }, text = {
-        LazyColumn { items(state.venues) { venue ->
-            TextButton(onClick = { chooseVenue = false; query = ""; model.load(venue.id) }) { Text(venue.name) }
-        } }
-    }, confirmButton = { TextButton(onClick = { chooseVenue = false }) { Text("Close") } })
+
+    if (chooseVenue) {
+        AlertDialog(
+            onDismissRequest = { chooseVenue = false },
+            title = { Text("Choose a venue") },
+            text = {
+                LazyColumn(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    items(state.venues, key = { it.id }) { venue ->
+                        TextButton(
+                            onClick = {
+                                chooseVenue = false
+                                query = ""
+                                model.load(venue.id)
+                            },
+                            modifier = Modifier.fillMaxWidth(),
+                        ) { Text(venue.name, Modifier.weight(1f)) }
+                    }
+                }
+            },
+            confirmButton = { TextButton(onClick = { chooseVenue = false }) { Text("Close") } },
+        )
+    }
+}
+
+@Composable
+private fun HomeDock(survey: Boolean, onPlaces: () -> Unit, onSurvey: () -> Unit) {
+    val colors = MaterialTheme.colorScheme
+    Row(
+        Modifier.navigationBarsPadding().windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal))
+            .padding(horizontal = 20.dp, vertical = 10.dp).widthIn(max = 376.dp).fillMaxWidth().selectableGroup(),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        HomeTab("Places", R.drawable.ic_pin, !survey, Modifier.weight(1f), onPlaces)
+        HomeTab("Survey routes", R.drawable.ic_survey, survey, Modifier.weight(1f), onSurvey)
+    }
+}
+
+@Composable
+private fun HomeTab(text: String, icon: Int, selected: Boolean, modifier: Modifier, onClick: () -> Unit) {
+    val colors = MaterialTheme.colorScheme
+    val shape = RoundedCornerShape(19.dp)
+    val accent = if (selected) colors.primary else colors.onSurfaceVariant
+    Surface(
+        modifier = modifier.clip(shape).selectable(selected = selected, role = Role.Tab, onClick = onClick),
+        shape = shape,
+        color = if (selected) colors.surfaceContainerHighest else colors.surface,
+    ) {
+        Row(
+            Modifier.heightIn(min = 52.dp).padding(horizontal = 10.dp, vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
+        ) {
+            WayIcon(icon, tint = accent)
+            Text(text, color = if (selected) colors.onSurface else accent,
+                style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold)
+        }
+    }
 }
 
 @Composable
@@ -125,115 +183,79 @@ private fun VenueHome(
     val listState = rememberLazyListState()
     LaunchedEffect(query, catalog?.id) { listState.scrollToItem(0) }
 
-    BoxWithConstraints(Modifier.fillMaxSize().background(colors.background)) {
-        val showMap = catalog != null && !state.busy && state.error == null &&
-            query.isBlank() && !keyboardVisible && maxHeight >= 420.dp
-        Column(Modifier.fillMaxSize()) {
-            if (!keyboardVisible) {
-                Row(
-                    Modifier.fillMaxWidth().padding(start = 18.dp, end = 16.dp, top = 4.dp, bottom = 4.dp),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Image(painterResource(R.drawable.ic_wayform), null, Modifier.size(34.dp).clip(RoundedCornerShape(11.dp)))
-                    Column(Modifier.weight(1f)) {
-                        Text("WAYFORM", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold, color = colors.primary)
-                        Text("Offline sample venue", style = MaterialTheme.typography.labelMedium, color = colors.onSurfaceVariant)
-                    }
-                    FilledTonalButton(
-                        onClick = onVenueClick,
-                        enabled = !state.busy,
-                        contentPadding = PaddingValues(horizontal = 12.dp),
-                    ) {
-                        WayIcon(R.drawable.ic_venue, "Change venue")
-                        Spacer(Modifier.width(5.dp))
-                        Text("Venues")
-                    }
-                }
-            }
-            OutlinedTextField(
-                value = query,
-                onValueChange = onQueryChange,
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp),
-                label = { Text("Find a room or place") },
-                singleLine = true,
-                shape = RoundedCornerShape(24.dp),
-                leadingIcon = { WayIcon(R.drawable.ic_search) },
-                trailingIcon = {
-                    if (query.isNotEmpty()) {
-                        IconButton(onClick = { onQueryChange("") }) { WayIcon(R.drawable.ic_close, "Clear search") }
-                    }
-                },
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedContainerColor = colors.surfaceVariant,
-                    unfocusedContainerColor = colors.surfaceVariant,
-                    unfocusedBorderColor = Color.Transparent,
-                ),
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-                keyboardActions = KeyboardActions(onSearch = { keyboard?.hide() }),
+    BoxWithConstraints(Modifier.fillMaxSize()) {
+        val floor = remember(catalog) { catalog?.let(::overviewFloor) }
+        val showMap = floor != null && !state.busy && state.error == null &&
+            query.isBlank() && !keyboardVisible && maxHeight >= (420 * LocalDensity.current.fontScale.coerceIn(1f, 1.4f)).dp
+        if (showMap && catalog != null) {
+            val mapHeight = (maxHeight * .73f).coerceAtMost(640.dp)
+            VenueMap(
+                catalog = catalog,
+                route = null,
+                floorId = floor.getString("id"),
+                modifier = Modifier.fillMaxWidth().height(mapHeight),
+                gesturesEnabled = false,
+                framing = PaddingValues(top = 126.dp, bottom = 72.dp),
             )
-            if (!keyboardVisible) {
-                Text(
-                    catalog?.name ?: "Opening venues…",
-                    Modifier.padding(start = 20.dp, end = 20.dp, top = 8.dp, bottom = 4.dp),
-                    style = MaterialTheme.typography.titleMedium,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
-                )
-            }
+            Box(Modifier.fillMaxWidth().height(mapHeight).background(Brush.verticalGradient(
+                0f to Paper.copy(alpha = .70f),
+                .19f to Color.Transparent,
+                .71f to Color.Transparent,
+                1f to Paper,
+            )))
+        }
+        Column(
+            Modifier.align(Alignment.TopCenter).fillMaxHeight().widthIn(max = 560.dp).fillMaxWidth()
+                .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Top + WindowInsetsSides.Horizontal))
+                .padding(horizontal = 18.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+        ) {
+            if (!keyboardVisible) HomeHeader(state.busy, onVenueClick)
+            HomeSearch(query, onQueryChange, onSearch = { keyboard?.hide() })
             if (showMap && catalog != null) {
-                VenueOverview(catalog, Modifier.fillMaxWidth().weight(1.18f))
+                Box(Modifier.weight(1.42f).fillMaxWidth(), contentAlignment = Alignment.BottomStart) {
+                    VenueMapCaption(catalog.name, floor.getString("name").substringBefore(" · "))
+                }
+            } else if (!keyboardVisible && catalog != null && !state.busy) {
+                Text(catalog.name, color = colors.onSurfaceVariant, style = MaterialTheme.typography.labelLarge,
+                    maxLines = 2, overflow = TextOverflow.Ellipsis)
             }
             Surface(
-                modifier = Modifier.fillMaxWidth().weight(1f).padding(top = 4.dp),
+                modifier = Modifier.fillMaxWidth().weight(1f),
                 color = colors.surface,
-                shape = RoundedCornerShape(topStart = 26.dp, topEnd = 26.dp),
+                shape = RoundedCornerShape(26.dp),
             ) {
                 LazyColumn(
                     Modifier.fillMaxSize().testTag("venue-list"),
                     state = listState,
-                    contentPadding = PaddingValues(start = 18.dp, end = 18.dp, top = 12.dp, bottom = 12.dp),
+                    contentPadding = PaddingValues(12.dp),
+                    verticalArrangement = Arrangement.spacedBy(6.dp),
                 ) {
                     if (state.busy) item { LinearProgressIndicator(Modifier.fillMaxWidth()) }
                     state.error?.let { message ->
                         item {
-                            Text(message, color = colors.error)
+                            Text(message, color = colors.error, modifier = Modifier.padding(4.dp))
                             TextButton(onClick = onRetry) { Text("Try again") }
                         }
                     }
                     if (catalog != null && !state.busy) {
                         item {
                             Text(
-                                if (query.isBlank()) "Places" else "Search results · ${results.size}",
-                                Modifier.padding(horizontal = 2.dp, vertical = 4.dp),
+                                if (query.isBlank()) "Destinations" else "Search results · ${results.size}",
+                                Modifier.padding(horizontal = 4.dp, vertical = 5.dp),
                                 style = MaterialTheme.typography.titleMedium,
                                 fontWeight = FontWeight.SemiBold,
                             )
                         }
                         items(results, key = { it.id }) { destination ->
-                            ListItem(
-                                headlineContent = { Text(destination.name, fontWeight = FontWeight.Medium) },
-                                supportingContent = { Text(destination.floorName) },
-                                leadingContent = {
-                                    Surface(color = colors.surfaceVariant, shape = CircleShape) {
-                                        Box(Modifier.size(40.dp), contentAlignment = Alignment.Center) { WayIcon(R.drawable.ic_pin) }
-                                    }
-                                },
-                                trailingContent = { WayIcon(R.drawable.ic_right) },
-                                colors = ListItemDefaults.colors(containerColor = Color.Transparent),
-                                modifier = Modifier.clip(RoundedCornerShape(14.dp)).clickable {
-                                    keyboard?.hide()
-                                    onDestinationClick(destination)
-                                },
-                            )
-                            HorizontalDivider()
+                            DestinationCard(destination) {
+                                keyboard?.hide()
+                                onDestinationClick(destination)
+                            }
                         }
                         if (results.isEmpty()) item {
-                            Text(
-                                "No matching places. Try a room, service or floor.",
-                                Modifier.padding(4.dp),
-                                color = colors.onSurfaceVariant,
-                            )
+                            Text("No matching places. Try a room, service or floor.",
+                                Modifier.padding(6.dp), color = colors.onSurfaceVariant)
                         }
                     }
                 }
@@ -243,24 +265,114 @@ private fun VenueHome(
 }
 
 @Composable
-private fun VenueOverview(catalog: VenueCatalog, modifier: Modifier) {
-    val floor = remember(catalog) {
-        val startFloor = catalog.destinations.firstOrNull { it.id == catalog.startId }?.floorId
-        val floors = catalog.raw.getJSONArray("floors").objects()
-        floors.firstOrNull { it.getString("id") == startFloor } ?: floors.first()
-    }
-    Box(modifier.padding(horizontal = 12.dp).clip(RoundedCornerShape(24.dp))) {
-        VenueMap(catalog, null, floor.getString("id"), Modifier.fillMaxSize(), gesturesEnabled = false)
+private fun HomeHeader(busy: Boolean, onVenueClick: () -> Unit) {
+    val colors = MaterialTheme.colorScheme
+    Row(
+        Modifier.fillMaxWidth().padding(top = 6.dp),
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Surface(shape = RoundedCornerShape(17.dp), color = colors.surface) {
+            Row(
+                Modifier.heightIn(min = 46.dp).padding(start = 7.dp, end = 13.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(7.dp),
+            ) {
+                Image(painterResource(R.drawable.ic_wayform), null, Modifier.size(30.dp).clip(RoundedCornerShape(9.dp)))
+                Text("WAYFORM", style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.Bold)
+            }
+        }
+        Spacer(Modifier.weight(1f))
         Surface(
-            Modifier.align(Alignment.BottomStart).padding(12.dp),
-            color = MaterialTheme.colorScheme.surface,
-            shape = CircleShape,
+            onClick = onVenueClick, enabled = !busy, shape = RoundedCornerShape(17.dp),
+            color = colors.surfaceContainerHigh,
+            modifier = Modifier.semantics { contentDescription = "Change venue" },
         ) {
-            Text(
-                floor.getString("name").substringBefore(" · "),
-                Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
-                style = MaterialTheme.typography.labelMedium,
-            )
+            Row(
+                Modifier.heightIn(min = 46.dp).padding(horizontal = 12.dp),
+                horizontalArrangement = Arrangement.spacedBy(7.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                WayIcon(R.drawable.ic_venue)
+                Text("Venues", style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold)
+            }
         }
     }
+}
+
+@Composable
+private fun HomeSearch(query: String, onQueryChange: (String) -> Unit, onSearch: () -> Unit) {
+    val colors = MaterialTheme.colorScheme
+    TextField(
+        value = query,
+        onValueChange = onQueryChange,
+        modifier = Modifier.fillMaxWidth(),
+        label = { Text("Find a room or place") },
+        singleLine = true,
+        shape = RoundedCornerShape(18.dp),
+        leadingIcon = { WayIcon(R.drawable.ic_search, tint = colors.primary) },
+        trailingIcon = {
+            if (query.isNotEmpty()) {
+                IconButton(onClick = { onQueryChange("") }) { WayIcon(R.drawable.ic_close, "Clear search") }
+            }
+        },
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor = colors.surfaceContainerHigh,
+            unfocusedContainerColor = colors.surfaceContainerHigh,
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            focusedLabelColor = colors.onSurfaceVariant,
+        ),
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+        keyboardActions = KeyboardActions(onSearch = { onSearch() }),
+    )
+}
+
+@Composable
+private fun VenueMapCaption(name: String, floor: String) {
+    val colors = MaterialTheme.colorScheme
+    Surface(color = colors.surface.copy(alpha = .96f), shape = RoundedCornerShape(20.dp)) {
+        Row(
+            Modifier.fillMaxWidth().padding(horizontal = 14.dp, vertical = 10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+        ) {
+            Column(Modifier.weight(1f)) {
+                Text("Sample venue", color = colors.onSurfaceVariant, style = MaterialTheme.typography.labelSmall)
+                Text(name, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+            }
+            Surface(color = colors.surfaceContainerHighest, shape = RoundedCornerShape(12.dp)) {
+                Text(floor, Modifier.padding(horizontal = 9.dp, vertical = 6.dp),
+                    color = colors.onSurface, style = MaterialTheme.typography.labelMedium)
+            }
+        }
+    }
+}
+
+@Composable
+private fun DestinationCard(destination: Destination, onClick: () -> Unit) {
+    val colors = MaterialTheme.colorScheme
+    val shape = RoundedCornerShape(15.dp)
+    Row(
+        Modifier.fillMaxWidth().clip(shape).background(colors.surfaceContainerHigh)
+            .clickable(role = Role.Button, onClick = onClick)
+            .heightIn(min = 58.dp).padding(horizontal = 9.dp, vertical = 8.dp),
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Box(
+            Modifier.size(36.dp).clip(RoundedCornerShape(11.dp)).background(colors.surfaceContainerHighest),
+            contentAlignment = Alignment.Center,
+        ) { WayIcon(R.drawable.ic_pin, tint = colors.onSurfaceVariant) }
+        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+            Text(destination.name, fontWeight = FontWeight.SemiBold, style = MaterialTheme.typography.bodyMedium)
+            Text(destination.floorName, color = colors.onSurfaceVariant, style = MaterialTheme.typography.bodySmall)
+        }
+        WayIcon(R.drawable.ic_right, tint = colors.onSurfaceVariant)
+    }
+}
+
+private fun overviewFloor(catalog: VenueCatalog) = catalog.raw.getJSONArray("floors").objects().let { floors ->
+    val startFloor = catalog.destinations.firstOrNull { it.id == catalog.startId }?.floorId
+    floors.firstOrNull { it.getString("id") == startFloor } ?: floors.first()
 }
