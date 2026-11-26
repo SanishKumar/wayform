@@ -12,6 +12,8 @@ import androidx.compose.foundation.gestures.calculateCentroid
 import androidx.compose.foundation.gestures.calculatePan
 import androidx.compose.foundation.gestures.calculateZoom
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -38,6 +40,7 @@ import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.semantics.CustomAccessibilityAction
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.customActions
@@ -50,7 +53,7 @@ import kotlin.math.min
 
 enum class MapViewMode { DEPTH, PLAN }
 
-private val MapInk = Color(0xFF121916)
+private val MapInk = Color(0xFF101116)
 private val RouteLime = Color(0xFFCBFF78)
 private val MapText = Color(0xFFDBE4DA)
 private val MapShadow = Color(0xB3080B0A)
@@ -160,8 +163,15 @@ fun VenueMap(
     modifier: Modifier = Modifier,
     mode: MapViewMode = MapViewMode.DEPTH,
     gesturesEnabled: Boolean = true,
-    stepNodeId: String? = null
+    stepNodeId: String? = null,
+    framing: PaddingValues = PaddingValues(),
+    focusRoute: Boolean = false,
 ) {
+    val layoutDirection = LocalLayoutDirection.current
+    val frameLeft = framing.calculateLeftPadding(layoutDirection)
+    val frameTop = framing.calculateTopPadding()
+    val frameRight = framing.calculateRightPadding(layoutDirection)
+    val frameBottom = framing.calculateBottomPadding()
     val floors = remember(catalog) { catalog.raw.getJSONArray("floors").objects() }
     val floor = remember(floors, floorId) { floors.first { it.getString("id") == floorId } }
     val floorNames = remember(floors) { floors.associate { it.getString("id") to it.getString("name").substringBefore(" · ") } }
@@ -239,6 +249,18 @@ fun VenueMap(
         val points = (outline + spaces.flatMap { it.points } + grounds.flatMap { it.points } + buildings.flatMap { it.footprint }).map { plane(it) }
         Rect(points.minOf { it.x }, points.minOf { it.y }, points.maxOf { it.x }, points.maxOf { it.y })
     }
+    val cameraBounds = remember(bounds, nodes, floorId, pitched, focusRoute) {
+        val routePoints = nodes.filter { it.floor == floorId }.map { plane(it.point) }
+        if (!focusRoute || routePoints.size < 2) bounds
+        else {
+            val routeBox = Rect(routePoints.minOf { it.x }, routePoints.minOf { it.y },
+                routePoints.maxOf { it.x }, routePoints.maxOf { it.y })
+            val width = (routeBox.width + bounds.width * .24f).coerceIn(bounds.width * .54f, bounds.width)
+            val height = (routeBox.height + bounds.height * .28f).coerceIn(bounds.height * .62f, bounds.height)
+            Rect(routeBox.center.x - width / 2, routeBox.center.y - height / 2,
+                routeBox.center.x + width / 2, routeBox.center.y + height / 2)
+        }
+    }
     val sectionDepth = floor.optDouble("clearHeight", 3.0).toFloat().coerceIn(2.2f, 6f)
     val labelPaint = remember {
         TextPaint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -254,7 +276,7 @@ fun VenueMap(
         zoom = 1f
         pan = Offset.Zero
     }
-    val gestures = if (gesturesEnabled) Modifier.pointerInput(catalog.hash, floorId, mode) {
+    val gestures = if (gesturesEnabled) Modifier.pointerInput(catalog.hash, floorId, mode, framing) {
         awaitEachGesture {
             awaitFirstDown()
             do {
@@ -262,7 +284,10 @@ fun VenueMap(
                 if (event.changes.any { it.isConsumed }) break
                 if (event.changes.count { it.pressed } >= 2 || zoom > 1f) {
                     val nextZoom = (zoom * event.calculateZoom()).coerceIn(1f, 6f)
-                    val center = Offset(size.width / 2f, size.height / 2f)
+                    val center = Offset(
+                        (size.width + frameLeft.toPx() - frameRight.toPx()) / 2f,
+                        (size.height + frameTop.toPx() - frameBottom.toPx()) / 2f,
+                    )
                     val centroid = event.calculateCentroid(useCurrent = false)
                     if (centroid != Offset.Unspecified) {
                         val anchored = centroid - center + (pan + center - centroid) * (nextZoom / zoom)
@@ -292,19 +317,21 @@ fun VenueMap(
                 })
             }
         }) {
-            val frameWidth = (size.width - 32.dp.toPx()).coerceAtLeast(1f)
-            val frameHeight = (size.height - 34.dp.toPx()).coerceAtLeast(1f)
-            val scale = min(frameWidth / bounds.width.coerceAtLeast(1f), frameHeight / bounds.height.coerceAtLeast(1f)) * zoom
-            val offset = center + pan - bounds.center * scale
+            val frameWidth = (size.width - (frameLeft + frameRight + 28.dp).toPx()).coerceAtLeast(1f)
+            val frameHeight = (size.height - (frameTop + frameBottom + 32.dp).toPx()).coerceAtLeast(1f)
+            val frameCenter = center + Offset((frameLeft - frameRight).toPx() / 2f, (frameTop - frameBottom).toPx() / 2f)
+            val scale = min(frameWidth / cameraBounds.width.coerceAtLeast(1f), frameHeight / cameraBounds.height.coerceAtLeast(1f)) * zoom
+            val offset = frameCenter + pan - cameraBounds.center * scale
             fun project(p: Offset, height: Float = 0f) = offset + plane(p) * scale - Offset(0f, height * scale)
             fun projected(points: List<Offset>, height: Float = 0f) = points.map { project(it, height) }
             val floorPoints = projected(outline)
             val floorShape = polygon(floorPoints)
 
             drawRect(Brush.radialGradient(
-                colors = listOf(Color(0xFF303E34), Color(0xFF1B241E), MapInk),
-                center = Offset(size.width * .48f, size.height * .45f),
-                radius = size.maxDimension * .68f
+                colors = if (site == null) listOf(Color(0xFF2A2D35), Color(0xFF181B23), MapInk)
+                    else listOf(Color(0xFF293B31), Color(0xFF1A2321), MapInk),
+                center = frameCenter,
+                radius = size.minDimension * 1.12f
             ))
             if (pitched) {
                 val shadow = Offset(3.dp.toPx(), 9.dp.toPx())
@@ -376,7 +403,9 @@ fun VenueMap(
             val segmentPoints = segments.map { (from, to) -> project(from.point) to project(to.point) }
             labelPaint.textSize = (if (gesturesEnabled) 10.sp else 9.sp).toPx()
             labelPaint.color = MapText.toArgb()
-            val view = Rect(0f, 0f, size.width, size.height)
+            val view = Rect(frameLeft.toPx(), frameTop.toPx(),
+                (size.width - frameRight.toPx()).coerceAtLeast(frameLeft.toPx()),
+                (size.height - frameBottom.toPx()).coerceAtLeast(frameTop.toPx()))
             screenRooms.filter { (area, _) ->
                 area.kind !in setOf("corridor", "restricted") && (gesturesEnabled || area.kind in setOf("entrance", "lobby"))
             }.forEach { (area, points) ->
@@ -440,13 +469,14 @@ fun VenueMap(
                 val h = labelPaint.descent() - labelPaint.ascent() + 6.dp.toPx()
                 val gap = 9.dp.toPx()
                 val horizontalPadding = 3.dp.toPx()
-                val x = point.x.coerceIn(half + horizontalPadding, (size.width - half - horizontalPadding).coerceAtLeast(half + horizontalPadding))
+                val labelLeft = view.left + half + horizontalPadding
+                val x = point.x.coerceIn(labelLeft, (view.right - half - horizontalPadding).coerceAtLeast(labelLeft))
                 fun at(top: Float) = Rect(x - half, top, x + half, top + h)
                 val candidates = listOf(at(point.y - h - gap), at(point.y + gap))
                 val position = candidates.firstOrNull { bounds ->
-                    bounds.top >= 0f && bounds.bottom <= size.height &&
+                    bounds.top >= view.top && bounds.bottom <= view.bottom &&
                         labels.none(bounds::overlaps) && markerPoints.none { bounds.inflate(5.dp.toPx()).contains(it) }
-                } ?: candidates.firstOrNull { it.top >= 0f && it.bottom <= size.height }
+                } ?: candidates.firstOrNull { it.top >= view.top && it.bottom <= view.bottom }
                 if (position != null) {
                     labels.add(position)
                     drawMapCaption(position, text, dot, MapInk, labelPaint, bubblePaint)
@@ -455,7 +485,8 @@ fun VenueMap(
         }
 
         if (gesturesEnabled && (zoom != 1f || pan != Offset.Zero)) {
-            FilledTonalButton(onClick = ::reset, modifier = Modifier.align(Alignment.BottomEnd).padding(8.dp)) {
+            FilledTonalButton(onClick = ::reset, modifier = Modifier.align(Alignment.BottomEnd)
+                .padding(bottom = frameBottom + 8.dp, end = framing.calculateEndPadding(layoutDirection) + 8.dp)) {
                 Text("Reset map")
             }
         }
