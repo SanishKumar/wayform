@@ -2,6 +2,7 @@ package app.wayform
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotEnabled
+import androidx.compose.ui.test.assertIsSelected
 import androidx.compose.ui.test.hasClickAction
 import androidx.compose.ui.test.hasAnyAncestor
 import androidx.compose.ui.test.isDialog
@@ -53,6 +54,15 @@ class VenueScreenTest {
         findCardiology()
         compose.onNodeWithText("Heart & Vascular Clinic").performClick()
         compose.waitUntil(30_000) { compose.onAllNodesWithTag("route-ready").fetchSemanticsNodes().isNotEmpty() }
+        val model = ViewModelProvider(compose.activity)[VenueViewModel::class.java]
+        val plannedRoute = model.state.value.route
+        compose.onNodeWithContentDescription("3D cutaway").assertIsSelected()
+        compose.onNodeWithContentDescription("2D floor plan").performClick().assertIsSelected()
+        compose.onNodeWithContentDescription("Level 1 · Specialty Care").performClick().assertIsSelected()
+        compose.onNodeWithContentDescription("Map of Level 1 · Specialty Care. Pinch to zoom.").assertIsDisplayed()
+        org.junit.Assert.assertSame(plannedRoute, model.state.value.route)
+        compose.onNodeWithContentDescription("3D cutaway").performClick().assertIsSelected()
+        compose.onNodeWithContentDescription("Level 1 · Specialty Care").assertIsSelected()
         compose.onNodeWithContentDescription("Route options").performClick()
         compose.onNodeWithContentDescription("Avoid stairs").performClick()
         compose.waitUntil(30_000) { compose.onAllNodesWithTag("route-ready").fetchSemanticsNodes().isNotEmpty() }
