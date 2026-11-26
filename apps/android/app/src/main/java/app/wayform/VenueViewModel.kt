@@ -68,8 +68,11 @@ class VenueViewModel(application: Application) : AndroidViewModel(application) {
                     val selected = id ?: preferences.getString("venue", null)?.takeIf { saved -> venues.any { it.id == saved } } ?: "asterion-medical-center"
                     val bytes = store.bytes(selected)
                     loaded = MobileVenue(bytes)
-                    val lifts = JSONObject(bytes.toString(Charsets.UTF_8)).getJSONArray("verticalConnectors").objects().filter { it.getString("kind") == "elevator" }.map { it.getString("id") }
-                    Triple(venues, selected, VenueCatalog(JSONObject(loaded.catalog()), lifts))
+                    val venuePackage = JSONObject(bytes.toString(Charsets.UTF_8))
+                    val lifts = venuePackage.getJSONArray("verticalConnectors").objects()
+                        .filter { it.getString("kind") == "elevator" }.map { it.getString("id") }
+                    val portals = venuePackage.getJSONArray("portals").objects().map(VenuePortal::fromJson)
+                    Triple(venues, selected, VenueCatalog(JSONObject(loaded.catalog()), lifts, portals))
                 }
                 if (request != generation) { loaded?.close(); return@launch }
                 native?.close()

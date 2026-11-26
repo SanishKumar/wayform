@@ -59,11 +59,12 @@ private fun JSONArray.mapPoint() = Offset(getDouble(0).toFloat(), getDouble(1).t
 
 private fun JSONArray.points() = (0 until length()).map { getJSONArray(it).mapPoint() }
 
-private data class MapArea(val name: String, val kind: String, val points: List<Offset>)
+private data class MapArea(val name: String, val kind: String, val points: List<Offset>, val id: String = "")
 private data class SiteBuilding(val name: String, val storeys: Int, val footprint: List<Offset>)
 private data class SiteFeature(val kind: String, val position: Offset)
 private data class MapNode(val id: String, val floor: String, val point: Offset)
 private data class MapMarker(val point: Offset, val caption: String, val isDestination: Boolean)
+private data class MapWall(val from: Offset, val to: Offset, val interior: Boolean)
 
 private fun polygon(points: List<Offset>) = Path().apply {
     moveTo(points.first().x, points.first().y)
@@ -119,6 +120,38 @@ private fun groundColor(kind: String) = when (kind) {
     else -> Color(0xFF394A40)
 }
 
+private fun roomWalls(area: MapArea, portals: List<VenuePortal>): List<MapWall> {
+    val clockwise = area.points.indices.sumOf { index ->
+        val a = area.points[index]
+        val b = area.points[(index + 1) % area.points.size]
+        (a.x * b.y - b.x * a.y).toDouble()
+    } > 0.0
+    return buildList {
+        area.points.forEachIndexed { index, from ->
+            val to = area.points[(index + 1) % area.points.size]
+            val edge = to - from
+            val length = edge.getDistance()
+            if (length == 0f) return@forEachIndexed
+            val openings = portals.mapNotNull { portal ->
+                val delta = Offset(portal.x, portal.y) - from
+                val t = (delta.x * edge.x + delta.y * edge.y) / (length * length)
+                val across = (delta - edge * t).getDistance()
+                if (t !in 0f..1f || across > .12f) return@mapNotNull null
+                val halfWidth = portal.width / (2 * length)
+                (t - halfWidth).coerceAtLeast(0f)..(t + halfWidth).coerceAtMost(1f)
+            }.sortedBy { it.start }
+            val screenX = edge.x - edge.y * .28f
+            val interior = if (clockwise) screenX > 0f else screenX < 0f
+            var previous = 0f
+            for (opening in openings) {
+                if (opening.start > previous) add(MapWall(from + edge * previous, from + edge * opening.start, interior))
+                previous = maxOf(previous, opening.endInclusive)
+            }
+            if (previous < 1f) add(MapWall(from + edge * previous, to, interior))
+        }
+    }
+}
+
 @Composable
 fun VenueMap(
     catalog: VenueCatalog,
@@ -135,7 +168,7 @@ fun VenueMap(
     val outline = remember(floor) { floor.getJSONArray("outline").points() }
     val spaces = remember(catalog, floorId) {
         catalog.raw.getJSONArray("spaces").objects().filter { it.getString("floorId") == floorId }.map {
-            MapArea(it.getString("name"), it.getString("type"), it.getJSONArray("polygon").points())
+            MapArea(it.getString("name"), it.getString("type"), it.getJSONArray("polygon").points(), it.getString("id"))
         }
     }
     val site = remember(catalog, floorId) { catalog.raw.optJSONObject("site")?.takeIf { it.getString("floorId") == floorId } }
@@ -152,6 +185,19 @@ fun VenueMap(
     val features = remember(site) {
         site?.getJSONArray("features")?.objects().orEmpty().map {
             SiteFeature(it.getString("kind"), it.getJSONArray("position").mapPoint())
+        }
+    }
+    val indoorRooms = remember(spaces, site, buildings) {
+        spaces.filter { area ->
+            site == null || buildings.any { building ->
+                building.footprint.containsPoint(area.points.fold(Offset.Zero, Offset::plus) / area.points.size.toFloat())
+            }
+        }.toSet()
+    }
+    val walls = remember(indoorRooms, catalog.portals, floorId) {
+        val portals = catalog.portals.filter { it.floorId == floorId }
+        indoorRooms.filter { it.kind != "corridor" }.flatMap { room ->
+            roomWalls(room, portals.filter { room.id in it.rooms })
         }
     }
     val nodes = remember(route) {
@@ -294,22 +340,21 @@ fun VenueMap(
                 drawPath(if (pitched) polygon(top) else shape, Color(0xFF7D8B80), style = Stroke(.65.dp.toPx()))
             }
 
-            // Room paint depicts the floor plane. The short edges indicate a cutaway,
-            // while entrances and routes retain their original coordinates.
             val screenRooms = spaces.map { it to projected(it.points) }
             screenRooms.forEach { (space, points) ->
                 val shape = polygon(points)
                 val bounds = shape.getBounds()
-                val indoor = site == null || buildings.any { building ->
-                    building.footprint.containsPoint(space.points.fold(Offset.Zero, Offset::plus) / space.points.size.toFloat())
-                }
+                val indoor = space in indoorRooms
                 val color = if (indoor) roomColor(space.kind) else Color(0xFF506259)
                 drawPath(shape, Brush.linearGradient(listOf(color, color.copy(alpha = .78f)), bounds.topLeft, bounds.bottomRight))
-                drawPath(shape, Color(0xFF778981).copy(alpha = if (indoor) .65f else .3f), style = Stroke(.68.dp.toPx()))
-                if (pitched && indoor && space.kind != "corridor") {
-                    val rise = (sectionDepth * scale * .115f).coerceAtMost(8.dp.toPx())
-                    drawBackFaces(points, rise)
-                }
+                if (!indoor) drawPath(shape, Color(0x4D778981), style = Stroke(.68.dp.toPx()))
+            }
+            walls.forEach { wall ->
+                val from = project(wall.from)
+                val to = project(wall.to)
+                val height = if (wall.interior) .46f else .14f
+                val rise = if (pitched) min(sectionDepth * scale * height, 17.dp.toPx()) else 0f
+                drawRoomWall(from, to, rise, wall.interior)
             }
 
             features.forEach { feature ->
@@ -454,21 +499,17 @@ private fun DrawScope.drawFrontFaces(points: List<Offset>, drop: Float, near: Co
     }
 }
 
-private fun DrawScope.drawBackFaces(points: List<Offset>, rise: Float) {
-    val top = Offset(0f, -rise)
-    val clockwise = points.indices.sumOf { index ->
-        val a = points[index]
-        val b = points[(index + 1) % points.size]
-        (a.x * b.y - b.x * a.y).toDouble()
-    } > 0.0
-    points.forEachIndexed { index, from ->
-        val to = points[(index + 1) % points.size]
-        val directedX = if (clockwise) to.x - from.x else from.x - to.x
-        if (directedX > 0f) {
-            drawPath(polygon(listOf(from, to, to + top, from + top)), Color(0xFF77837A).copy(alpha = .70f))
-            drawLine(Color(0xFFB3B9A7).copy(alpha = .65f), from + top, to + top, strokeWidth = .55.dp.toPx())
-        }
+private fun DrawScope.drawRoomWall(from: Offset, to: Offset, rise: Float, interior: Boolean) {
+    val lift = Offset(0f, rise)
+    val topFrom = from - lift
+    val topTo = to - lift
+    if (rise > 0f) {
+        val face = if (interior) Color(0xFF78877F) else Color(0xFF445750)
+        drawPath(polygon(listOf(from, to, topTo, topFrom)), face)
+        drawLine(Color(0x770F1A16), from, to, strokeWidth = 1.2.dp.toPx())
     }
+    val cap = if (interior && rise > 0f) Color(0xFFB3BAA9) else Color(0xFF8A9D90)
+    drawLine(cap, topFrom, topTo, strokeWidth = .95.dp.toPx())
 }
 
 private fun lineIntersectsRect(a: Offset, b: Offset, rect: Rect): Boolean {
