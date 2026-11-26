@@ -2,21 +2,21 @@
 
 WAYFORM is an offline Android wayfinding app for getting from a venue entrance to a specific room. Its survey planner checks which paths have enough measured clearance, slope and step evidence for a visitor’s requirements.
 
-**[Download the Android preview](https://github.com/SanishKumar/wayform/releases/download/v0.1.0-preview.4/wayform-0.1.0-preview.4.apk)** · [Release notes and checksum](https://github.com/SanishKumar/wayform/releases/tag/v0.1.0-preview.4) · [Build from source](docs/android.md)
+**[Download the Android preview](https://github.com/SanishKumar/wayform/releases/download/v0.1.0-preview.5/wayform-0.1.0-preview.5.apk)** · [Release notes and checksum](https://github.com/SanishKumar/wayform/releases/tag/v0.1.0-preview.5) · [Build from source](docs/android.md)
 
 The public preview runs in airplane mode and uses fictional venues. You can also open a private survey file on the device for a dated route assessment. **Real-world navigation still needs a surveyed venue and a supervised field trial.**
 
 | Explore the venue | Preview the route | Follow directions | Compare widths |
 | --- | --- | --- | --- |
-| <img src="docs/images/destination-search.png" width="205" alt="Room search above the modeled Meridian Park campus"> | <img src="docs/images/floor-preview.png" width="205" alt="A lime route crosses the 3D floor cutaway from Start to the next floor"> | <img src="docs/images/journey-step.png" width="205" alt="The map highlights the point for the current step above the instruction and Next instruction button"> | <img src="docs/images/survey-route.png" width="205" alt="The 90 cm choice selects the 18 metre side-lobby route"> |
+| <img src="docs/images/destination-search.png" width="205" alt="Floating search, venue controls and destination tiles over the modeled Meridian Park campus"> | <img src="docs/images/floor-preview.png" width="205" alt="A lime route crosses the floor cutaway above the route summary and Start tile"> | <img src="docs/images/journey-step.png" width="205" alt="The map highlights the point for the current step above the instruction and Next tile"> | <img src="docs/images/survey-route.png" width="205" alt="The 90 cm choice selects the 18 metre side-lobby route"> |
 
 ## Try it in three minutes
 
-Install the preview APK on an Android 8.0 or newer arm64 phone or x86_64 emulator. You can open the downloaded APK on the device, or use `adb install -r wayform-0.1.0-preview.4.apk`. The preview installs as `app.wayform.preview`. Its bundled examples need no account or network.
+Install the preview APK on an Android 8.0 or newer arm64 phone or x86_64 emulator. You can open the downloaded APK on the device, or use `adb install -r wayform-0.1.0-preview.5.apk`. The preview installs as `app.wayform.preview`. Its bundled examples need no account or network.
 
-If you installed an earlier GitHub preview, uninstall it before installing preview 4. The previews use different development signing certificates. Uninstalling removes saved preferences.
+If you installed an earlier GitHub preview, uninstall it before installing preview 5. The previews use different development signing certificates. Uninstalling removes saved preferences.
 
-1. **Find a room.** In Asterion University Medical Center, search for **cardiology** and open **Heart & Vascular Clinic**. Switch between **3D** and **2D** or choose a floor to inspect the route. Tap **Start sample journey**, check that you see **Civic Plaza Entrance**, then select **I'm here · Start**. Tap **Next instruction** to advance. Leave the optional mobility measurements blank for this example. For the outdoor map, open **Venues → Meridian Park Medical Campus**.
+1. **Find a room.** In Asterion University Medical Center, search for **cardiology** and open **Heart & Vascular Clinic**. Switch between **3D** and **2D** or choose a floor to inspect the route. Tap **Start**, check that you see **Civic Plaza Entrance**, then select **I'm here · Start**. Tap **Next** to advance. Leave the optional mobility measurements blank for this example. For the outdoor map, open **Venues → Meridian Park Medical Campus**.
 2. **Recover after a missed turn.** During guidance, tap **I'm not here**. Search for **Garden Café** and select it. The preview now starts at the café and still ends at the clinic. Confirm the new start to continue. To try QR recovery, open the [sample sign](docs/images/asterion-east-sign.png) on a second screen and choose **I'm not here → Scan QR sign**.
 3. **See a measurement change the route.** Return to places and choose **Survey routes → Try the clinic example**. The example opens with a 90 cm width. Tap **75 cm**, **90 cm** or **120 cm** to recalculate immediately. **Edit example requirements** also lets you try zero steps. These example settings are separate from your saved visitor profile.
 
