@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -87,8 +88,8 @@ fun RouteScreen(state: VenueState, model: VenueViewModel) {
         BoxWithConstraints(Modifier.weight(1f).widthIn(max = 680.dp).fillMaxWidth()) {
             val mapShare = when {
                 state.error != null || state.needs.hasRequirements || state.notice != null -> 0.43f
-                state.active -> 0.60f
-                else -> 0.58f
+                LocalDensity.current.fontScale > 1.3f || showSteps -> 0.49f
+                else -> 0.64f
             }
             val mapHeight = (maxHeight * mapShare).coerceAtMost(520.dp)
             val sideBySide = maxWidth >= 600.dp && maxHeight < 540.dp
